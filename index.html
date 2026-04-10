@@ -1,0 +1,2172 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision Group - Intensiv</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+        :root {
+            --gold-1: #f2be7e;
+            --gold-2: #d7aa72;
+            --gold-gradient: linear-gradient(135deg, #f2be7e 0%, #d7aa72 100%);
+            --gold-glow: rgba(242,190,126,0.15);
+            --dark-bg: #000000;
+            --dark-surface: #0a0a0a;
+            --card-bg: #0d0d0d;
+            --card-bg-2: #111111;
+            --card-hover: #151515;
+            --text-primary: #f5f5f5;
+            --text-secondary: #9a9a9a;
+            --text-tertiary: #666666;
+            --border: rgba(255,255,255,0.06);
+            --border-hover: rgba(242,190,126,0.25);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-pill: 100px;
+            --transition: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.5;
+            letter-spacing: -0.2px;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ===== UTILITY ===== */
+        .container { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+        .section { padding: 120px 0; position: relative; }
+
+        .section-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--gold-1);
+            margin-bottom: 20px;
+        }
+        .section-eyebrow::before {
+            content: '';
+            width: 24px;
+            height: 1.5px;
+            background: var(--gold-gradient);
+            display: block;
+        }
+
+        .section-title {
+            font-size: clamp(34px, 5vw, 54px);
+            font-weight: 800;
+            line-height: 1.08;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+        }
+        .section-title .accent {
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-desc {
+            font-size: 17px;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            max-width: 560px;
+        }
+
+        /* ===== SVG ICON SYSTEM ===== */
+        .icon-box {
+            width: 48px; height: 48px;
+            background: rgba(242,190,126,0.08);
+            border: 1px solid rgba(242,190,126,0.12);
+            border-radius: var(--radius-md);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+        .icon-box svg { width: 22px; height: 22px; stroke: var(--gold-1); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+        .icon-box-sm {
+            width: 36px; height: 36px;
+            background: rgba(242,190,126,0.08);
+            border: 1px solid rgba(242,190,126,0.1);
+            border-radius: var(--radius-sm);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .icon-box-sm svg { width: 18px; height: 18px; stroke: var(--gold-1); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+        .gold-check {
+            width: 26px; height: 26px;
+            background: var(--gold-gradient);
+            border-radius: var(--radius-sm);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .gold-check svg { width: 13px; height: 13px; stroke: #000; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+        /* ===== ANIMATIONS ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-d1 { transition-delay: 0.08s; }
+        .reveal-d2 { transition-delay: 0.16s; }
+        .reveal-d3 { transition-delay: 0.24s; }
+        .reveal-d4 { transition-delay: 0.32s; }
+        .reveal-d5 { transition-delay: 0.40s; }
+
+        /* ===== HEADER ===== */
+        .header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        .header.scrolled { background: rgba(0,0,0,0.92); }
+        .header .container {
+            display: flex; align-items: center; justify-content: space-between;
+            height: 64px;
+        }
+        .logo { font-size: 19px; font-weight: 800; letter-spacing: -0.5px; color: var(--text-primary); text-decoration: none; }
+        .logo em { font-style: normal; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+        .nav { display: flex; align-items: center; gap: 32px; }
+        .nav a { font-size: 13px; font-weight: 500; color: var(--text-secondary); text-decoration: none; transition: color 0.2s; letter-spacing: 0.2px; }
+        .nav a:hover { color: var(--text-primary); }
+
+        .header-cta {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 9px 24px;
+            background: var(--gold-gradient); color: #000;
+            border: none; border-radius: var(--radius-pill);
+            font-size: 13px; font-weight: 700; font-family: inherit;
+            cursor: pointer; text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .header-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(242,190,126,0.25); }
+
+        .mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+        .mobile-toggle svg { width: 24px; height: 24px; stroke: var(--text-primary); fill: none; stroke-width: 2; stroke-linecap: round; }
+
+        /* ===== 1. HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center;
+            padding: 120px 28px 80px;
+            position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute;
+            top: -40%; left: 50%; transform: translateX(-50%);
+            width: 900px; height: 900px;
+            background: radial-gradient(ellipse, rgba(242,190,126,0.07) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .hero::after {
+            content: ''; position: absolute;
+            bottom: 0; left: 0; right: 0; height: 200px;
+            background: linear-gradient(to top, var(--dark-bg), transparent);
+            pointer-events: none;
+        }
+
+        .hero-inner { position: relative; z-index: 2; max-width: 840px; }
+
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 8px 22px 8px 14px;
+            background: rgba(242,190,126,0.06);
+            border: 1px solid rgba(242,190,126,0.15);
+            border-radius: var(--radius-pill);
+            font-size: 13px; font-weight: 600; color: var(--gold-1);
+            margin-bottom: 36px;
+        }
+        .hero-badge .pulse {
+            width: 8px; height: 8px;
+            background: var(--gold-1); border-radius: 50%;
+            position: relative;
+        }
+        .hero-badge .pulse::after {
+            content: ''; position: absolute; inset: -4px;
+            border: 1.5px solid var(--gold-1); border-radius: 50%;
+            animation: ping 2s cubic-bezier(0,0,0.2,1) infinite;
+        }
+        @keyframes ping { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2.2); opacity: 0; } }
+
+        .hero h1 {
+            font-size: clamp(38px, 6.5vw, 68px);
+            font-weight: 900; line-height: 1.04;
+            letter-spacing: -2.5px;
+            margin-bottom: 28px;
+        }
+        .hero h1 .accent {
+            background: var(--gold-gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: clamp(16px, 2vw, 19px);
+            color: var(--text-secondary); line-height: 1.65;
+            max-width: 600px; margin: 0 auto 44px;
+        }
+
+        .hero-cta {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 17px 44px;
+            background: var(--gold-gradient); color: #000;
+            border: none; border-radius: var(--radius-pill);
+            font-size: 16px; font-weight: 700; font-family: inherit;
+            cursor: pointer; text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative; overflow: hidden;
+        }
+        .hero-cta::after {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+            animation: sweep 4s ease-in-out infinite;
+        }
+        @keyframes sweep { 0%,100% { left: -100%; } 50% { left: 150%; } }
+        .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(242,190,126,0.3); }
+        .hero-cta svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+        .hero-metrics {
+            display: flex; justify-content: center; gap: 48px;
+            margin-top: 72px; flex-wrap: wrap;
+        }
+        .hero-metric { text-align: center; }
+        .hero-metric .val {
+            font-size: 30px; font-weight: 800; letter-spacing: -1px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .hero-metric .lbl { font-size: 13px; color: var(--text-tertiary); margin-top: 4px; font-weight: 500; }
+
+        /* ===== DIVIDER ===== */
+        .divider { width: 100%; height: 1px; background: var(--border); }
+
+        /* ===== 2. KIMLAR UCHUN ===== */
+        .audience-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px; margin-top: 56px;
+        }
+        .audience-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px 24px;
+            transition: var(--transition);
+            position: relative; overflow: hidden;
+        }
+        .audience-card::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: var(--gold-gradient);
+            opacity: 0; transition: opacity var(--transition);
+        }
+        .audience-card:hover { border-color: var(--border-hover); background: var(--card-hover); transform: translateY(-3px); }
+        .audience-card:hover::after { opacity: 1; }
+        .audience-card:hover .icon-box { background: rgba(242,190,126,0.14); border-color: rgba(242,190,126,0.2); }
+        .audience-card .icon-box { margin-bottom: 22px; }
+        .audience-card h3 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 8px; }
+        .audience-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.55; }
+
+        /* ===== 3. VA'DA ===== */
+        .promise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 14px; margin-top: 56px;
+        }
+        .promise-item {
+            display: flex; align-items: center; gap: 16px;
+            padding: 22px 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+        .promise-item:hover { border-color: var(--border-hover); background: var(--card-hover); }
+        .promise-item span { font-size: 15px; font-weight: 600; letter-spacing: -0.2px; }
+
+        /* ===== 4. MUAMMO ===== */
+        .problem-section { background: var(--dark-surface); }
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 14px; margin-top: 56px;
+        }
+        .problem-card {
+            display: flex; align-items: center; gap: 16px;
+            padding: 22px 24px;
+            background: rgba(220,38,38,0.04);
+            border: 1px solid rgba(220,38,38,0.1);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+        .problem-card:hover { background: rgba(220,38,38,0.07); border-color: rgba(220,38,38,0.18); }
+
+        .problem-icon {
+            width: 36px; height: 36px;
+            background: rgba(220,38,38,0.1);
+            border: 1px solid rgba(220,38,38,0.15);
+            border-radius: var(--radius-sm);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .problem-icon svg { width: 16px; height: 16px; stroke: #ef4444; fill: none; stroke-width: 2; stroke-linecap: round; }
+        .problem-card span { font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.88); }
+
+        /* ===== 5. YECHIM ===== */
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 14px; margin-top: 56px;
+        }
+        .solution-item {
+            display: flex; align-items: center; gap: 18px;
+            padding: 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+        .solution-item:hover { border-color: var(--border-hover); background: var(--card-hover); }
+
+        .step-num {
+            width: 40px; height: 40px;
+            background: var(--gold-gradient);
+            border-radius: var(--radius-md);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 15px; font-weight: 800; color: #000;
+            flex-shrink: 0;
+        }
+        .solution-item p { font-size: 15px; font-weight: 600; }
+
+        /* ===== 6. KEYSLAR ===== */
+        .cases-section { background: var(--dark-surface); }
+
+        /* Summary stats above slider */
+        .cases-summary {
+            display: flex; gap: 32px; margin-top: 48px; margin-bottom: 48px;
+            flex-wrap: wrap; align-items: center;
+        }
+        .cases-summary-item {
+            display: flex; align-items: baseline; gap: 10px;
+        }
+        .cases-summary-item .cs-num {
+            font-size: 32px; font-weight: 900; letter-spacing: -1px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .cases-summary-item .cs-lbl { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
+        .cases-summary-divider { width: 1px; height: 32px; background: var(--border); }
+
+        /* Case slider */
+        .case-slider { position: relative; }
+
+        .case-slide {
+            display: none;
+            animation: caseFade 0.5s cubic-bezier(0.16,1,0.3,1);
+        }
+        .case-slide.active { display: block; }
+        @keyframes caseFade { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+
+        .case-card {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            min-height: 480px;
+        }
+
+        /* Left: photo area */
+        .case-photo {
+            background: linear-gradient(160deg, #111 0%, #1a1a1a 100%);
+            position: relative; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .case-photo svg {
+            width: 64px; height: 64px; stroke: var(--text-tertiary); fill: none;
+            stroke-width: 1; opacity: 0.3;
+        }
+        .case-photo::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40%;
+            background: linear-gradient(to top, rgba(17,17,17,0.8), transparent);
+            pointer-events: none;
+        }
+        .case-photo-name {
+            position: absolute; bottom: 24px; left: 24px; z-index: 2;
+        }
+        .case-photo-name h4 { font-size: 20px; font-weight: 700; }
+        .case-photo-name span { font-size: 13px; color: var(--text-secondary); }
+
+        /* Right: data area */
+        .case-data { padding: 36px 36px 32px; display: flex; flex-direction: column; gap: 24px; }
+
+        /* Top bar: tags + nav arrows */
+        .case-top { display: flex; justify-content: space-between; align-items: flex-start; }
+
+        .case-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .case-tag {
+            padding: 5px 14px;
+            border: 1px solid rgba(242,190,126,0.3);
+            border-radius: var(--radius-pill);
+            font-size: 11px; font-weight: 700; color: var(--gold-1);
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        .case-nav { display: flex; gap: 8px; flex-shrink: 0; }
+        .case-nav-btn {
+            width: 40px; height: 40px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .case-nav-btn:hover { border-color: var(--border-hover); background: rgba(242,190,126,0.08); }
+        .case-nav-btn svg { width: 16px; height: 16px; stroke: var(--text-primary); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+        /* Person heading */
+        .case-heading h3 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 4px; }
+        .case-heading .case-sub {
+            font-size: 16px; color: var(--text-secondary); font-weight: 500;
+        }
+        .case-heading .case-sub .slash {
+            color: var(--gold-1); font-weight: 700;
+        }
+
+        /* A/B comparison */
+        .case-ab { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .case-ab-card {
+            padding: 20px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+        }
+        .case-ab-card.before { background: rgba(255,255,255,0.02); }
+        .case-ab-card.after { background: rgba(242,190,126,0.04); border-color: rgba(242,190,126,0.12); }
+
+        .case-ab-label {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 13px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.5px; margin-bottom: 12px;
+        }
+        .case-ab-label .ab-dot {
+            width: 18px; height: 18px; border-radius: 5px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .before .ab-dot { background: var(--text-tertiary); }
+        .after .ab-dot { background: var(--gold-gradient); }
+        .ab-dot svg { width: 10px; height: 10px; stroke: #000; fill: none; stroke-width: 2.5; stroke-linecap: round; }
+
+        .case-ab-list { display: flex; flex-direction: column; gap: 8px; }
+        .case-ab-item {
+            display: flex; align-items: flex-start; gap: 10px;
+            font-size: 13px; color: var(--text-secondary); line-height: 1.4;
+        }
+        .case-ab-item .ab-bullet {
+            width: 5px; height: 5px; border-radius: 50%;
+            margin-top: 5px; flex-shrink: 0;
+        }
+        .before .ab-bullet { background: var(--text-tertiary); }
+        .after .ab-bullet { background: var(--gold-1); }
+
+        /* Metric cards row */
+        .case-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .case-metric {
+            padding: 18px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.02);
+        }
+        .case-metric.highlight {
+            background: var(--gold-gradient);
+            border-color: transparent;
+        }
+        .case-metric .cm-val {
+            font-size: 18px; font-weight: 800; letter-spacing: -0.3px;
+            margin-bottom: 4px;
+        }
+        .case-metric.highlight .cm-val { color: #000; }
+        .case-metric .cm-lbl { font-size: 12px; color: var(--text-secondary); line-height: 1.35; }
+        .case-metric.highlight .cm-lbl { color: rgba(0,0,0,0.6); }
+
+        /* Slide dots */
+        .case-dots {
+            display: flex; justify-content: center; gap: 8px;
+            margin-top: 24px;
+        }
+        .case-dot {
+            width: 8px; height: 8px;
+            background: rgba(255,255,255,0.12);
+            border-radius: 50%; border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .case-dot.active {
+            width: 28px; border-radius: 4px;
+            background: var(--gold-gradient);
+        }
+
+        /* ===== 7. FORMAT ===== */
+        .format-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px; margin-top: 56px;
+        }
+        .format-card {
+            padding: 36px 28px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            transition: var(--transition);
+        }
+        .format-card:hover { border-color: var(--border-hover); background: var(--card-hover); }
+        .format-card .big-num {
+            font-size: 42px; font-weight: 900; letter-spacing: -1.5px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            line-height: 1;
+        }
+        .format-card .sub { font-size: 16px; font-weight: 700; margin-top: 4px; margin-bottom: 14px; }
+        .format-card .detail { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+        .format-extras {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px; margin-top: 20px;
+        }
+        .format-extra {
+            display: flex; align-items: center; gap: 14px;
+            padding: 18px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+        .format-extra:hover { border-color: var(--border-hover); }
+        .format-extra span { font-size: 14px; font-weight: 600; }
+
+        /* ===== 8. DASTUR (MODULES) ===== */
+        .modules-section { background: var(--dark-surface); }
+
+        .module-tabs {
+            display: flex; gap: 8px;
+            margin-top: 48px; margin-bottom: 36px;
+            overflow-x: auto; padding-bottom: 8px;
+            scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .module-tabs::-webkit-scrollbar { display: none; }
+
+        .module-tab {
+            padding: 10px 22px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-pill);
+            color: var(--text-secondary);
+            font-size: 14px; font-weight: 600; font-family: inherit;
+            cursor: pointer; white-space: nowrap;
+            transition: var(--transition);
+        }
+        .module-tab:hover { border-color: var(--border-hover); color: var(--text-primary); }
+        .module-tab.active { background: var(--gold-gradient); color: #000; border-color: transparent; }
+
+        .module-panel { display: none; animation: fadeTab 0.4s ease; }
+        .module-panel.active { display: block; }
+        @keyframes fadeTab { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .module-head { margin-bottom: 24px; }
+        .module-head h3 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 6px; }
+        .module-head p { color: var(--text-secondary); font-size: 15px; }
+
+        .module-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 10px;
+        }
+        .module-item {
+            display: flex; align-items: center; gap: 14px;
+            padding: 18px 22px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+        .module-item:hover { border-color: var(--border-hover); background: var(--card-hover); }
+        .module-item .bullet {
+            width: 7px; height: 7px;
+            background: var(--gold-gradient); border-radius: 50%; flex-shrink: 0;
+        }
+        .module-item span { font-size: 15px; font-weight: 500; }
+
+        /* ===== 9. NATIJA ===== */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 14px; margin-top: 56px;
+        }
+        .result-item {
+            display: flex; align-items: center; gap: 18px;
+            padding: 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+        .result-item:hover { border-color: var(--border-hover); background: var(--card-hover); }
+        .result-item:hover .icon-box { background: rgba(242,190,126,0.14); border-color: rgba(242,190,126,0.2); }
+        .result-item p { font-size: 16px; font-weight: 600; }
+
+        /* ===== 10. EKSPERT ===== */
+        .expert-section { background: var(--dark-surface); }
+        .expert-layout {
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            gap: 64px; align-items: start;
+            margin-top: 56px;
+        }
+        .expert-img {
+            width: 100%; aspect-ratio: 3/4;
+            background: linear-gradient(160deg, #111 0%, #1a1a1a 50%, #111 100%);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border);
+            position: relative; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .expert-img svg { width: 80px; height: 80px; stroke: var(--text-tertiary); fill: none; stroke-width: 1; opacity: 0.4; }
+        .expert-img::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50%;
+            background: linear-gradient(to top, #111, transparent); pointer-events: none;
+        }
+
+        .expert-info h3 {
+            font-size: clamp(30px, 4vw, 42px);
+            font-weight: 800; letter-spacing: -1.5px;
+            margin-bottom: 8px;
+        }
+        .expert-role {
+            font-size: 15px; color: var(--gold-1); font-weight: 600;
+            margin-bottom: 32px;
+        }
+
+        .expert-stats-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 14px; margin-bottom: 32px;
+        }
+        .expert-stat {
+            padding: 22px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+        }
+        .expert-stat .val {
+            font-size: 24px; font-weight: 800; letter-spacing: -0.5px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .expert-stat .lbl { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+
+        .expert-list { display: flex; flex-direction: column; gap: 12px; }
+        .expert-list-item {
+            display: flex; align-items: center; gap: 14px;
+            font-size: 15px; color: var(--text-secondary);
+        }
+        .expert-list-item .mark {
+            width: 6px; height: 6px;
+            background: var(--gold-1); border-radius: 50%; flex-shrink: 0;
+        }
+
+        /* ===== 11. CTA + FORM ===== */
+        .cta-section {
+            padding: 120px 0 140px;
+            position: relative; overflow: hidden;
+        }
+        .cta-section::before {
+            content: ''; position: absolute;
+            top: 30%; left: 20%; transform: translate(-50%, -50%);
+            width: 700px; height: 700px;
+            background: radial-gradient(ellipse, rgba(242,190,126,0.06) 0%, transparent 60%);
+            pointer-events: none; animation: ctaGlow1 8s ease-in-out infinite;
+        }
+        .cta-section::after {
+            content: ''; position: absolute;
+            bottom: 10%; right: 15%;
+            width: 500px; height: 500px;
+            background: radial-gradient(ellipse, rgba(242,190,126,0.04) 0%, transparent 60%);
+            pointer-events: none; animation: ctaGlow2 10s ease-in-out infinite;
+        }
+        @keyframes ctaGlow1 { 0%,100% { opacity: 0.6; transform: translate(-50%,-50%) scale(1); } 50% { opacity: 1; transform: translate(-50%,-50%) scale(1.15); } }
+        @keyframes ctaGlow2 { 0%,100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.2); } }
+
+        .cta-layout {
+            display: grid;
+            grid-template-columns: 1fr 480px;
+            gap: 64px; align-items: start;
+            position: relative; z-index: 2;
+        }
+
+        .cta-left { display: flex; flex-direction: column; gap: 0; }
+        .cta-left h2 {
+            font-size: clamp(34px, 5vw, 50px);
+            font-weight: 900; line-height: 1.08;
+            letter-spacing: -2px; margin-bottom: 18px;
+        }
+        .cta-left h2 .accent {
+            background: var(--gold-gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .cta-left > p { font-size: 17px; color: var(--text-secondary); line-height: 1.65; margin-bottom: 36px; }
+
+        .cta-checklist { display: flex; flex-direction: column; gap: 14px; margin-bottom: 40px; }
+        .cta-check-item { display: flex; align-items: center; gap: 14px; font-size: 15px; font-weight: 500; }
+
+        /* Floating cards on left */
+        .cta-visual {
+            display: flex; flex-direction: column; gap: 16px;
+        }
+        .cta-card-float {
+            display: flex; align-items: center; gap: 16px;
+            padding: 20px 24px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            opacity: 0; transform: translateX(-30px);
+            transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+        }
+        .cta-card-float:nth-child(2) { transition-delay: 0.15s; }
+        .cta-card-float:nth-child(3) { transition-delay: 0.3s; }
+        .cta-left.visible .cta-card-float { opacity: 1; transform: translateX(0); }
+        .cta-left.visible .cta-urgency { opacity: 1; transform: translateX(0); }
+
+        .cta-card-float .cf-icon {
+            width: 48px; height: 48px;
+            background: var(--gold-gradient);
+            border-radius: var(--radius-md);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 20px rgba(242,190,126,0.2);
+        }
+        .cta-card-float .cf-icon svg {
+            width: 22px; height: 22px; stroke: #000; fill: none;
+            stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+        }
+        .cta-card-float .cf-text { display: flex; flex-direction: column; gap: 2px; }
+        .cta-card-float .cf-val {
+            font-size: 20px; font-weight: 800; letter-spacing: -0.5px;
+        }
+        .cta-card-float .cf-lbl { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+
+        /* Urgency bar */
+        .cta-urgency {
+            display: flex; align-items: center; gap: 12px;
+            padding: 14px 20px;
+            background: rgba(242,190,126,0.06);
+            border: 1px solid rgba(242,190,126,0.15);
+            border-radius: var(--radius-md);
+            margin-top: 8px;
+            animation: urgencyPulse 3s ease-in-out infinite;
+            opacity: 0; transform: translateX(-30px);
+            transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1) 0.45s, transform 0.7s cubic-bezier(0.16,1,0.3,1) 0.45s;
+        }
+        @keyframes urgencyPulse {
+            0%,100% { border-color: rgba(242,190,126,0.15); }
+            50% { border-color: rgba(242,190,126,0.35); }
+        }
+        .cta-urgency .urg-dot {
+            width: 10px; height: 10px;
+            background: #22c55e; border-radius: 50%;
+            flex-shrink: 0; position: relative;
+        }
+        .cta-urgency .urg-dot::after {
+            content: ''; position: absolute; inset: -3px;
+            border: 1.5px solid #22c55e; border-radius: 50%;
+            animation: ping 2s cubic-bezier(0,0,0.2,1) infinite;
+        }
+        .cta-urgency span { font-size: 14px; font-weight: 600; color: var(--gold-1); }
+
+        /* FORM */
+        .form-card {
+            background: linear-gradient(160deg, rgba(18,18,18,0.95) 0%, rgba(12,12,12,0.98) 100%);
+            border: 1px solid rgba(242,190,126,0.1);
+            border-radius: 24px;
+            padding: 44px 36px;
+            position: relative;
+            box-shadow: 0 0 80px rgba(242,190,126,0.04), 0 24px 60px rgba(0,0,0,0.5);
+        }
+        .form-card::before {
+            content: ''; position: absolute; inset: -1px;
+            border-radius: 25px;
+            padding: 1px;
+            background: linear-gradient(160deg, rgba(242,190,126,0.2), rgba(242,190,126,0.02) 40%, rgba(242,190,126,0.08));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude;
+            pointer-events: none;
+        }
+        .form-card h3 {
+            font-size: 22px; font-weight: 700; letter-spacing: -0.3px;
+            text-align: center; margin-bottom: 8px;
+        }
+        .form-subtitle {
+            text-align: center; font-size: 14px;
+            color: var(--text-secondary); margin-bottom: 28px;
+        }
+
+        .field { margin-bottom: 14px; }
+        .field input, .field textarea {
+            width: 100%; padding: 15px 18px;
+            background: rgba(255,255,255,0.035);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 15px; font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+        }
+        .field input::placeholder, .field textarea::placeholder { color: var(--text-tertiary); }
+        .field input:focus, .field textarea:focus {
+            border-color: var(--gold-1);
+            background: rgba(242,190,126,0.03);
+            box-shadow: 0 0 0 3px rgba(242,190,126,0.08);
+        }
+        .field textarea { resize: vertical; min-height: 90px; }
+
+        .field-label {
+            display: block; font-size: 14px; font-weight: 700;
+            margin-bottom: 14px; margin-top: 8px; color: var(--text-primary);
+        }
+
+        .radio-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 18px; }
+        .radio-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 11px 16px; border-radius: var(--radius-sm);
+            cursor: pointer; transition: background 0.2s;
+        }
+        .radio-item:hover { background: rgba(255,255,255,0.035); }
+        .radio-item input { display: none; }
+        .radio-dot {
+            width: 20px; height: 20px;
+            border: 2px solid rgba(255,255,255,0.12);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .radio-dot::after {
+            content: ''; width: 10px; height: 10px;
+            background: var(--gold-gradient); border-radius: 50%;
+            opacity: 0; transform: scale(0);
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .radio-item input:checked ~ .radio-dot { border-color: var(--gold-1); box-shadow: 0 0 0 3px rgba(242,190,126,0.1); }
+        .radio-item input:checked ~ .radio-dot::after { opacity: 1; transform: scale(1); }
+        .radio-item input:checked ~ .radio-label { color: var(--text-primary); }
+        .radio-label { font-size: 14px; color: var(--text-secondary); transition: color 0.2s; font-weight: 500; }
+
+        .submit-btn {
+            width: 100%; padding: 17px;
+            background: var(--gold-gradient); color: #000;
+            border: none; border-radius: var(--radius-pill);
+            font-size: 16px; font-weight: 700; font-family: inherit;
+            cursor: pointer; margin-top: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative; overflow: hidden;
+        }
+        .submit-btn::after {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: sweep 4s ease-in-out infinite;
+        }
+        .submit-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 32px rgba(242,190,126,0.3); }
+        .submit-btn:active { transform: scale(0.98); }
+
+        .form-success {
+            display: none; text-align: center; padding: 48px 20px;
+        }
+        .form-success.show { display: block; }
+        .form-success .ok-icon {
+            width: 64px; height: 64px;
+            background: var(--gold-gradient); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px;
+        }
+        .form-success .ok-icon svg { width: 28px; height: 28px; stroke: #000; fill: none; stroke-width: 2.5; stroke-linecap: round; }
+        .form-success h4 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+        .form-success p { color: var(--text-secondary); font-size: 15px; }
+
+        /* Validation */
+        .field-error input, .field-error textarea { border-color: #ef4444 !important; background: rgba(239,68,68,0.04) !important; }
+        .field-error .field-msg { display: block; }
+        .field-ok input, .field-ok textarea { border-color: #22c55e !important; }
+        .field-msg {
+            display: none;
+            font-size: 12px; font-weight: 500;
+            color: #ef4444; margin-top: 6px; padding-left: 2px;
+            line-height: 1.4;
+        }
+        .radio-error .radio-group { border: 1px solid rgba(239,68,68,0.4); border-radius: var(--radius-md); padding: 4px; }
+        .radio-error .field-msg { display: block; }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            padding: 48px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+        .footer .logo-f { font-size: 18px; font-weight: 800; margin-bottom: 10px; }
+        .footer .logo-f em { font-style: normal; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .footer p { color: var(--text-tertiary); font-size: 13px; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1080px) {
+            .audience-grid { grid-template-columns: repeat(2, 1fr); }
+            .expert-layout { grid-template-columns: 1fr; gap: 40px; }
+            .expert-img { max-width: 360px; }
+            .cta-layout { grid-template-columns: 1fr; gap: 48px; }
+            .cta-visual { flex-direction: row; flex-wrap: wrap; gap: 12px; }
+            .cta-card-float { flex: 1; min-width: 200px; }
+            .case-card { grid-template-columns: 260px 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .section { padding: 80px 0; }
+            .nav { display: none; }
+            .mobile-toggle { display: block; }
+            .audience-grid { grid-template-columns: 1fr; }
+            .format-grid { grid-template-columns: 1fr; }
+            .format-extras { grid-template-columns: 1fr 1fr; }
+            .expert-stats-grid { grid-template-columns: 1fr 1fr; }
+            .hero-metrics { gap: 28px; }
+            .form-card { padding: 32px 22px; border-radius: 20px; }
+            .cta-visual { flex-direction: column; }
+            .cta-card-float { min-width: 0; }
+            .case-card { grid-template-columns: 1fr; }
+            .case-photo { min-height: 240px; }
+            .case-data { padding: 28px 24px; }
+            .case-ab { grid-template-columns: 1fr; }
+            .case-metrics { grid-template-columns: 1fr; }
+            .cases-summary { gap: 20px; }
+            .cases-summary-divider { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0 18px; }
+            .section { padding: 64px 0; }
+            .hero { padding: 100px 18px 60px; }
+            .hero h1 { font-size: 34px; letter-spacing: -1.2px; }
+            .hero-metrics { flex-direction: column; gap: 16px; align-items: center; }
+            .format-extras { grid-template-columns: 1fr; }
+            .expert-stats-grid { grid-template-columns: 1fr; }
+            .module-tabs { gap: 6px; }
+            .form-card { padding: 28px 18px; }
+            .case-data { padding: 22px 18px; }
+            .case-tags { gap: 6px; }
+            .case-tag { font-size: 10px; padding: 4px 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header" id="header">
+    <div class="container">
+        <a href="#" class="logo">Vision <em>Group</em></a>
+        <nav class="nav">
+            <a href="#audience">Kimlar uchun</a>
+            <a href="#modules">Dastur</a>
+            <a href="#expert">Spiker</a>
+            <a href="#register" class="header-cta">Boshlash</a>
+        </nav>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+            <svg viewBox="0 0 24 24"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+        </button>
+    </div>
+</header>
+
+<!-- ===== 1. HERO ===== -->
+<section class="hero" id="home">
+    <div class="hero-inner reveal">
+        <div class="hero-badge">
+            <span class="pulse"></span>
+            Vision Group — Intensiv
+        </div>
+        <h1>Instagram orqali auditoriya yig'ib, sotuv qiladigan <span class="accent">shaxsiy brend</span> quring</h1>
+        <p class="hero-sub">2 oy ichida sizda aniq strategiya, kontent tizimi va ishlaydigan sotuv mexanizmi bo'ladi</p>
+        <a href="#register" class="hero-cta">
+            Boshlash
+            <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <div class="hero-metrics">
+            <div class="hero-metric">
+                <div class="val">2 oy</div>
+                <div class="lbl">Kurs davomiyligi</div>
+            </div>
+            <div class="hero-metric">
+                <div class="val">10+</div>
+                <div class="lbl">Darslar</div>
+            </div>
+            <div class="hero-metric">
+                <div class="val">3+</div>
+                <div class="lbl">Spikerlar</div>
+            </div>
+            <div class="hero-metric">
+                <div class="val">100+</div>
+                <div class="lbl">Loyihalar</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== 2. KIMLAR UCHUN ===== -->
+<section class="section" id="audience">
+    <div class="container">
+        <div class="reveal">
+            <div class="section-eyebrow">Kimlar uchun</div>
+            <h2 class="section-title">Dastur <span class="accent">kimlar uchun?</span></h2>
+        </div>
+        <div class="audience-grid">
+            <!-- Soha egalari -->
+            <div class="audience-card reveal reveal-d1">
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+                </div>
+                <h3>Soha egalari</h3>
+                <p>Instagram orqali xizmatini sotmoqchi yoki chekni oshirmoqchi</p>
+            </div>
+            <!-- Blog boshlamoqchilar -->
+            <div class="audience-card reveal reveal-d2">
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                </div>
+                <h3>Blog boshlamoqchilar</h3>
+                <p>0 dan boshlamoqchi, 10K obunachi yig'moqchi</p>
+            </div>
+            <!-- Blog yuritayotganlar -->
+            <div class="audience-card reveal reveal-d3">
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+                </div>
+                <h3>Blog yuritayotganlar</h3>
+                <p>Kontent bor, lekin sotuv yo'q</p>
+            </div>
+            <!-- Mutaxassis -->
+            <div class="audience-card reveal reveal-d4">
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.66 2.69 3 6 3s6-1.34 6-3v-5"/></svg>
+                </div>
+                <h3>Kontent mutaxassis bo'lishni istaganlar</h3>
+                <p>Shaxsiy brend orqali xizmat qilib pul ishlamoqchi</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 3. ASOSIY VA'DA ===== -->
+<section class="section" id="promise">
+    <div class="container">
+        <div class="reveal">
+            <div class="section-eyebrow">Natija</div>
+            <h2 class="section-title">Bu kursda siz <span class="accent">nima olasiz?</span></h2>
+        </div>
+        <div class="promise-grid">
+            <div class="promise-item reveal reveal-d1">
+                <div class="gold-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span>Noldan yoki hozirgi holatdan tizimli shaxsiy brend qurish</span>
+            </div>
+            <div class="promise-item reveal reveal-d2">
+                <div class="gold-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span>Reels orqali auditoriya yig'ish</span>
+            </div>
+            <div class="promise-item reveal reveal-d3">
+                <div class="gold-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span>Stories orqali sotuv qilish</span>
+            </div>
+            <div class="promise-item reveal reveal-d4">
+                <div class="gold-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span>Ishlaydigan kontent tizimi</span>
+            </div>
+            <div class="promise-item reveal reveal-d5">
+                <div class="gold-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span>Tayyor strategiya va yo'l xaritasi</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 4. MUAMMO ===== -->
+<section class="section problem-section" id="problem">
+    <div class="container">
+        <div class="reveal">
+            <div class="section-eyebrow">Muammo</div>
+            <h2 class="section-title">Nega hozir sizda <span class="accent">natija yo'q?</span></h2>
+        </div>
+        <div class="problems-grid">
+            <div class="problem-card reveal reveal-d1">
+                <div class="problem-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+                <span>Nima chiqarishni bilmaysiz</span>
+            </div>
+            <div class="problem-card reveal reveal-d2">
+                <div class="problem-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+                <span>Kontent bor, lekin sotuv yo'q</span>
+            </div>
+            <div class="problem-card reveal reveal-d3">
+                <div class="problem-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+                <span>Strategiya yo'q</span>
+            </div>
+            <div class="problem-card reveal reveal-d4">
+                <div class="problem-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+                <span>Auditoriya tushunarsiz</span>
+            </div>
+            <div class="problem-card reveal reveal-d5">
+                <div class="problem-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+                <span>Harakat bor, natija yo'q</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 5. YECHIM ===== -->
+<section class="section" id="solution">
+    <div class="container">
+        <div class="reveal">
+            <div class="section-eyebrow">Yechim</div>
+            <h2 class="section-title">Biz sizga <span class="accent">tizim beramiz</span></h2>
+            <p class="section-desc">Bu kursda siz quyidagi qadamlarni bosib o'tasiz:</p>
+        </div>
+        <div class="solution-grid">
+            <div class="solution-item reveal reveal-d1">
+                <div class="step-num">1</div>
+                <p>O'zingizni ochasiz va pozitsiya tanlaysiz</p>
+            </div>
+            <div class="solution-item reveal reveal-d2">
+                <div class="step-num">2</div>
+                <p>Aniq strategiya qurasiz</p>
+            </div>
+            <div class="solution-item reveal reveal-d3">
+                <div class="step-num">3</div>
+                <p>Kontentni tizimga solasiz</p>
+            </div>
+            <div class="solution-item reveal reveal-d4">
+                <div class="step-num">4</div>
+                <p>Reels orqali o'sishni boshlaysiz</p>
+            </div>
+            <div class="solution-item reveal reveal-d5">
+                <div class="step-num">5</div>
+                <p>Stories orqali sotishni o'rganasiz</p>
+            </div>
+            <div class="solution-item reveal">
+                <div class="step-num">6</div>
+                <p>O'z voronkangizni qurib chiqasiz</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 6. KEYSLAR ===== -->
+<section class="section cases-section" id="cases">
+    <div class="container">
+        <div class="reveal">
+            <div class="section-eyebrow">Keyslar</div>
+            <h2 class="section-title">Bizning tizim mijozlarimizga <span class="accent">qanday natija</span> olib kelgani</h2>
+        </div>
+
+        <div class="cases-summary reveal">
+            <div class="cases-summary-item">
+                <span class="cs-num">2 mln+</span>
+                <span class="cs-lbl">obunachi</span>
+            </div>
+            <div class="cases-summary-divider"></div>
+            <div class="cases-summary-item">
+                <span class="cs-num">$1M+</span>
+                <span class="cs-lbl">sotuv</span>
+            </div>
+            <div class="cases-summary-divider"></div>
+            <div class="cases-summary-item">
+                <span class="cs-num">50 mln+</span>
+                <span class="cs-lbl">prosmotr</span>
+            </div>
+            <div class="cases-summary-divider"></div>
+            <div class="cases-summary-item">
+                <span class="cs-num">100+</span>
+                <span class="cs-lbl">loyiha</span>
+            </div>
+        </div>
+
+        <!-- Case Study Slider -->
+        <div class="case-slider reveal">
+
+            <!-- Case 1 -->
+            <div class="case-slide active" data-case="1">
+                <div class="case-card">
+                    <div class="case-photo">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <div class="case-photo-name">
+                            <h4>Ulug'bek Y.</h4>
+                            <span>Rieltor</span>
+                        </div>
+                    </div>
+                    <div class="case-data">
+                        <div class="case-top">
+                            <div class="case-tags">
+                                <span class="case-tag">Shaxsiy brend</span>
+                                <span class="case-tag">Rieltor</span>
+                                <span class="case-tag">LTV: 2 yil</span>
+                            </div>
+                            <div class="case-nav">
+                                <button class="case-nav-btn" data-dir="prev"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
+                                <button class="case-nav-btn" data-dir="next"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+                            </div>
+                        </div>
+                        <div class="case-heading">
+                            <h3>Ulug'bek Yoqubov</h3>
+                            <div class="case-sub"><span class="slash">/</span> 0 dan 230,000 obunachi 1.5 yilda</div>
+                        </div>
+                        <div class="case-ab">
+                            <div class="case-ab-card before">
+                                <div class="case-ab-label">
+                                    <span class="ab-dot"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+                                    A nuqtasi
+                                </div>
+                                <div class="case-ab-list">
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>0 ta obunachi</div>
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>Onlayn savdolar bo'lmagan</div>
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>Soha ichida tanilmagan</div>
+                                </div>
+                            </div>
+                            <div class="case-ab-card after">
+                                <div class="case-ab-label">
+                                    <span class="ab-dot"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+                                    B nuqtasi
+                                </div>
+                                <div class="case-ab-list">
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>230,000 ta obunachi</div>
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>Muntazam kontent: 249 post</div>
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>Ko'chmas mulk sohasida ekspert</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="case-metrics">
+                            <div class="case-metric highlight">
+                                <div class="cm-val">60,000</div>
+                                <div class="cm-lbl">Obunachi 2 oyda o'sdi</div>
+                            </div>
+                            <div class="case-metric">
+                                <div class="cm-val">3–10</div>
+                                <div class="cm-lbl">Kunlik sotuv blog orqali</div>
+                            </div>
+                            <div class="case-metric">
+                                <div class="cm-val">1.5 yil</div>
+                                <div class="cm-lbl">Hamkorlik davomiyligi</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Case 2 -->
+            <div class="case-slide" data-case="2">
+                <div class="case-card">
+                    <div class="case-photo">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <div class="case-photo-name">
+                            <h4>Botir M.</h4>
+                            <span>Biznes trener</span>
+                        </div>
+                    </div>
+                    <div class="case-data">
+                        <div class="case-top">
+                            <div class="case-tags">
+                                <span class="case-tag">Shaxsiy brend</span>
+                                <span class="case-tag">Biznes coaching</span>
+                            </div>
+                            <div class="case-nav">
+                                <button class="case-nav-btn" data-dir="prev"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
+                                <button class="case-nav-btn" data-dir="next"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+                            </div>
+                        </div>
+                        <div class="case-heading">
+                            <h3>Botir Mukhamedjanov</h3>
+                            <div class="case-sub"><span class="slash">/</span> 0 dan 180,000 obunachi va barqaror sotuv</div>
+                        </div>
+                        <div class="case-ab">
+                            <div class="case-ab-card before">
+                                <div class="case-ab-label">
+                                    <span class="ab-dot"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+                                    A nuqtasi
+                                </div>
+                                <div class="case-ab-list">
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>Blog yuritilmagan</div>
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>Faqat offlayn trening</div>
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>Onlayn daromad 0</div>
+                                </div>
+                            </div>
+                            <div class="case-ab-card after">
+                                <div class="case-ab-label">
+                                    <span class="ab-dot"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+                                    B nuqtasi
+                                </div>
+                                <div class="case-ab-list">
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>180,000 faol obunachi</div>
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>Oyiga 5+ onlayn trening</div>
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>Soha lideri sifatida tanildi</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="case-metrics">
+                            <div class="case-metric highlight">
+                                <div class="cm-val">180K</div>
+                                <div class="cm-lbl">Obunachi 1 yilda</div>
+                            </div>
+                            <div class="case-metric">
+                                <div class="cm-val">5x</div>
+                                <div class="cm-lbl">Daromad o'sishi</div>
+                            </div>
+                            <div class="case-metric">
+                                <div class="cm-val">1 yil</div>
+                                <div class="cm-lbl">Hamkorlik davomiyligi</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Case 3 -->
+            <div class="case-slide" data-case="3">
+                <div class="case-card">
+                    <div class="case-photo">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <div class="case-photo-name">
+                            <h4>Oybek E.</h4>
+                            <span>Restoran egasi</span>
+                        </div>
+                    </div>
+                    <div class="case-data">
+                        <div class="case-top">
+                            <div class="case-tags">
+                                <span class="case-tag">Soha brendi</span>
+                                <span class="case-tag">HoReCa</span>
+                                <span class="case-tag">SMM</span>
+                            </div>
+                            <div class="case-nav">
+                                <button class="case-nav-btn" data-dir="prev"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
+                                <button class="case-nav-btn" data-dir="next"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+                            </div>
+                        </div>
+                        <div class="case-heading">
+                            <h3>Oybek Egamberdiyev</h3>
+                            <div class="case-sub"><span class="slash">/</span> Restoran blogini 0 dan 95K gacha o'stirish</div>
+                        </div>
+                        <div class="case-ab">
+                            <div class="case-ab-card before">
+                                <div class="case-ab-label">
+                                    <span class="ab-dot"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+                                    A nuqtasi
+                                </div>
+                                <div class="case-ab-list">
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>Instagram faol bo'lmagan</div>
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>Faqat offlayn mijozlar</div>
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>Kontent strategiyasi yo'q</div>
+                                </div>
+                            </div>
+                            <div class="case-ab-card after">
+                                <div class="case-ab-label">
+                                    <span class="ab-dot"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+                                    B nuqtasi
+                                </div>
+                                <div class="case-ab-list">
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>95,000 obunachi</div>
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>Reels orqali viral o'sish</div>
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>Onlayn buyurtmalar 4x oshdi</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="case-metrics">
+                            <div class="case-metric highlight">
+                                <div class="cm-val">95K</div>
+                                <div class="cm-lbl">Obunachi 8 oyda</div>
+                            </div>
+                            <div class="case-metric">
+                                <div class="cm-val">4x</div>
+                                <div class="cm-lbl">Onlayn buyurtma o'sishi</div>
+                            </div>
+                            <div class="case-metric">
+                                <div class="cm-val">12 mln</div>
+                                <div class="cm-lbl">Reels prosmotr</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Case 4 -->
+            <div class="case-slide" data-case="4">
+                <div class="case-card">
+                    <div class="case-photo">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <div class="case-photo-name">
+                            <h4>Bobir Z.</h4>
+                            <span>IT mutaxassis</span>
+                        </div>
+                    </div>
+                    <div class="case-data">
+                        <div class="case-top">
+                            <div class="case-tags">
+                                <span class="case-tag">Shaxsiy brend</span>
+                                <span class="case-tag">IT / Tech</span>
+                            </div>
+                            <div class="case-nav">
+                                <button class="case-nav-btn" data-dir="prev"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
+                                <button class="case-nav-btn" data-dir="next"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+                            </div>
+                        </div>
+                        <div class="case-heading">
+                            <h3>Bobir Zokirov</h3>
+                            <div class="case-sub"><span class="slash">/</span> Texnologiya blogini qurib, kurs sotuvi boshlash</div>
+                        </div>
+                        <div class="case-ab">
+                            <div class="case-ab-card before">
+                                <div class="case-ab-label">
+                                    <span class="ab-dot"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+                                    A nuqtasi
+                                </div>
+                                <div class="case-ab-list">
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>Blog yuritilmagan</div>
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>Faqat ofisda ishlagan</div>
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>Shaxsiy brend yo'q</div>
+                                </div>
+                            </div>
+                            <div class="case-ab-card after">
+                                <div class="case-ab-label">
+                                    <span class="ab-dot"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+                                    B nuqtasi
+                                </div>
+                                <div class="case-ab-list">
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>120,000 obunachi</div>
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>O'z onlayn kursini ishga tushirdi</div>
+                                    <div class="case-ab-item"><span class="ab-bullet"></span>IT sohasida tanilgan ekspert</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="case-metrics">
+                            <div class="case-metric highlight">
+                                <div class="cm-val">120K</div>
+                                <div class="cm-lbl">Obunachi 10 oyda</div>
+                            </div>
+                            <div class="case-metric">
+                                <div class="cm-val">$50K+</div>
+                                <div class="cm-lbl">Birinchi kurs sotuvi</div>
+                            </div>
+                            <div class="case-metric">
+                                <div class="cm-val">8 mln</div>
+                                <div class="cm-lbl">Reels prosmotr</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="case-dots">
+                <button class="case-dot active" data-goto="1"></button>
+                <button class="case-dot" data-goto="2"></button>
+                <button class="case-dot" data-goto="3"></button>
+                <button class="case-dot" data-goto="4"></button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 7. FORMAT ===== -->
+<section class="section" id="format">
+    <div class="container">
+        <div class="reveal">
+            <div class="section-eyebrow">Format</div>
+            <h2 class="section-title">Kurs qanday <span class="accent">o'tadi?</span></h2>
+        </div>
+        <div class="format-grid reveal">
+            <div class="format-card">
+                <div class="big-num">2</div>
+                <div class="sub">oy davom etadi</div>
+                <div class="detail">1-oy: asosiy darslar<br>2-oy: amaliyot</div>
+            </div>
+            <div class="format-card">
+                <div class="big-num">10</div>
+                <div class="sub">ta dars</div>
+                <div class="detail">3 ta spiker<br>5 ta mehmon spiker</div>
+            </div>
+            <div class="format-card">
+                <div class="big-num">1:1</div>
+                <div class="sub">Shaxsiy razbor</div>
+                <div class="detail">Kurator nazorati<br>Savollarga javob</div>
+            </div>
+        </div>
+        <div class="format-extras reveal">
+            <div class="format-extra">
+                <div class="icon-box-sm">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <span>Tayyor shablonlar</span>
+            </div>
+            <div class="format-extra">
+                <div class="icon-box-sm">
+                    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <span>1 ga 1 razbor</span>
+            </div>
+            <div class="format-extra">
+                <div class="icon-box-sm">
+                    <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                </div>
+                <span>Kurator nazorati</span>
+            </div>
+            <div class="format-extra">
+                <div class="icon-box-sm">
+                    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <span>Shaxsan javob beraman</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 8. DASTUR MODULLARI ===== -->
+<section class="section modules-section" id="modules">
+    <div class="container">
+        <div class="reveal">
+            <div class="section-eyebrow">Dastur</div>
+            <h2 class="section-title">Dastur <span class="accent">modullari</span></h2>
+        </div>
+
+        <div class="module-tabs reveal">
+            <button class="module-tab active" data-tab="1">Modul 1</button>
+            <button class="module-tab" data-tab="2">Modul 2</button>
+            <button class="module-tab" data-tab="3">Modul 3</button>
+            <button class="module-tab" data-tab="4">Modul 4</button>
+            <button class="module-tab" data-tab="5">Modul 5</button>
+            <button class="module-tab" data-tab="6">Modul 6</button>
+        </div>
+
+        <!-- M1 -->
+        <div class="module-panel active" data-panel="1">
+            <div class="module-head">
+                <h3>Analiz va shaxsiyat</h3>
+                <p>Bozor tahlili, o'zingizni ochish va auditoriyani aniqlash</p>
+            </div>
+            <div class="module-list">
+                <div class="module-item"><div class="bullet"></div><span>Bozor va konkurent tahlili</span></div>
+                <div class="module-item"><div class="bullet"></div><span>SWOT tahlil</span></div>
+                <div class="module-item"><div class="bullet"></div><span>Shaxsiyatni ochish</span></div>
+                <div class="module-item"><div class="bullet"></div><span>Maqsad qo'yish</span></div>
+                <div class="module-item"><div class="bullet"></div><span>Auditoriya aniqlash</span></div>
+            </div>
+        </div>
+
+        <!-- M2 -->
+        <div class="module-panel" data-panel="2">
+            <div class="module-head">
+                <h3>Strategiya</h3>
+                <p>To'liq yo'l xarita va blog pasporti</p>
+            </div>
+            <div class="module-list">
+                <div class="module-item"><div class="bullet"></div><span>To'liq yo'l xarita</span></div>
+                <div class="module-item"><div class="bullet"></div><span>Pozitsiya tanlash</span></div>
+                <div class="module-item"><div class="bullet"></div><span>Blog pasporti</span></div>
+                <div class="module-item"><div class="bullet"></div><span>O'sish rejasi</span></div>
+            </div>
+        </div>
+
+        <!-- M3 -->
+        <div class="module-panel" data-panel="3">
+            <div class="module-head">
+                <h3>Kontent — Reels</h3>
+                <p>Ssenariy, million prosmotr formulasi va shablonlar</p>
+            </div>
+            <div class="module-list">
+                <div class="module-item"><div class="bullet"></div><span>Ssenariy yozish</span></div>
+                <div class="module-item"><div class="bullet"></div><span>Million prosmotr formulasi</span></div>
+                <div class="module-item"><div class="bullet"></div><span>Tayyor shablonlar</span></div>
+                <div class="module-item"><div class="bullet"></div><span>Rubrikalar</span></div>
+                <div class="module-item"><div class="bullet"></div><span>Idea topish</span></div>
+            </div>
+        </div>
+
+        <!-- M4 -->
+        <div class="module-panel" data-panel="4">
+            <div class="module-head">
+                <h3>Stories — Progrev</h3>
+                <p>Stories orqali sotuv va ishonch qurish tizimi</p>
+            </div>
+            <div class="module-list">
+                <div class="module-item"><div class="bullet"></div><span>Stories orqali sotuv</span></div>
+                <div class="module-item"><div class="bullet"></div><span>Ishonch qurish</span></div>
+                <div class="module-item"><div class="bullet"></div><span>Progrev tizimi</span></div>
+                <div class="module-item"><div class="bullet"></div><span>Real metodlar</span></div>
+                <div class="module-item"><div class="bullet"></div><span>Prosmotr oshirish</span></div>
+            </div>
+        </div>
+
+        <!-- M5 -->
+        <div class="module-panel" data-panel="5">
+            <div class="module-head">
+                <h3>Voronka va trafik</h3>
+                <p>Ishlaydigan voronkalar va trafik jalb qilish</p>
+            </div>
+            <div class="module-list">
+                <div class="module-item"><div class="bullet"></div><span>Ishlaydigan voronkalar</span></div>
+                <div class="module-item"><div class="bullet"></div><span>Trafik jalb qilish</span></div>
+                <div class="module-item"><div class="bullet"></div><span>Konversiya va raqamlar</span></div>
+                <div class="module-item"><div class="bullet"></div><span>Xatolar</span></div>
+            </div>
+        </div>
+
+        <!-- M6 -->
+        <div class="module-panel" data-panel="6">
+            <div class="module-head">
+                <h3>Platformalar</h3>
+                <p>YouTube, Telegram va boshqa platformalarga kontent moslash</p>
+            </div>
+            <div class="module-list">
+                <div class="module-item"><div class="bullet"></div><span>YouTube</span></div>
+                <div class="module-item"><div class="bullet"></div><span>Telegram</span></div>
+                <div class="module-item"><div class="bullet"></div><span>Kontent moslash</span></div>
+                <div class="module-item"><div class="bullet"></div><span>Formatlar</span></div>
+                <div class="module-item"><div class="bullet"></div><span>Sotuv mexanizmi</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 9. NATIJA ===== -->
+<section class="section" id="result">
+    <div class="container">
+        <div class="reveal">
+            <div class="section-eyebrow">Natija</div>
+            <h2 class="section-title">Kursdan keyin <span class="accent">siz:</span></h2>
+        </div>
+        <div class="results-grid">
+            <div class="result-item reveal reveal-d1">
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+                <p>Aniq strategiyaga ega bo'lasiz</p>
+            </div>
+            <div class="result-item reveal reveal-d2">
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                </div>
+                <p>Kontent tizimi bo'ladi</p>
+            </div>
+            <div class="result-item reveal reveal-d3">
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+                <p>Sotuvni tushunasiz</p>
+            </div>
+            <div class="result-item reveal reveal-d4">
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <p>Auditoriya yig'asiz</p>
+            </div>
+            <div class="result-item reveal reveal-d5">
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                </div>
+                <p>Daromad qilishni boshlaysiz</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 10. EKSPERT ===== -->
+<section class="section expert-section" id="expert">
+    <div class="container">
+        <div class="reveal">
+            <div class="section-eyebrow">Spiker</div>
+            <h2 class="section-title">Kurs <span class="accent">muallifi</span></h2>
+        </div>
+        <div class="expert-layout">
+            <div class="expert-img reveal">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="expert-info reveal">
+                <h3>Jaxongir Raimjonov</h3>
+                <div class="expert-role">Invision asoschisi &middot; Marketing strateg</div>
+                <div class="expert-stats-grid">
+                    <div class="expert-stat">
+                        <div class="val">6 yil</div>
+                        <div class="lbl">Marketingda tajriba</div>
+                    </div>
+                    <div class="expert-stat">
+                        <div class="val">100+</div>
+                        <div class="lbl">Loyihalar</div>
+                    </div>
+                    <div class="expert-stat">
+                        <div class="val">2 mln+</div>
+                        <div class="lbl">Obunachi jalb qilingan</div>
+                    </div>
+                    <div class="expert-stat">
+                        <div class="val">$1M+</div>
+                        <div class="lbl">Sotuv reklamasiz</div>
+                    </div>
+                </div>
+                <div class="expert-list">
+                    <div class="expert-list-item"><span class="mark"></span>Invision asoschisi</div>
+                    <div class="expert-list-item"><span class="mark"></span>20+ loyiha bir vaqtda</div>
+                    <div class="expert-list-item"><span class="mark"></span>50 mln+ prosmotr</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 11. CTA + FORM ===== -->
+<section class="section cta-section" id="register">
+    <div class="container">
+        <div class="cta-layout">
+            <div class="cta-left reveal">
+                <div class="section-eyebrow">Ro'yxatdan o'tish</div>
+                <h2>Hozir <span class="accent">boshlang</span></h2>
+                <p>Joylar cheklangan. Ro'yxatdan o'ting va intensiv kursga qo'shiling.</p>
+
+                <div class="cta-checklist">
+                    <div class="cta-check-item">
+                        <div class="gold-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+                        2 oylik intensiv dastur
+                    </div>
+                    <div class="cta-check-item">
+                        <div class="gold-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+                        Shaxsiy razbor va kurator
+                    </div>
+                    <div class="cta-check-item">
+                        <div class="gold-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+                        Tayyor shablonlar va strategiya
+                    </div>
+                    <div class="cta-check-item">
+                        <div class="gold-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+                        Ishlaydigan sotuv tizimi
+                    </div>
+                </div>
+
+                <div class="cta-visual">
+                    <div class="cta-card-float">
+                        <div class="cf-icon">
+                            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <div class="cf-text">
+                            <span class="cf-val">100+</span>
+                            <span class="cf-lbl">Shaxsiy brend loyihalari</span>
+                        </div>
+                    </div>
+                    <div class="cta-card-float">
+                        <div class="cf-icon">
+                            <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                        </div>
+                        <div class="cf-text">
+                            <span class="cf-val">2 mln+</span>
+                            <span class="cf-lbl">Obunachi jalb qilingan</span>
+                        </div>
+                    </div>
+                    <div class="cta-card-float">
+                        <div class="cf-icon">
+                            <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        </div>
+                        <div class="cf-text">
+                            <span class="cf-val">$1M+</span>
+                            <span class="cf-lbl">Sotuv reklamasiz</span>
+                        </div>
+                    </div>
+                    <div class="cta-urgency">
+                        <span class="urg-dot"></span>
+                        <span>Hozir ro'yxatdan o'tayotganlar bor</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-card reveal" id="formCard">
+                <h3>Kursga qo'shilish</h3>
+                <p class="form-subtitle">Ma'lumotlaringizni to'ldiring — biz siz bilan bog'lanamiz</p>
+                <form id="regForm" novalidate>
+                    <div class="field" id="f-name">
+                        <input type="text" name="fullname" placeholder="Ism-familiya" required autocomplete="name" maxlength="60">
+                        <div class="field-msg">Ism-familiya faqat harflardan iborat bo'lishi kerak (kamida 3 ta belgi)</div>
+                    </div>
+                    <div class="field" id="f-phone">
+                        <input type="tel" name="phone" placeholder="+998 XX XXX XX XX" required autocomplete="tel" maxlength="17">
+                        <div class="field-msg">To'g'ri format: +998 XX XXX XX XX (9 ta raqam)</div>
+                    </div>
+                    <div class="field" id="f-telegram">
+                        <input type="text" name="telegram" placeholder="@username" autocomplete="off" maxlength="34">
+                        <div class="field-msg">Telegram username: @ bilan boshlanib, harf, raqam yoki _ bo'lishi kerak (kamida 5 belgi)</div>
+                    </div>
+                    <div class="field" id="f-instagram">
+                        <input type="text" name="instagram" placeholder="instagram_username" autocomplete="off" maxlength="30">
+                        <div class="field-msg">Instagram: faqat harf, raqam, . yoki _ (kamida 3 belgi)</div>
+                    </div>
+
+                    <div id="f-income">
+                        <span class="field-label">Hozirgi kundagi daromadingizni belgilang</span>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="income" value="200-500">
+                                <span class="radio-dot"></span>
+                                <span class="radio-label">$200 – $500</span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="income" value="600-1000">
+                                <span class="radio-dot"></span>
+                                <span class="radio-label">$600 – $1000</span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="income" value="1000-2000">
+                                <span class="radio-dot"></span>
+                                <span class="radio-label">$1000 – $2000</span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="income" value="2000-5000">
+                                <span class="radio-dot"></span>
+                                <span class="radio-label">$2000 – $5000</span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="income" value="5000+">
+                                <span class="radio-dot"></span>
+                                <span class="radio-label">$5000+</span>
+                            </label>
+                        </div>
+                        <div class="field-msg">Daromad darajasini tanlang</div>
+                    </div>
+
+                    <div class="field" id="f-goal">
+                        <label class="field-label">Dasturda nima maqsadda o'qimoqchisiz?</label>
+                        <textarea name="goal" placeholder="Batafsil yozishingizni so'raymiz" minlength="10" maxlength="500"></textarea>
+                        <div class="field-msg">Kamida 10 ta belgi yozing</div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Ro'yxatdan o'tish</button>
+                </form>
+
+                <div class="form-success" id="formSuccess">
+                    <div class="ok-icon">
+                        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <h4>Rahmat!</h4>
+                    <p>So'rovingiz qabul qilindi. Tez orada siz bilan bog'lanamiz.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+    <div class="container">
+        <div class="logo-f">Vision <em>Group</em></div>
+        <p>&copy; 2026 Vision Group. Barcha huquqlar himoyalangan.</p>
+    </div>
+</footer>
+
+<script>
+    // ===== Scroll reveal =====
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // ===== Header scroll =====
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // ===== Module tabs =====
+    document.querySelectorAll('.module-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            const id = tab.dataset.tab;
+            document.querySelectorAll('.module-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.module-panel').forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            document.querySelector(`.module-panel[data-panel="${id}"]`).classList.add('active');
+        });
+    });
+
+    // ===== Case study slider =====
+    const slides = document.querySelectorAll('.case-slide');
+    const dots = document.querySelectorAll('.case-dot');
+    const totalSlides = slides.length;
+    let currentSlide = 1;
+
+    function goToSlide(n) {
+        if (n < 1) n = totalSlides;
+        if (n > totalSlides) n = 1;
+        currentSlide = n;
+        slides.forEach(s => s.classList.remove('active'));
+        dots.forEach(d => d.classList.remove('active'));
+        document.querySelector(`.case-slide[data-case="${n}"]`).classList.add('active');
+        document.querySelector(`.case-dot[data-goto="${n}"]`).classList.add('active');
+    }
+
+    document.querySelectorAll('.case-nav-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            goToSlide(btn.dataset.dir === 'next' ? currentSlide + 1 : currentSlide - 1);
+        });
+    });
+
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => goToSlide(parseInt(dot.dataset.goto)));
+    });
+
+    // Auto-slide every 6 seconds
+    let autoSlide = setInterval(() => goToSlide(currentSlide + 1), 6000);
+    document.querySelector('.case-slider').addEventListener('mouseenter', () => clearInterval(autoSlide));
+    document.querySelector('.case-slider').addEventListener('mouseleave', () => {
+        autoSlide = setInterval(() => goToSlide(currentSlide + 1), 6000);
+    });
+
+    // ===== Mobile nav =====
+    document.getElementById('mobileToggle').addEventListener('click', () => {
+        const nav = document.querySelector('.nav');
+        if (nav.style.display === 'flex') {
+            nav.style.display = 'none';
+        } else {
+            nav.style.cssText = 'display:flex;flex-direction:column;position:fixed;top:64px;left:0;right:0;background:rgba(0,0,0,0.96);padding:20px 28px;gap:16px;border-bottom:1px solid rgba(255,255,255,0.06);z-index:999;backdrop-filter:blur(20px);';
+        }
+    });
+
+    // ===== FORM VALIDATION =====
+    const form = document.getElementById('regForm');
+    const $ = id => document.getElementById(id);
+
+    // --- Helpers ---
+    function setOk(wrapperId) {
+        const w = $(wrapperId);
+        w.classList.remove('field-error', 'radio-error');
+        w.classList.add('field-ok');
+    }
+    function setErr(wrapperId) {
+        const w = $(wrapperId);
+        w.classList.remove('field-ok');
+        w.classList.add(wrapperId === 'f-income' ? 'radio-error' : 'field-error');
+    }
+    function clearState(wrapperId) {
+        const w = $(wrapperId);
+        w.classList.remove('field-error', 'field-ok', 'radio-error');
+    }
+
+    // --- Ism-familiya: faqat harflar (latin, kirill, ozbek), probel, apostrof, tire ---
+    const nameInput = form.fullname;
+    const nameRegex = /^[A-Za-zА-Яа-яЁёЎўҚқҒғҲҳ\s''\-]{3,60}$/;
+    const nameCharRegex = /[^A-Za-zА-Яа-яЁёЎўҚқҒғҲҳ\s''\-]/g;
+
+    nameInput.addEventListener('input', function() {
+        this.value = this.value.replace(nameCharRegex, '');
+        if (this.value.length === 0) { clearState('f-name'); return; }
+        nameRegex.test(this.value.trim()) ? setOk('f-name') : setErr('f-name');
+    });
+
+    // --- Telefon: +998 XX XXX XX XX (faqat raqam, avtomatik format) ---
+    const phoneInput = form.phone;
+
+    phoneInput.addEventListener('focus', function() {
+        if (!this.value) this.value = '+998 ';
+    });
+
+    phoneInput.addEventListener('input', function() {
+        // Faqat raqamlarni ajratib olish (+998 dan keyingi)
+        let raw = this.value.replace(/[^\d]/g, '');
+
+        // Doim 998 bilan boshlash
+        if (!raw.startsWith('998')) {
+            raw = '998' + raw.replace(/^998*/, '');
+        }
+
+        // 998 dan keyingi raqamlar (max 9 ta)
+        let digits = raw.substring(3, 12);
+
+        // Format: +998 XX XXX XX XX
+        let formatted = '+998';
+        if (digits.length > 0) formatted += ' ' + digits.substring(0, 2);
+        if (digits.length > 2) formatted += ' ' + digits.substring(2, 5);
+        if (digits.length > 5) formatted += ' ' + digits.substring(5, 7);
+        if (digits.length > 7) formatted += ' ' + digits.substring(7, 9);
+
+        this.value = formatted;
+
+        if (digits.length === 0) { clearState('f-phone'); return; }
+        digits.length === 9 ? setOk('f-phone') : setErr('f-phone');
+    });
+
+    // Raqam va + dan boshqa narsani kiritish taqiqlanadi
+    phoneInput.addEventListener('keydown', function(e) {
+        // Ruxsat: Backspace, Delete, Tab, Escape, Enter, arrow keys
+        if ([8, 9, 13, 27, 46].includes(e.keyCode) ||
+            (e.keyCode >= 35 && e.keyCode <= 40) ||
+            (e.ctrlKey || e.metaKey)) return;
+
+        // Faqat raqamlar (0-9)
+        if ((e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+
+        // +998 prefiksini o'chirishni oldini olish
+        const selStart = this.selectionStart;
+        if (e.keyCode === 8 && selStart <= 5 && this.selectionEnd <= 5) {
+            e.preventDefault();
+        }
+    });
+
+    // +998 prefiksini paste qilganda ham saqlash
+    phoneInput.addEventListener('paste', function(e) {
+        e.preventDefault();
+        const pasted = (e.clipboardData || window.clipboardData).getData('text');
+        const digits = pasted.replace(/[^\d]/g, '');
+        // Agar 998 bilan boshlangan bo'lsa, undan keyingisini olish
+        let clean = digits.startsWith('998') ? digits.substring(3) : digits;
+        clean = clean.substring(0, 9);
+
+        let formatted = '+998';
+        if (clean.length > 0) formatted += ' ' + clean.substring(0, 2);
+        if (clean.length > 2) formatted += ' ' + clean.substring(2, 5);
+        if (clean.length > 5) formatted += ' ' + clean.substring(5, 7);
+        if (clean.length > 7) formatted += ' ' + clean.substring(7, 9);
+
+        this.value = formatted;
+        clean.length === 9 ? setOk('f-phone') : setErr('f-phone');
+    });
+
+    // --- Telegram: @ bilan boshlanadi, keyin harf/raqam/_ (5-32 belgi) ---
+    const tgInput = form.telegram;
+    const tgBodyRegex = /^[A-Za-z0-9_]{5,32}$/;
+    const tgCharRegex = /[^A-Za-z0-9_@]/g;
+
+    tgInput.addEventListener('focus', function() {
+        if (!this.value) this.value = '@';
+    });
+
+    tgInput.addEventListener('input', function() {
+        // Faqat ruxsat etilgan belgilar
+        this.value = this.value.replace(tgCharRegex, '');
+
+        // Doim @ bilan boshlash
+        if (!this.value.startsWith('@')) {
+            this.value = '@' + this.value.replace(/@/g, '');
+        }
+
+        // Bitta @ dan ortiq bo'lmasin
+        const afterAt = this.value.substring(1).replace(/@/g, '');
+        this.value = '@' + afterAt;
+
+        if (afterAt.length === 0) { clearState('f-telegram'); return; }
+        tgBodyRegex.test(afterAt) ? setOk('f-telegram') : setErr('f-telegram');
+    });
+
+    // --- Instagram: harf, raqam, . va _ (3-30 belgi, @ siz) ---
+    const igInput = form.instagram;
+    const igRegex = /^[A-Za-z0-9._]{3,30}$/;
+    const igCharRegex = /[^A-Za-z0-9._]/g;
+
+    igInput.addEventListener('input', function() {
+        this.value = this.value.replace(igCharRegex, '');
+
+        // Boshida . bo'lmasin
+        if (this.value.startsWith('.')) this.value = this.value.substring(1);
+
+        // Ikki nuqta ketma-ket bo'lmasin
+        this.value = this.value.replace(/\.{2,}/g, '.');
+
+        if (this.value.length === 0) { clearState('f-instagram'); return; }
+        igRegex.test(this.value) ? setOk('f-instagram') : setErr('f-instagram');
+    });
+
+    // --- Income radio ---
+    document.querySelectorAll('input[name="income"]').forEach(radio => {
+        radio.addEventListener('change', () => setOk('f-income'));
+    });
+
+    // --- Goal textarea ---
+    const goalInput = form.goal;
+    goalInput.addEventListener('input', function() {
+        if (this.value.length === 0) { clearState('f-goal'); return; }
+        this.value.trim().length >= 10 ? setOk('f-goal') : setErr('f-goal');
+    });
+
+    // ===== FORM SUBMIT =====
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        let valid = true;
+
+        // Ism-familiya
+        if (!nameRegex.test(nameInput.value.trim())) {
+            setErr('f-name'); valid = false;
+        } else { setOk('f-name'); }
+
+        // Telefon
+        const phoneDigits = phoneInput.value.replace(/[^\d]/g, '').substring(3);
+        if (phoneDigits.length !== 9) {
+            setErr('f-phone'); valid = false;
+        } else { setOk('f-phone'); }
+
+        // Telegram (ixtiyoriy, lekin agar yozilgan bo'lsa to'g'ri bo'lsin)
+        const tgVal = tgInput.value;
+        if (tgVal && tgVal !== '@') {
+            const tgBody = tgVal.startsWith('@') ? tgVal.substring(1) : tgVal;
+            if (!tgBodyRegex.test(tgBody)) {
+                setErr('f-telegram'); valid = false;
+            } else { setOk('f-telegram'); }
+        }
+
+        // Instagram (ixtiyoriy, lekin agar yozilgan bo'lsa to'g'ri bo'lsin)
+        if (igInput.value && !igRegex.test(igInput.value)) {
+            setErr('f-instagram'); valid = false;
+        }
+
+        // Income
+        if (!form.querySelector('input[name="income"]:checked')) {
+            setErr('f-income'); valid = false;
+        }
+
+        // Goal (ixtiyoriy, lekin agar yozilgan bo'lsa 10+ belgi)
+        if (goalInput.value && goalInput.value.trim().length < 10) {
+            setErr('f-goal'); valid = false;
+        }
+
+        if (!valid) {
+            // Birinchi xato fieldga scroll qilish
+            const firstErr = this.closest('.form-card').querySelector('.field-error, .radio-error');
+            if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+
+        // Forma muvaffaqiyatli
+        this.style.display = 'none';
+        $('formSuccess').classList.add('show');
+    });
+</script>
+
+</body>
+</html>
