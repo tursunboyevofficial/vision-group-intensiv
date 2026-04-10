@@ -1949,13 +1949,29 @@
     });
 
     // ===== Mobile nav =====
-    document.getElementById('mobileToggle').addEventListener('click', () => {
-        const nav = document.querySelector('.nav');
-        if (nav.style.display === 'flex') {
-            nav.style.display = 'none';
-        } else {
-            nav.style.cssText = 'display:flex;flex-direction:column;position:fixed;top:64px;left:0;right:0;background:rgba(0,0,0,0.96);padding:20px 28px;gap:16px;border-bottom:1px solid rgba(255,255,255,0.06);z-index:999;backdrop-filter:blur(20px);';
-        }
+    const nav = document.querySelector('.nav');
+    const mobileToggle = document.getElementById('mobileToggle');
+    const mobileNavStyle = 'display:flex;flex-direction:column;position:fixed;top:64px;left:0;right:0;background:rgba(0,0,0,0.96);padding:20px 28px;gap:16px;border-bottom:1px solid rgba(255,255,255,0.06);z-index:999;backdrop-filter:blur(20px);';
+
+    function closeNav() { nav.removeAttribute('style'); }
+    function isNavOpen() { return nav.style.display === 'flex'; }
+
+    mobileToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        isNavOpen() ? closeNav() : nav.style.cssText = mobileNavStyle;
+    });
+
+    // Scroll qilganda yopilsin
+    window.addEventListener('scroll', () => { if (isNavOpen()) closeNav(); }, { passive: true });
+
+    // Tashqariga bosganda yopilsin
+    document.addEventListener('click', (e) => {
+        if (isNavOpen() && !nav.contains(e.target) && e.target !== mobileToggle) closeNav();
+    });
+
+    // Nav ichidagi linkni bosganda yopilsin
+    nav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', closeNav);
     });
 
     // ===== FORM VALIDATION =====
