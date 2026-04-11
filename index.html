@@ -337,13 +337,7 @@
         .solution-item p { font-size: 15px; font-weight: 600; }
 
         /* ===== 6. KEYSLAR ===== */
-        .cases-section { background: var(--dark-card); color: #fff; }
-        .cases-section .section-eyebrow { color: var(--accent-3); }
-        .cases-section .section-title { color: #fff; }
-        .cases-section .section-title .accent {
-            background: var(--accent-gradient);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-        }
+        .cases-section { background: var(--bg-alt); }
 
         .cases-summary { display: flex; gap: 32px; margin-top: 40px; margin-bottom: 40px; flex-wrap: wrap; }
         .cases-summary-item { display: flex; align-items: baseline; gap: 10px; }
@@ -352,8 +346,8 @@
             background: var(--accent-gradient);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
-        .cases-summary-item .cs-lbl { font-size: 14px; color: rgba(255,255,255,0.5); font-weight: 500; }
-        .cases-summary-divider { width: 1px; height: 32px; background: rgba(255,255,255,0.1); }
+        .cases-summary-item .cs-lbl { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
+        .cases-summary-divider { width: 1px; height: 32px; background: var(--border); }
 
         .case-slide { display: none; animation: caseFade .5s cubic-bezier(.16,1,.3,1); }
         .case-slide.active { display: block; }
@@ -361,71 +355,73 @@
 
         .case-card {
             display: grid; grid-template-columns: 300px 1fr;
-            background: #1a1a24; border: 1px solid rgba(255,255,255,0.06);
+            background: var(--card-bg); border: 1px solid var(--border);
             border-radius: var(--radius-xl); overflow: hidden; min-height: 460px;
+            box-shadow: var(--shadow-lg);
         }
         .case-photo {
-            background: linear-gradient(160deg, #1a1a24, #222230);
             position: relative; overflow: hidden;
-            display: flex; align-items: center; justify-content: center;
         }
-        .case-photo svg { width: 60px; height: 60px; stroke: rgba(255,255,255,0.15); fill: none; stroke-width: 1; }
+        .case-photo img {
+            width: 100%; height: 100%; object-fit: cover;
+            display: block;
+        }
         .case-photo::after {
-            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40%;
-            background: linear-gradient(to top, rgba(26,26,36,0.9), transparent); pointer-events: none;
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50%;
+            background: linear-gradient(to top, rgba(0,0,0,0.5), transparent); pointer-events: none;
         }
         .case-photo-name { position: absolute; bottom: 24px; left: 24px; z-index: 2; }
-        .case-photo-name h4 { font-size: 18px; font-weight: 700; }
-        .case-photo-name span { font-size: 13px; color: rgba(255,255,255,0.6); }
+        .case-photo-name h4 { font-size: 18px; font-weight: 700; color: #fff; }
+        .case-photo-name span { font-size: 13px; color: rgba(255,255,255,0.7); }
 
         .case-data { padding: 32px; display: flex; flex-direction: column; gap: 20px; }
         .case-top { display: flex; justify-content: space-between; align-items: flex-start; }
         .case-tags { display: flex; flex-wrap: wrap; gap: 8px; }
         .case-tag {
-            padding: 5px 14px; border: 1px solid rgba(255,120,66,0.3);
+            padding: 5px 14px; border: 1px solid rgba(255,120,66,0.25);
             border-radius: var(--radius-pill);
             font-size: 11px; font-weight: 700; color: var(--accent-1);
             text-transform: uppercase; letter-spacing: 0.5px;
         }
         .case-nav { display: flex; gap: 8px; flex-shrink: 0; }
         .case-nav-btn {
-            width: 40px; height: 40px; background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 50%;
+            width: 40px; height: 40px; background: var(--bg-alt);
+            border: 1px solid var(--border); border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; transition: var(--transition);
         }
-        .case-nav-btn:hover { border-color: var(--border-hover); background: rgba(255,120,66,0.1); }
-        .case-nav-btn svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .case-nav-btn:hover { border-color: var(--border-hover); background: rgba(255,120,66,0.06); }
+        .case-nav-btn svg { width: 16px; height: 16px; stroke: var(--text-primary); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-        .case-heading h3 { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 4px; }
-        .case-heading .case-sub { font-size: 15px; color: rgba(255,255,255,0.6); }
+        .case-heading h3 { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 4px; color: var(--text-primary); }
+        .case-heading .case-sub { font-size: 15px; color: var(--text-secondary); }
         .case-heading .case-sub .slash { color: var(--orange); font-weight: 700; }
 
         .case-ab { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .case-ab-card { padding: 18px; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.06); }
-        .case-ab-card.before { background: rgba(255,255,255,0.03); }
-        .case-ab-card.after { background: rgba(255,120,66,0.06); border-color: rgba(255,120,66,0.15); }
-        .case-ab-label { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+        .case-ab-card { padding: 18px; border-radius: var(--radius-md); border: 1px solid var(--border); }
+        .case-ab-card.before { background: var(--bg-alt); }
+        .case-ab-card.after { background: rgba(255,120,66,0.04); border-color: rgba(255,120,66,0.15); }
+        .case-ab-label { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; color: var(--text-primary); }
         .case-ab-label .ab-dot { width: 16px; height: 16px; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
-        .before .ab-dot { background: rgba(255,255,255,0.2); }
+        .before .ab-dot { background: var(--text-tertiary); }
         .after .ab-dot { background: var(--accent-gradient); }
         .ab-dot svg { width: 9px; height: 9px; stroke: #fff; fill: none; stroke-width: 2.5; stroke-linecap: round; }
         .case-ab-list { display: flex; flex-direction: column; gap: 6px; }
-        .case-ab-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.4; }
+        .case-ab-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: var(--text-secondary); line-height: 1.4; }
         .case-ab-item .ab-bullet { width: 4px; height: 4px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
-        .before .ab-bullet { background: rgba(255,255,255,0.3); }
+        .before .ab-bullet { background: var(--text-tertiary); }
         .after .ab-bullet { background: var(--accent-1); }
 
         .case-metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
-        .case-metric { padding: 16px; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); }
+        .case-metric { padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--bg-alt); }
         .case-metric.highlight { background: var(--accent-gradient); border-color: transparent; }
-        .case-metric .cm-val { font-size: 17px; font-weight: 800; margin-bottom: 3px; }
+        .case-metric .cm-val { font-size: 17px; font-weight: 800; margin-bottom: 3px; color: var(--text-primary); }
         .case-metric.highlight .cm-val { color: #fff; }
-        .case-metric .cm-lbl { font-size: 11px; color: rgba(255,255,255,0.5); line-height: 1.3; }
+        .case-metric .cm-lbl { font-size: 11px; color: var(--text-secondary); line-height: 1.3; }
         .case-metric.highlight .cm-lbl { color: rgba(255,255,255,0.7); }
 
         .case-dots { display: flex; justify-content: center; gap: 8px; margin-top: 24px; }
-        .case-dot { width: 8px; height: 8px; background: rgba(255,255,255,0.15); border-radius: 50%; border: none; cursor: pointer; transition: all 0.3s; }
+        .case-dot { width: 8px; height: 8px; background: rgba(0,0,0,0.1); border-radius: 50%; border: none; cursor: pointer; transition: all 0.3s; }
         .case-dot.active { width: 28px; border-radius: 4px; background: var(--accent-gradient); }
 
         /* ===== 7. FORMAT ===== */
@@ -660,54 +656,62 @@
 
         .speakers-grid {
             display: flex; flex-wrap: wrap;
-            gap: 32px 40px;
+            gap: 20px 16px;
             justify-content: center;
             margin-bottom: 40px;
         }
         .speaker-item {
-            display: flex; flex-direction: column; align-items: center;
-            gap: 12px; position: relative;
-            width: 150px;
+            display: flex; align-items: center;
+            gap: 10px; position: relative;
+            width: auto;
             transition: transform 0.3s ease;
         }
-        .speaker-item:hover { transform: translateY(-6px); }
+        .speaker-item:hover { transform: translateY(-3px); }
 
         .speaker-avatar {
-            width: 120px; height: 120px;
+            width: 72px; height: 72px;
             border-radius: 50%;
             overflow: hidden;
             position: relative;
-            border: 3px solid var(--bg);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border: 2px solid var(--bg);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            flex-shrink: 0;
             transition: border-color 0.3s, box-shadow 0.3s;
         }
         .speaker-avatar img {
-            width: 152%; height: 160%;
+            width: 130%; height: 130%;
             object-fit: cover;
-            object-position: 15% 46.5%;
+            object-position: center 35%;
             display: block;
-            margin: -20% 0 0 -26%;
+            margin: -9% 0 0 -15%;
         }
+        /* 2,4,7,11,12-rasmlarni tepaga */
+        /* .speaker-item:nth-child(7) .speaker-avatar img,
+        .speaker-item:nth-child(9) .speaker-avatar img,
+        .speaker-item:nth-child(12) .speaker-avatar img,
+        .speaker-item:nth-child(16) .speaker-avatar img,
+        .speaker-item:nth-child(17) .speaker-avatar img {
+             margin: -12% 0 0 -15%!important;
+        } */
         .speaker-item:hover .speaker-avatar {
             border-color: var(--orange);
-            box-shadow: 0 6px 28px rgba(255,120,66,0.15);
+            box-shadow: 0 4px 16px rgba(255,120,66,0.15);
         }
         .speaker-plus {
-            position: absolute; bottom: 26px; right: 6px; z-index: 3;
-            width: 28px; height: 28px;
+            position: absolute; bottom: -2px; left: 50px; z-index: 3;
+            width: 20px; height: 20px;
             background: var(--accent-gradient);
             border-radius: 50%; border: 2px solid var(--bg-alt);
-            display: none; align-items: center; justify-content: center;
+            display: flex; align-items: center; justify-content: center;
         }
         .speaker-plus svg {
-            display: none;
-            width: 12px; height: 12px; stroke: #fff; fill: none;
+            width: 10px; height: 10px; stroke: #fff; fill: none;
             stroke-width: 2.5; stroke-linecap: round;
         }
 
         .speaker-name {
-            font-size: 13px; font-weight: 600;
-            text-align: center; color: var(--text-primary);
+            font-size: 12px; font-weight: 600;
+            text-align: left; color: var(--text-primary);
             line-height: 1.3;
         }
 
@@ -718,19 +722,148 @@
         .speakers-more-avatars {
             display: flex;
         }
-        .speakers-more-avatars span {
-            width: 32px; height: 32px;
+        .speakers-more-avatars img {
+            width: 36px; height: 36px;
             border-radius: 50%;
-            background: var(--accent-gradient);
             border: 2px solid var(--bg-alt);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 10px; font-weight: 700; color: #fff;
-            margin-left: -8px;
+            object-fit: cover;
+            margin-left: -10px;
         }
-        .speakers-more-avatars span:first-child { margin-left: 0; }
+        .speakers-more-avatars img:first-child { margin-left: 0; }
         .speakers-more-text {
             font-size: 16px; font-weight: 600;
             font-style: italic; color: var(--orange);
+        }
+
+        /* ===== FAQ ===== */
+        .faq-section { background: var(--dark-card); color: #fff; overflow: hidden; position: relative; }
+        .faq-section .section-eyebrow { color: var(--accent-3); }
+        .faq-section .section-title { color: #fff; }
+
+        /* Floating 3D shapes */
+        .faq-shapes { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+        .faq-shape {
+            position: absolute; border-radius: 50%;
+            opacity: 0.06;
+            animation: faqFloat 20s ease-in-out infinite;
+        }
+        .faq-shape:nth-child(1) {
+            width: 300px; height: 300px;
+            background: var(--orange);
+            top: -80px; right: -60px;
+            animation-duration: 18s;
+        }
+        .faq-shape:nth-child(2) {
+            width: 200px; height: 200px;
+            background: var(--orange);
+            bottom: -40px; left: -40px;
+            animation-duration: 22s; animation-delay: -5s;
+        }
+        .faq-shape:nth-child(3) {
+            width: 120px; height: 120px;
+            background: #fff;
+            top: 40%; left: 55%;
+            animation-duration: 16s; animation-delay: -10s;
+            opacity: 0.03;
+        }
+        @keyframes faqFloat {
+            0%,100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(5deg); }
+            50% { transform: translateY(10px) rotate(-3deg); }
+            75% { transform: translateY(-15px) rotate(2deg); }
+        }
+
+        .faq-layout {
+            display: grid; grid-template-columns: 380px 1fr;
+            gap: 64px; align-items: start;
+            position: relative; z-index: 2;
+        }
+
+        .faq-left { position: sticky; top: 120px; }
+        .faq-left .section-desc { color: rgba(255,255,255,0.5); margin-bottom: 32px; }
+
+        .faq-cta-box {
+            padding: 28px; background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius-lg);
+        }
+        .faq-cta-box p {
+            font-size: 15px; color: rgba(255,255,255,0.6);
+            line-height: 1.6; margin-bottom: 20px;
+        }
+        .faq-cta-box p strong { color: #fff; }
+        .faq-cta-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 28px; background: var(--accent-gradient);
+            color: #fff; border: none; border-radius: var(--radius-pill);
+            font-size: 14px; font-weight: 700; font-family: inherit;
+            cursor: pointer; text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .faq-cta-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,120,66,0.25); }
+        .faq-cta-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+        /* Accordion items */
+        .faq-list { display: flex; flex-direction: column; gap: 12px; }
+
+        .faq-item {
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: var(--radius-lg);
+            background: rgba(255,255,255,0.02);
+            overflow: hidden;
+            transition: border-color 0.3s, background 0.3s;
+        }
+        .faq-item:hover { border-color: rgba(255,120,66,0.15); }
+        .faq-item.open { border-color: rgba(255,120,66,0.2); background: rgba(255,255,255,0.04); }
+
+        .faq-q {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 22px 24px; cursor: pointer;
+            gap: 16px;
+            -webkit-user-select: none; user-select: none;
+        }
+        .faq-q span {
+            font-size: 15px; font-weight: 600; color: #fff;
+            line-height: 1.4; flex: 1;
+        }
+
+        .faq-num {
+            font-size: 13px; font-weight: 800; color: var(--orange);
+            margin-right: 12px; flex-shrink: 0;
+            min-width: 24px;
+        }
+
+        .faq-toggle {
+            width: 36px; height: 36px; flex-shrink: 0;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), background 0.3s;
+        }
+        .faq-toggle svg {
+            width: 14px; height: 14px; stroke: rgba(255,255,255,0.6);
+            fill: none; stroke-width: 2; stroke-linecap: round;
+            transition: stroke 0.3s;
+        }
+        .faq-item.open .faq-toggle {
+            transform: rotate(45deg);
+            background: var(--accent-gradient);
+        }
+        .faq-item.open .faq-toggle svg { stroke: #fff; }
+
+        .faq-a {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.16,1,0.3,1), padding 0.4s;
+            padding: 0 24px;
+        }
+        .faq-item.open .faq-a {
+            max-height: 300px;
+            padding: 0 24px 24px;
+        }
+        .faq-a p {
+            font-size: 14px; color: rgba(255,255,255,0.5);
+            line-height: 1.7; padding-left: 36px;
         }
 
         /* ===== FOOTER ===== */
@@ -762,6 +895,8 @@
             .cases-summary-divider{display:none}
             .form-card{padding:28px 20px}
             .speakers-grid{gap:24px 28px}
+            .faq-layout{grid-template-columns:1fr}
+            .faq-left{position:static}
             .speaker-item{width:110px}
             .speaker-avatar{width:100px;height:100px}
             .hero-top{padding:76px 20px 0;flex-direction:column;align-items:flex-start;gap:16px}
@@ -941,9 +1076,9 @@
             <div class="cases-summary-item"><span class="cs-num">100+</span><span class="cs-lbl">loyiha</span></div>
         </div>
         <div class="case-slider reveal">
-            <div class="case-slide active" data-case="1"><div class="case-card"><div class="case-photo"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><div class="case-photo-name"><h4>Ulug'bek Y.</h4><span>Rieltor</span></div></div><div class="case-data"><div class="case-top"><div class="case-tags"><span class="case-tag">Shaxsiy brend</span><span class="case-tag">Rieltor</span></div><div class="case-nav"><button class="case-nav-btn" data-dir="prev"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><button class="case-nav-btn" data-dir="next"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button></div></div><div class="case-heading"><h3>Ulug'bek Yoqubov</h3><div class="case-sub"><span class="slash">/</span> 0 dan 230,000 obunachi 1.5 yilda</div></div><div class="case-ab"><div class="case-ab-card before"><div class="case-ab-label"><span class="ab-dot"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg></span>A nuqtasi</div><div class="case-ab-list"><div class="case-ab-item"><span class="ab-bullet"></span>0 ta obunachi</div><div class="case-ab-item"><span class="ab-bullet"></span>Onlayn savdolar bo'lmagan</div><div class="case-ab-item"><span class="ab-bullet"></span>Soha ichida tanilmagan</div></div></div><div class="case-ab-card after"><div class="case-ab-label"><span class="ab-dot"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>B nuqtasi</div><div class="case-ab-list"><div class="case-ab-item"><span class="ab-bullet"></span>230,000 ta obunachi</div><div class="case-ab-item"><span class="ab-bullet"></span>Muntazam kontent: 249 post</div><div class="case-ab-item"><span class="ab-bullet"></span>Soha eksperti</div></div></div></div><div class="case-metrics"><div class="case-metric highlight"><div class="cm-val">60,000</div><div class="cm-lbl">Obunachi 2 oyda</div></div><div class="case-metric"><div class="cm-val">3–10</div><div class="cm-lbl">Kunlik sotuv</div></div><div class="case-metric"><div class="cm-val">1.5 yil</div><div class="cm-lbl">Hamkorlik</div></div></div></div></div></div>
-            <div class="case-slide" data-case="2"><div class="case-card"><div class="case-photo"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><div class="case-photo-name"><h4>Botir M.</h4><span>Biznes trener</span></div></div><div class="case-data"><div class="case-top"><div class="case-tags"><span class="case-tag">Shaxsiy brend</span><span class="case-tag">Coaching</span></div><div class="case-nav"><button class="case-nav-btn" data-dir="prev"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><button class="case-nav-btn" data-dir="next"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button></div></div><div class="case-heading"><h3>Botir Mukhamedjanov</h3><div class="case-sub"><span class="slash">/</span> 0 dan 180,000 obunachi va barqaror sotuv</div></div><div class="case-ab"><div class="case-ab-card before"><div class="case-ab-label"><span class="ab-dot"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg></span>A nuqtasi</div><div class="case-ab-list"><div class="case-ab-item"><span class="ab-bullet"></span>Blog yuritilmagan</div><div class="case-ab-item"><span class="ab-bullet"></span>Faqat offlayn trening</div><div class="case-ab-item"><span class="ab-bullet"></span>Onlayn daromad 0</div></div></div><div class="case-ab-card after"><div class="case-ab-label"><span class="ab-dot"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>B nuqtasi</div><div class="case-ab-list"><div class="case-ab-item"><span class="ab-bullet"></span>180,000 faol obunachi</div><div class="case-ab-item"><span class="ab-bullet"></span>Oyiga 5+ onlayn trening</div><div class="case-ab-item"><span class="ab-bullet"></span>Soha lideri</div></div></div></div><div class="case-metrics"><div class="case-metric highlight"><div class="cm-val">180K</div><div class="cm-lbl">Obunachi 1 yilda</div></div><div class="case-metric"><div class="cm-val">5x</div><div class="cm-lbl">Daromad o'sishi</div></div><div class="case-metric"><div class="cm-val">1 yil</div><div class="cm-lbl">Hamkorlik</div></div></div></div></div></div>
-            <div class="case-slide" data-case="3"><div class="case-card"><div class="case-photo"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><div class="case-photo-name"><h4>Oybek E.</h4><span>Restoran egasi</span></div></div><div class="case-data"><div class="case-top"><div class="case-tags"><span class="case-tag">Soha brendi</span><span class="case-tag">HoReCa</span></div><div class="case-nav"><button class="case-nav-btn" data-dir="prev"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><button class="case-nav-btn" data-dir="next"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button></div></div><div class="case-heading"><h3>Oybek Egamberdiyev</h3><div class="case-sub"><span class="slash">/</span> Restoran blogini 0 dan 95K gacha</div></div><div class="case-ab"><div class="case-ab-card before"><div class="case-ab-label"><span class="ab-dot"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg></span>A nuqtasi</div><div class="case-ab-list"><div class="case-ab-item"><span class="ab-bullet"></span>Instagram faol emas</div><div class="case-ab-item"><span class="ab-bullet"></span>Faqat offlayn</div><div class="case-ab-item"><span class="ab-bullet"></span>Strategiya yo'q</div></div></div><div class="case-ab-card after"><div class="case-ab-label"><span class="ab-dot"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>B nuqtasi</div><div class="case-ab-list"><div class="case-ab-item"><span class="ab-bullet"></span>95,000 obunachi</div><div class="case-ab-item"><span class="ab-bullet"></span>Reels viral o'sish</div><div class="case-ab-item"><span class="ab-bullet"></span>Buyurtmalar 4x oshdi</div></div></div></div><div class="case-metrics"><div class="case-metric highlight"><div class="cm-val">95K</div><div class="cm-lbl">8 oyda obunachi</div></div><div class="case-metric"><div class="cm-val">4x</div><div class="cm-lbl">Buyurtma o'sishi</div></div><div class="case-metric"><div class="cm-val">12M</div><div class="cm-lbl">Prosmotr</div></div></div></div></div></div>
+            <div class="case-slide active" data-case="1"><div class="case-card"><div class="case-photo"><img src="img/case1.jpg" alt="Ulug'bek Yoqubov" loading="lazy"><div class="case-photo-name"><h4>Ulug'bek Y.</h4><span>Rieltor</span></div></div><div class="case-data"><div class="case-top"><div class="case-tags"><span class="case-tag">Shaxsiy brend</span><span class="case-tag">Rieltor</span></div><div class="case-nav"><button class="case-nav-btn" data-dir="prev"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><button class="case-nav-btn" data-dir="next"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button></div></div><div class="case-heading"><h3>Ulug'bek Yoqubov</h3><div class="case-sub"><span class="slash">/</span> 0 dan 230,000 obunachi 1.5 yilda</div></div><div class="case-ab"><div class="case-ab-card before"><div class="case-ab-label"><span class="ab-dot"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg></span>A nuqtasi</div><div class="case-ab-list"><div class="case-ab-item"><span class="ab-bullet"></span>0 ta obunachi</div><div class="case-ab-item"><span class="ab-bullet"></span>Onlayn savdolar bo'lmagan</div><div class="case-ab-item"><span class="ab-bullet"></span>Soha ichida tanilmagan</div></div></div><div class="case-ab-card after"><div class="case-ab-label"><span class="ab-dot"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>B nuqtasi</div><div class="case-ab-list"><div class="case-ab-item"><span class="ab-bullet"></span>230,000 ta obunachi</div><div class="case-ab-item"><span class="ab-bullet"></span>Muntazam kontent: 249 post</div><div class="case-ab-item"><span class="ab-bullet"></span>Soha eksperti</div></div></div></div><div class="case-metrics"><div class="case-metric highlight"><div class="cm-val">60,000</div><div class="cm-lbl">Obunachi 2 oyda</div></div><div class="case-metric"><div class="cm-val">3–10</div><div class="cm-lbl">Kunlik sotuv</div></div><div class="case-metric"><div class="cm-val">1.5 yil</div><div class="cm-lbl">Hamkorlik</div></div></div></div></div></div>
+            <div class="case-slide" data-case="2"><div class="case-card"><div class="case-photo"><img src="img/case2.jpg" alt="Botir Mukhamedjanov" loading="lazy"><div class="case-photo-name"><h4>Botir M.</h4><span>Biznes trener</span></div></div><div class="case-data"><div class="case-top"><div class="case-tags"><span class="case-tag">Shaxsiy brend</span><span class="case-tag">Coaching</span></div><div class="case-nav"><button class="case-nav-btn" data-dir="prev"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><button class="case-nav-btn" data-dir="next"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button></div></div><div class="case-heading"><h3>Botir Mukhamedjanov</h3><div class="case-sub"><span class="slash">/</span> 0 dan 180,000 obunachi va barqaror sotuv</div></div><div class="case-ab"><div class="case-ab-card before"><div class="case-ab-label"><span class="ab-dot"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg></span>A nuqtasi</div><div class="case-ab-list"><div class="case-ab-item"><span class="ab-bullet"></span>Blog yuritilmagan</div><div class="case-ab-item"><span class="ab-bullet"></span>Faqat offlayn trening</div><div class="case-ab-item"><span class="ab-bullet"></span>Onlayn daromad 0</div></div></div><div class="case-ab-card after"><div class="case-ab-label"><span class="ab-dot"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>B nuqtasi</div><div class="case-ab-list"><div class="case-ab-item"><span class="ab-bullet"></span>180,000 faol obunachi</div><div class="case-ab-item"><span class="ab-bullet"></span>Oyiga 5+ onlayn trening</div><div class="case-ab-item"><span class="ab-bullet"></span>Soha lideri</div></div></div></div><div class="case-metrics"><div class="case-metric highlight"><div class="cm-val">180K</div><div class="cm-lbl">Obunachi 1 yilda</div></div><div class="case-metric"><div class="cm-val">5x</div><div class="cm-lbl">Daromad o'sishi</div></div><div class="case-metric"><div class="cm-val">1 yil</div><div class="cm-lbl">Hamkorlik</div></div></div></div></div></div>
+            <div class="case-slide" data-case="3"><div class="case-card"><div class="case-photo"><img src="img/case3.jpg" alt="Oybek Egamberdiyev" loading="lazy"><div class="case-photo-name"><h4>Oybek E.</h4><span>Restoran egasi</span></div></div><div class="case-data"><div class="case-top"><div class="case-tags"><span class="case-tag">Soha brendi</span><span class="case-tag">HoReCa</span></div><div class="case-nav"><button class="case-nav-btn" data-dir="prev"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><button class="case-nav-btn" data-dir="next"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button></div></div><div class="case-heading"><h3>Oybek Egamberdiyev</h3><div class="case-sub"><span class="slash">/</span> Restoran blogini 0 dan 95K gacha</div></div><div class="case-ab"><div class="case-ab-card before"><div class="case-ab-label"><span class="ab-dot"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg></span>A nuqtasi</div><div class="case-ab-list"><div class="case-ab-item"><span class="ab-bullet"></span>Instagram faol emas</div><div class="case-ab-item"><span class="ab-bullet"></span>Faqat offlayn</div><div class="case-ab-item"><span class="ab-bullet"></span>Strategiya yo'q</div></div></div><div class="case-ab-card after"><div class="case-ab-label"><span class="ab-dot"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>B nuqtasi</div><div class="case-ab-list"><div class="case-ab-item"><span class="ab-bullet"></span>95,000 obunachi</div><div class="case-ab-item"><span class="ab-bullet"></span>Reels viral o'sish</div><div class="case-ab-item"><span class="ab-bullet"></span>Buyurtmalar 4x oshdi</div></div></div></div><div class="case-metrics"><div class="case-metric highlight"><div class="cm-val">95K</div><div class="cm-lbl">8 oyda obunachi</div></div><div class="case-metric"><div class="cm-val">4x</div><div class="cm-lbl">Buyurtma o'sishi</div></div><div class="case-metric"><div class="cm-val">12M</div><div class="cm-lbl">Prosmotr</div></div></div></div></div></div>
             <div class="case-dots"><button class="case-dot active" data-goto="1"></button><button class="case-dot" data-goto="2"></button><button class="case-dot" data-goto="3"></button></div>
         </div>
     </div>
@@ -1030,7 +1165,7 @@
             <div class="speakers-intro"><strong>Biz xizmat ko'rsatgan va biz bilan</strong> <em>o'z shaxsiy brendini qurgan ekspertlar va tadbirkorlarning bir qismi</em></div>
         </div>
         <div class="speakers-grid reveal">
-            <div class="speaker-item">
+            <!-- <div class="speaker-item">
                 <div class="speaker-avatar"><img src="img/speaker1.png" alt="Maris" loading="lazy"></div>
                 <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 <div class="speaker-name">Maris</div>
@@ -1054,13 +1189,79 @@
                 <div class="speaker-avatar"><img src="img/speaker5.png" alt="Abdulloh" loading="lazy"></div>
                 <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 <div class="speaker-name">Abdulloh</div>
+            </div> -->
+            <div class="speaker-item">
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Ulugbek Yoqubov.png" alt="Ulugbek Yoqubov" loading="lazy"></div>
+                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-name">Ulugbek<br>Yoqubov</div>
+            </div>
+            <div class="speaker-item">
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Islomjon Muxammadjonov.png" alt="Islomjon Muxammadjonov" loading="lazy"></div>
+                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-name">Islomjon<br>Muxammadjonov</div>
+            </div>
+            <div class="speaker-item">
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Shuxrat Alimjonov.png" alt="Shuxrat Alimjonov" loading="lazy"></div>
+                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-name">Shuxrat<br>Alimjonov</div>
+            </div>
+            <div class="speaker-item">
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Jasur Invest.png" alt="Jasur Invest" loading="lazy"></div>
+                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-name">Jasur<br>Invest</div>
+            </div>
+            <div class="speaker-item">
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Jamshid Ergashev.png" alt="Jamshid Ergashev" loading="lazy"></div>
+                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-name">Jamshid<br>Ergashev</div>
+            </div>
+            <div class="speaker-item">
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/TurgunovMuhammadali.png" alt="Turgunov Muhammadali" loading="lazy"></div>
+                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-name">Turgunov<br>Muhammadali</div>
+            </div>
+            <div class="speaker-item">
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Oybek Turagent.png" alt="Oybek Turagent" loading="lazy"></div>
+                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-name">Oybek<br>Turagent</div>
+            </div>
+            <div class="speaker-item">
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Mukhamedjanov Botirjon.png" alt="Mukhamedjanov Botirjon" loading="lazy"></div>
+                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-name">Botirjon<br>Mukhamedjanov</div>
+            </div>
+            <div class="speaker-item">
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Ulugbek Rashitov.png" alt="Ulugbek Rashitov" loading="lazy"></div>
+                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-name">Ulugbek<br>Rashitov</div>
+            </div>
+            <div class="speaker-item">
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Ravshan Pulatjon.png" alt="Ravshan Pulatjon" loading="lazy"></div>
+                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-name">Ravshan<br>Pulatjon</div>
+            </div>
+            <div class="speaker-item">
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Murod Sherzodovich.png" alt="Murod Sherzodovich" loading="lazy"></div>
+                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-name">Murod<br>Sherzodovich</div>
+            </div>
+            <div class="speaker-item">
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Bobir Zokirov.png" alt="Bobir Zokirov" loading="lazy"></div>
+                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-name">Bobir<br>Zokirov</div>
+            </div>
+            <div class="speaker-item">
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Sanjarxo'ja.png" alt="Sanjarxo'ja" loading="lazy"></div>
+                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-name">Sanjarxo'ja</div>
             </div>
         </div>
         <div class="speakers-more reveal">
             <div class="speakers-more-avatars">
-                <span>+</span>
-                <span>+</span>
-                <span>+</span>
+                <img src="https://i.pravatar.cc/64?img=11" alt="">
+                <img src="https://i.pravatar.cc/64?img=33" alt="">
+                <img src="https://i.pravatar.cc/64?img=53" alt="">
+                <img src="https://i.pravatar.cc/64?img=59" alt="">
             </div>
             <span class="speakers-more-text">va yana 40+ ekspertlar va tadbirkorlar</span>
         </div>
@@ -1116,6 +1317,73 @@
     </div>
 </section>
 
+<!-- FAQ -->
+<section class="section faq-section" id="faq">
+    <div class="faq-shapes">
+        <div class="faq-shape"></div>
+        <div class="faq-shape"></div>
+        <div class="faq-shape"></div>
+    </div>
+    <div class="container">
+        <div class="faq-layout">
+            <div class="faq-left reveal">
+                <div class="section-eyebrow">FAQ</div>
+                <h2 class="section-title">Ko'p beriladigan <span class="accent">savollar</span></h2>
+                <p class="section-desc">Savollaringizga javob topa olmadingizmi?</p>
+                <div class="faq-cta-box">
+                    <p><strong>Ma'lumotlaringizni qoldiring</strong> va savollaringizga javob oling</p>
+                    <a href="#register" class="faq-cta-btn">
+                        Ro'yxatdan o'tish
+                        <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="faq-list reveal">
+                <div class="faq-item">
+                    <div class="faq-q">
+                        <span class="faq-num">01</span>
+                        <span>Xizmatlaringiz narxi qanday shakllanadi va kichik yoki o'rta biznes uchun mos paketlaringiz bormi?</span>
+                        <div class="faq-toggle"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                    </div>
+                    <div class="faq-a"><p>Xizmatlar narxi birinchi navbatda ish hajmi va murakkabligiga qarab shakllanadi, ya'ni oddiy banner yoki flyer kabi dizaynlar arzonroq bo'lsa, to'liq brend identikasi, strategik kontent rejalari, 3D yoki animatsion yechimlar yuqoriroq narxga ega bo'ladi. Muddat ham muhim omil bo'lib, qisqa vaqtda bajariladigan ishlarda qo'shimcha xarajat hisoblanadi.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">
+                        <span class="faq-num">02</span>
+                        <span>Siz mening biznesim uchun eng samarali marketing strategiyasini qanday aniqlaysiz?</span>
+                        <div class="faq-toggle"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                    </div>
+                    <div class="faq-a"><p>Biz avval sizning biznesingizni, auditoriyangizni va raqobatchilaringizni chuqur tahlil qilamiz. SWOT tahlil, bozor segmentatsiyasi va kontent audit orqali eng samarali strategiyani shakllantiramiz.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">
+                        <span class="faq-num">03</span>
+                        <span>Shaxsiy brendni rivojlantirish uchun qancha vaqt kerak bo'ladi?</span>
+                        <div class="faq-toggle"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                    </div>
+                    <div class="faq-a"><p>Odatda birinchi natijalar 2-3 oyda ko'rinadi. Barqaror shaxsiy brend qurilishi 6-12 oy davom etadi. Biz sizga har bir bosqichda yo'l xaritasi va aniq ko'rsatkichlar beramiz.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">
+                        <span class="faq-num">04</span>
+                        <span>Instagram Reels va Stories orqali sotuv qilish haqiqatan ham ishlaydi mi?</span>
+                        <div class="faq-toggle"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                    </div>
+                    <div class="faq-a"><p>Ha, bizning mijozlarimiz Reels orqali 2 mln dan ortiq obunachi jalb qilgan va Stories orqali reklamasiz $1M dan ortiq sotuv qilgan. Tizimli yondashuv bilan bu har qanday soha uchun ishlaydi.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">
+                        <span class="faq-num">05</span>
+                        <span>Kurs tugaganidan keyin ham qo'llab-quvvatlash bormi?</span>
+                        <div class="faq-toggle"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                    </div>
+                    <div class="faq-a"><p>Albatta. Kurs bitiruvchilari maxsus hamjamiyatga qo'shiladi, doimiy yangiliklar, shablonlar va yordam oladi. Bundan tashqari shaxsiy maslahat uchun alohida paketlar mavjud.</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- FOOTER -->
 <footer class="footer">
     <div class="container">
@@ -1160,6 +1428,18 @@
     let auto = setInterval(() => goTo(cur+1), 6000);
     document.querySelector('.case-slider').addEventListener('mouseenter', () => clearInterval(auto));
     document.querySelector('.case-slider').addEventListener('mouseleave', () => { auto = setInterval(() => goTo(cur+1), 6000); });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-q').forEach(q => {
+        q.addEventListener('click', () => {
+            const item = q.parentElement;
+            const wasOpen = item.classList.contains('open');
+            // Close all
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+            // Toggle clicked
+            if (!wasOpen) item.classList.add('open');
+        });
+    });
 
     // Mobile nav
     const nav = document.querySelector('.nav');
