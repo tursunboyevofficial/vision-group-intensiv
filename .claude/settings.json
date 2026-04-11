@@ -13,7 +13,17 @@
       "Bash(cp /Users/nazir/Downloads/IMG_0591.PNG speaker3.png)",
       "Bash(cp /Users/nazir/Downloads/IMG_0587.PNG speaker4.png)",
       "Bash(cp /Users/nazir/Downloads/IMG_0588.PNG speaker5.png)",
-      "Bash(xargs ls:*)"
+      "Bash(xargs ls:*)",
+      "WebSearch",
+      "WebFetch(domain:unsplash.com)",
+      "WebFetch(domain:images.unsplash.com)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://images.unsplash.com/photo-1556155092-490a1ba16284?w=50&q=10\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://images.unsplash.com/photo-1611605698335-8b1569810432?w=50&q=10\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=50&q=10\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=50&q=10\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://images.unsplash.com/photo-1553877522-43269d4ea984?w=50&q=10\")",
+      "Bash(mv Sanjarxo*ja.png \"Sanjarxoja.png\")",
+      "Bash(ls -la Sanjar*)"
     ],
     "additionalDirectories": [
       "/Users/nazir/Downloads"

@@ -121,7 +121,7 @@
         .header .logo { color: #fff; }
         .header .nav a { color: rgba(255,255,255,0.7); }
         .header .nav a:hover { color: #fff; }
-        .header .mobile-toggle svg { stroke: #fff; }
+        .header .mobile-toggle span { background: #fff; }
         .header.scrolled {
             background: rgba(255,255,255,0.97); box-shadow: var(--shadow-sm);
             border-bottom-color: var(--border);
@@ -129,7 +129,7 @@
         .header.scrolled .logo { color: var(--text-primary); }
         .header.scrolled .nav a { color: var(--text-secondary); }
         .header.scrolled .nav a:hover { color: var(--text-primary); }
-        .header.scrolled .mobile-toggle svg { stroke: var(--text-primary); }
+        .header.scrolled .mobile-toggle span { background: var(--text-primary); }
         .header .container { display: flex; align-items: center; justify-content: space-between; height: 64px; }
 
         .logo { font-size: 20px; font-weight: 900; letter-spacing: 2px; color: var(--text-primary); text-decoration: none; text-transform: uppercase; }
@@ -209,7 +209,7 @@
         [data-theme="dark"] .header.scrolled .logo { color: #f0f0f3; }
         [data-theme="dark"] .header.scrolled .nav a { color: #8a8a9a; }
         [data-theme="dark"] .header.scrolled .nav a:hover { color: #f0f0f3; }
-        [data-theme="dark"] .header.scrolled .mobile-toggle svg { stroke: #f0f0f3; }
+        [data-theme="dark"] .header.scrolled .mobile-toggle span { background: #f0f0f3; }
         [data-theme="dark"] .header.scrolled .lang-btn,
         [data-theme="dark"] .header.scrolled .theme-btn {
             background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.08); color: #8a8a9a;
@@ -220,8 +220,18 @@
         [data-theme="dark"] .cta-section { background: #0e0e14; }
         [data-theme="dark"] .speakers-section { background: #0e0e14; }
 
-        .mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
-        .mobile-toggle svg { width: 24px; height: 24px; stroke: var(--text-primary); fill: none; stroke-width: 2; stroke-linecap: round; }
+        .mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; position: relative; z-index: 1001; }
+        .mobile-toggle span {
+            display: block; width: 22px; height: 2px;
+            background: #fff; border-radius: 2px;
+            transition: transform 0.35s cubic-bezier(.77,0,.18,1), opacity 0.25s;
+            margin: 5px 0;
+        }
+        .header.scrolled .mobile-toggle span { background: var(--text-primary); }
+        [data-theme="dark"] .header.scrolled .mobile-toggle span { background: #f0f0f3; }
+        .mobile-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .mobile-toggle.active span:nth-child(2) { opacity: 0; transform: translateX(-8px); }
+        .mobile-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
         /* ===== 1. HERO ===== */
         .hero {
@@ -407,26 +417,44 @@
         .problem-card span { font-size: 15px; font-weight: 600; color: var(--text-primary); }
 
         /* ===== 5. YECHIM ===== */
-        .solution-layout { display: grid; grid-template-columns: 1fr 400px; gap: 48px; align-items: start; margin-top: 48px; }
-        .solution-grid { display: flex; flex-direction: column; gap: 12px; }
-        .solution-item {
-            display: flex; align-items: center; gap: 18px; padding: 22px;
-            background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: var(--radius-md); transition: var(--transition);
-            box-shadow: var(--shadow-card);
+        .solution-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 16px; margin-top: 48px;
         }
-        .solution-item:hover { border-color: var(--border-hover); box-shadow: var(--shadow-md); }
-        .step-num {
-            width: 40px; height: 40px; background: var(--accent-gradient);
-            border-radius: var(--radius-md); display: flex; align-items: center;
-            justify-content: center; font-size: 15px; font-weight: 800; color: #fff; flex-shrink: 0;
+        .solution-card {
+            position: relative; border-radius: var(--radius-lg);
+            overflow: hidden; min-height: 240px;
+            display: flex; flex-direction: column; justify-content: flex-end;
+            cursor: default; transition: transform 0.4s cubic-bezier(.16,1,.3,1), box-shadow 0.4s;
         }
-        .solution-item p { font-size: 15px; font-weight: 600; }
-        .solution-img {
-            border-radius: var(--radius-xl); overflow: hidden;
-            position: sticky; top: 100px;
+        .solution-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .solution-card img {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            object-fit: cover; transition: transform 0.6s cubic-bezier(.16,1,.3,1);
         }
-        .solution-img img { width: 100%; height: auto; display: block; border-radius: var(--radius-xl); }
+        .solution-card:hover img { transform: scale(1.05); }
+        .solution-card::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(0deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0.1) 100%);
+            pointer-events: none; transition: background 0.4s;
+        }
+        .solution-card:hover::after {
+            background: linear-gradient(0deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.15) 100%);
+        }
+        .solution-card-content {
+            position: relative; z-index: 2; padding: 24px;
+        }
+        .solution-card .step-num {
+            width: 36px; height: 36px; background: var(--accent-gradient);
+            border-radius: var(--radius-sm); display: flex; align-items: center;
+            justify-content: center; font-size: 14px; font-weight: 800; color: #fff;
+            margin-bottom: 12px; flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(255,120,66,0.3);
+        }
+        .solution-card p {
+            font-size: 16px; font-weight: 700; color: #fff;
+            line-height: 1.35; letter-spacing: -0.2px;
+        }
 
         /* ===== 6. KEYSLAR ===== */
         .cases-section { background: var(--bg-alt); }
@@ -773,27 +801,25 @@
 
         .speaker-avatar {
             width: 72px; height: 72px;
-            border-radius: 50%;
-            overflow: hidden;
             position: relative;
-            border: 2px solid var(--bg);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
             flex-shrink: 0;
             transition: border-color 0.3s, box-shadow 0.3s;
         }
         .speaker-avatar img {
-            width: 130%; height: 130%;
+            width: 100%; height: 100%;
             object-fit: cover;
-            object-position: center 35%;
+            object-position: center 20%;
             display: block;
-            margin: -9% 0 0 -15%;
+            border-radius: 50%;
+            border: 2px solid var(--bg);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
         }
-        .speaker-item:hover .speaker-avatar {
+        .speaker-item:hover .speaker-avatar img {
             border-color: var(--orange);
             box-shadow: 0 4px 16px rgba(255,120,66,0.15);
         }
         .speaker-plus {
-            position: absolute; bottom: -2px; left: 50px; z-index: 3;
+            position: absolute; bottom: 0; right: -2px; z-index: 3;
             width: 20px; height: 20px;
             background: var(--accent-gradient);
             border-radius: 50%; border: 2px solid var(--bg-alt);
@@ -968,20 +994,94 @@
         .footer .footer-sub { font-size: 10px; color: var(--text-tertiary); letter-spacing: 1px; margin-bottom: 10px; }
         .footer p { color: var(--text-tertiary); font-size: 13px; }
 
+        /* ===== IMAGE LAYOUTS ===== */
+        .audience-layout {
+            display: grid; grid-template-columns: 1fr 380px;
+            gap: 32px; align-items: stretch; margin-top: 48px;
+        }
+        .audience-layout .audience-grid {
+            grid-template-columns: repeat(2, 1fr); margin-top: 0;
+        }
+        .promise-layout {
+            display: grid; grid-template-columns: 380px 1fr;
+            gap: 32px; align-items: stretch; margin-top: 48px;
+        }
+        .promise-layout .promise-grid { margin-top: 0; }
+        .section-visual {
+            border-radius: var(--radius-xl); overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+        .section-visual img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+            border-radius: var(--radius-xl);
+        }
+
+        .format-banner {
+            margin-top: 24px; border-radius: var(--radius-xl);
+            overflow: hidden; height: 300px; position: relative;
+            box-shadow: var(--shadow-lg);
+        }
+        .format-banner img {
+            width: 100%; height: 100%; object-fit: cover; display: block; object-position: center 30%;
+        }
+        .format-banner::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(90deg, rgba(0,0,0,0.4) 0%, transparent 40%, transparent 60%, rgba(0,0,0,0.4) 100%);
+            pointer-events: none;
+        }
+
+        .visual-strip {
+            position: relative; overflow: hidden;
+            height: 320px;
+        }
+        .visual-strip img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+        }
+        .visual-strip::after {
+            content: ''; position: absolute; inset: 0;
+            background:
+                linear-gradient(0deg, var(--bg) 0%, transparent 20%),
+                linear-gradient(180deg, var(--bg) 0%, transparent 20%),
+                linear-gradient(0deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.15) 100%);
+            pointer-events: none;
+        }
+        .visual-strip.from-dark::after {
+            background:
+                linear-gradient(0deg, var(--bg) 0%, transparent 20%),
+                linear-gradient(180deg, var(--dark-card) 0%, transparent 20%),
+                linear-gradient(0deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.15) 100%);
+        }
+        .visual-strip.to-dark::after {
+            background:
+                linear-gradient(0deg, var(--dark-card) 0%, transparent 20%),
+                linear-gradient(180deg, var(--bg-alt) 0%, transparent 20%),
+                linear-gradient(0deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.15) 100%);
+        }
+
         /* ===== RESPONSIVE ===== */
         @media(max-width:1080px){
+            .audience-layout{grid-template-columns:1fr}
+            .audience-layout .audience-grid{grid-template-columns:repeat(2,1fr)}
+            .promise-layout{grid-template-columns:1fr}
+            .promise-layout .promise-grid{grid-template-columns:1fr}
+            .audience-layout .section-visual,.promise-layout .section-visual{max-height:300px;border-radius:var(--radius-lg)}
+            .audience-layout .section-visual img,.promise-layout .section-visual img{border-radius:var(--radius-lg)}
             .audience-grid{grid-template-columns:repeat(2,1fr)}
             .expert-layout{grid-template-columns:1fr;gap:36px}
-            .solution-layout{grid-template-columns:1fr}
-            .solution-img{display:none}
+            .solution-grid{grid-template-columns:repeat(2,1fr)}
             .expert-img{max-width:380px}
             .cta-layout{grid-template-columns:1fr;gap:40px}
             .case-card{grid-template-columns:240px 1fr}
             .faq-layout{grid-template-columns:1fr}
             .faq-left{position:static}
+            .visual-strip{height:240px}
         }
         @media(max-width:768px){
             .section{padding:72px 0}
+            .audience-layout .section-visual,.promise-layout .section-visual{display:none}
+            .audience-layout .audience-grid{grid-template-columns:1fr}
+            .visual-strip{height:200px}
+            .format-banner{height:160px;border-radius:var(--radius-md)}
             .nav{display:none}
             .nav.open{
                 display:flex;flex-direction:column;
@@ -1015,7 +1115,7 @@
 
             /* Hero mobile */
             .hero{min-height:100svh;min-height:100vh}
-            .hero-bg{background-position:center center}
+            .hero-bg{background-position:47% center}
             .hero-bg::after{
                 background:
                     linear-gradient(0deg,rgba(0,0,0,0.92) 0%,rgba(0,0,0,0.55) 35%,rgba(0,0,0,0.15) 55%,rgba(0,0,0,0.4) 100%);
@@ -1038,6 +1138,8 @@
             .format-extras{grid-template-columns:1fr 1fr}
             .problems-grid{grid-template-columns:1fr}
             .promise-grid{grid-template-columns:1fr}
+            .solution-grid{grid-template-columns:1fr}
+            .solution-card{min-height:200px}
             .module-list{grid-template-columns:1fr}
             .expert-stats-grid{grid-template-columns:repeat(2,1fr)}
 
@@ -1050,12 +1152,12 @@
             .cases-summary-divider{display:none}
 
             /* Speakers mobile */
-            .speakers-grid{gap:16px 12px;justify-content:center}
-            .speaker-item{width:calc(25% - 9px);flex-direction:column;text-align:center}
-            .speaker-avatar{width:60px;height:60px}
-            .speaker-name{text-align:center;font-size:10px}
-            .speaker-plus{bottom:0;left:40px;width:18px;height:18px}
-            .speaker-plus svg{width:9px;height:9px}
+            .speakers-grid{gap:20px 12px;justify-content:center}
+            .speaker-item{flex-direction:column;text-align:center;width:calc(25% - 9px);gap:6px}
+            .speaker-avatar{width:56px;height:56px}
+            .speaker-plus{width:16px;height:16px}
+            .speaker-plus svg{width:8px;height:8px}
+            .speaker-name{text-align:center;font-size:10px;line-height:1.2}
 
             /* Other mobile */
             .form-card{padding:28px 20px}
@@ -1069,7 +1171,7 @@
             .section-desc{font-size:15px}
 
             /* Hero small */
-            .hero-top{padding:72px 16px 0}
+            .hero-top{padding:580px 16px 0}
             .hero-bottom{padding:0 16px 20px}
             .hero-tagline{font-size:20px}
             .hero-sub{font-size:13px}
@@ -1091,12 +1193,12 @@
             .form-card{padding:24px 16px;border-radius:16px}
 
             /* Speakers small */
-            .speakers-grid{gap:12px 8px}
-            .speaker-item{width:calc(33.333% - 6px)}
-            .speaker-avatar{width:52px;height:52px}
+            .speakers-grid{gap:14px 6px}
+            .speaker-item{width:calc(25% - 5px)}
+            .speaker-avatar{width:48px;height:48px}
             .speaker-name{font-size:9px}
-            .speaker-plus{width:16px;height:16px;left:34px;bottom:-1px}
-            .speaker-plus svg{width:8px;height:8px}
+            .speaker-plus{width:14px;height:14px}
+            .speaker-plus svg{width:7px;height:7px}
             .speakers-more-text{font-size:14px}
 
             /* FAQ small */
@@ -1140,7 +1242,7 @@
             <a href="#register" class="header-cta" data-i18n="nav_start">Boshlash</a>
         </nav>
         <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
-            <svg viewBox="0 0 24 24"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+            <span></span><span></span><span></span>
         </button>
     </div>
 </header>
@@ -1202,6 +1304,7 @@
             <div class="section-eyebrow" data-i18n="sec2_eye">Kimlar uchun</div>
             <h2 class="section-title" data-i18n="sec2_title">Dastur <span class="accent">kimlar uchun?</span></h2>
         </div>
+        <div class="audience-layout">
         <div class="audience-grid">
             <div class="audience-card reveal reveal-d1">
                 <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div>
@@ -1220,6 +1323,10 @@
                 <h3 data-i18n="aud4_t">Mutaxassis bo'lishni istaganlar</h3><p data-i18n="aud4_d">Shaxsiy brend orqali pul ishlamoqchi</p>
             </div>
         </div>
+        <div class="section-visual section-visual-tall reveal">
+            <img src="https://images.unsplash.com/photo-1556155092-490a1ba16284?w=600&q=80" alt="Social media marketing" loading="lazy">
+        </div>
+        </div>
     </div>
 </section>
 
@@ -1227,12 +1334,17 @@
 <section class="section" id="promise">
     <div class="container">
         <div class="reveal"><div class="section-eyebrow" data-i18n="sec3_eye">Natija</div><h2 class="section-title" data-i18n="sec3_title">Bu kursda siz <span class="accent">nima olasiz?</span></h2></div>
+        <div class="promise-layout">
+        <div class="section-visual section-visual-tall reveal">
+            <img src="img/promise.jpeg" alt="Spiker auditoriya oldida" loading="lazy">
+        </div>
         <div class="promise-grid">
             <div class="promise-item reveal reveal-d1"><div class="icon-box-sm"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span data-i18n="prom1">Noldan tizimli shaxsiy brend qurish</span></div>
             <div class="promise-item reveal reveal-d2"><div class="icon-box-sm"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div><span data-i18n="prom2">Reels orqali auditoriya yig'ish</span></div>
             <div class="promise-item reveal reveal-d3"><div class="icon-box-sm"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div><span data-i18n="prom3">Stories orqali sotuv qilish</span></div>
             <div class="promise-item reveal reveal-d4"><div class="icon-box-sm"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div><span data-i18n="prom4">Ishlaydigan kontent tizimi</span></div>
             <div class="promise-item reveal reveal-d5"><div class="icon-box-sm"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div><span data-i18n="prom5">Tayyor strategiya va yo'l xaritasi</span></div>
+        </div>
         </div>
     </div>
 </section>
@@ -1255,17 +1367,30 @@
 <section class="section" id="solution">
     <div class="container">
         <div class="reveal"><div class="section-eyebrow" data-i18n="sec5_eye">Yechim</div><h2 class="section-title" data-i18n="sec5_title">Biz sizga <span class="accent">tizim beramiz</span></h2><p class="section-desc" data-i18n="sec5_desc">Bu kursda siz quyidagi qadamlarni bosib o'tasiz:</p></div>
-        <div class="solution-layout">
-            <div class="solution-grid">
-                <div class="solution-item reveal reveal-d1"><div class="step-num">1</div><p data-i18n="sol1">O'zingizni ochasiz va pozitsiya tanlaysiz</p></div>
-                <div class="solution-item reveal reveal-d2"><div class="step-num">2</div><p data-i18n="sol2">Aniq strategiya qurasiz</p></div>
-                <div class="solution-item reveal reveal-d3"><div class="step-num">3</div><p data-i18n="sol3">Kontentni tizimga solasiz</p></div>
-                <div class="solution-item reveal reveal-d4"><div class="step-num">4</div><p data-i18n="sol4">Reels orqali o'sishni boshlaysiz</p></div>
-                <div class="solution-item reveal reveal-d5"><div class="step-num">5</div><p data-i18n="sol5">Stories orqali sotishni o'rganasiz</p></div>
-                <div class="solution-item reveal"><div class="step-num">6</div><p data-i18n="sol6">O'z voronkangizni qurib chiqasiz</p></div>
+        <div class="solution-grid">
+            <div class="solution-card reveal reveal-d1">
+                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&q=80" alt="Personal branding" loading="lazy">
+                <div class="solution-card-content"><div class="step-num">1</div><p data-i18n="sol1">O'zingizni ochasiz va pozitsiya tanlaysiz</p></div>
             </div>
-            <div class="solution-img reveal">
-                <img src="https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=600&q=80" alt="Instagram marketing" loading="lazy">
+            <div class="solution-card reveal reveal-d2">
+                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&q=80" alt="Strategy planning" loading="lazy">
+                <div class="solution-card-content"><div class="step-num">2</div><p data-i18n="sol2">Aniq strategiya qurasiz</p></div>
+            </div>
+            <div class="solution-card reveal reveal-d3">
+                <img src="https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=600&q=80" alt="Content system" loading="lazy">
+                <div class="solution-card-content"><div class="step-num">3</div><p data-i18n="sol3">Kontentni tizimga solasiz</p></div>
+            </div>
+            <div class="solution-card reveal reveal-d4">
+                <img src="https://images.unsplash.com/photo-1759393852314-59dc00faeed3?w=600&q=80" alt="Creating Reels" loading="lazy">
+                <div class="solution-card-content"><div class="step-num">4</div><p data-i18n="sol4">Reels orqali o'sishni boshlaysiz</p></div>
+            </div>
+            <div class="solution-card reveal reveal-d5">
+                <img src="https://images.unsplash.com/photo-1621184078811-1120e2f1fc9e?w=600&q=80" alt="Instagram Stories" loading="lazy">
+                <div class="solution-card-content"><div class="step-num">5</div><p data-i18n="sol5">Stories orqali sotishni o'rganasiz</p></div>
+            </div>
+            <div class="solution-card reveal">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80" alt="Sales funnel analytics" loading="lazy">
+                <div class="solution-card-content"><div class="step-num">6</div><p data-i18n="sol6">O'z voronkangizni qurib chiqasiz</p></div>
             </div>
         </div>
     </div>
@@ -1308,6 +1433,9 @@
             <div class="format-extra"><div class="icon-box-sm"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div><span data-i18n="fmtx3">Kurator nazorati</span></div>
             <div class="format-extra"><div class="icon-box-sm"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><span data-i18n="fmtx4">Shaxsan javob beraman</span></div>
         </div>
+        <div class="format-banner reveal">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&q=80" alt="Team collaboration" loading="lazy">
+        </div>
     </div>
 </section>
 
@@ -1326,6 +1454,11 @@
         <div class="module-panel" data-panel="6"><div class="module-head"><h3 data-i18n="m6_h">Platformalar</h3><p data-i18n="m6_d">YouTube, Telegram va boshqa platformalar</p></div><div class="module-list"><div class="module-item"><div class="bullet"></div><span data-i18n="m6_i1">YouTube</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m6_i2">Telegram</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m6_i3">Kontent moslash</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m6_i4">Formatlar</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m6_i5">Sotuv mexanizmi</span></div></div></div>
     </div>
 </section>
+
+<!-- VISUAL BREAK -->
+<div class="visual-strip to-dark">
+    <img src="https://images.unsplash.com/photo-1764162051349-7cc989a1399d?w=1400&q=80" alt="Content creator filming video" loading="lazy">
+</div>
 
 <!-- 9. NATIJA -->
 <section class="section result-section" id="result">
@@ -1376,93 +1509,75 @@
         </div>
         <div class="speakers-grid reveal">
             <!-- <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/speaker1.png" alt="Maris" loading="lazy"></div>
-                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-avatar"><img src="img/speaker1.png" alt="Maris" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
                 <div class="speaker-name">Maris</div>
             </div>
             <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/speaker2.png" alt="Umid" loading="lazy"></div>
-                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-avatar"><img src="img/speaker2.png" alt="Umid" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
                 <div class="speaker-name">Umid</div>
             </div>
             <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/speaker3.png" alt="Abdulboriy" loading="lazy"></div>
-                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-avatar"><img src="img/speaker3.png" alt="Abdulboriy" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
                 <div class="speaker-name">Abdulboriy</div>
             </div>
             <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/speaker4.png" alt="Humoyun" loading="lazy"></div>
-                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-avatar"><img src="img/speaker4.png" alt="Humoyun" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
                 <div class="speaker-name">Humoyun</div>
             </div>
             <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/speaker5.png" alt="Abdulloh" loading="lazy"></div>
-                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-avatar"><img src="img/speaker5.png" alt="Abdulloh" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
                 <div class="speaker-name">Abdulloh</div>
             </div> -->
             <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Ulugbek Yoqubov.png" alt="Ulugbek Yoqubov" loading="lazy"></div>
-                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Ulugbek Yoqubov.png" alt="Ulugbek Yoqubov" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
                 <div class="speaker-name">Ulugbek<br>Yoqubov</div>
             </div>
             <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Islomjon Muxammadjonov.png" alt="Islomjon Muxammadjonov" loading="lazy"></div>
-                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Islomjon Muxammadjonov.png" alt="Islomjon Muxammadjonov" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
                 <div class="speaker-name">Islomjon<br>Muxammadjonov</div>
             </div>
             <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Shuxrat Alimjonov.png" alt="Shuxrat Alimjonov" loading="lazy"></div>
-                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Shuxrat Alimjonov.png" alt="Shuxrat Alimjonov" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
                 <div class="speaker-name">Shuxrat<br>Alimjonov</div>
             </div>
             <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Jasur Invest.png" alt="Jasur Invest" loading="lazy"></div>
-                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Jasur Invest.png" alt="Jasur Invest" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
                 <div class="speaker-name">Jasur<br>Invest</div>
             </div>
             <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Jamshid Ergashev.png" alt="Jamshid Ergashev" loading="lazy"></div>
-                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Jamshid Ergashev.png" alt="Jamshid Ergashev" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
                 <div class="speaker-name">Jamshid<br>Ergashev</div>
             </div>
             <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/TurgunovMuhammadali.png" alt="Turgunov Muhammadali" loading="lazy"></div>
-                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/TurgunovMuhammadali.png" alt="Turgunov Muhammadali" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
                 <div class="speaker-name">Turgunov<br>Muhammadali</div>
             </div>
             <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Oybek Turagent.png" alt="Oybek Turagent" loading="lazy"></div>
-                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Oybek Turagent.png" alt="Oybek Turagent" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
                 <div class="speaker-name">Oybek<br>Turagent</div>
             </div>
             <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Mukhamedjanov Botirjon.png" alt="Mukhamedjanov Botirjon" loading="lazy"></div>
-                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Mukhamedjanov Botirjon.png" alt="Mukhamedjanov Botirjon" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
                 <div class="speaker-name">Botirjon<br>Mukhamedjanov</div>
             </div>
             <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Ulugbek Rashitov.png" alt="Ulugbek Rashitov" loading="lazy"></div>
-                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Ulugbek Rashitov.png" alt="Ulugbek Rashitov" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
                 <div class="speaker-name">Ulugbek<br>Rashitov</div>
             </div>
             <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Ravshan Pulatjon.png" alt="Ravshan Pulatjon" loading="lazy"></div>
-                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Ravshan Pulatjon.png" alt="Ravshan Pulatjon" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
                 <div class="speaker-name">Ravshan<br>Pulatjon</div>
             </div>
             <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Murod Sherzodovich.png" alt="Murod Sherzodovich" loading="lazy"></div>
-                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Murod Sherzodovich.png" alt="Murod Sherzodovich" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
                 <div class="speaker-name">Murod<br>Sherzodovich</div>
             </div>
             <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Bobir Zokirov.png" alt="Bobir Zokirov" loading="lazy"></div>
-                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Bobir Zokirov.png" alt="Bobir Zokirov" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
                 <div class="speaker-name">Bobir<br>Zokirov</div>
             </div>
             <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Sanjarxo'ja.png" alt="Sanjarxo'ja" loading="lazy"></div>
-                <div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Sanjarxoja.png" alt="Sanjarxo'ja" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
                 <div class="speaker-name">Sanjarxo'ja</div>
             </div>
         </div>
@@ -1477,6 +1592,11 @@
         </div>
     </div>
 </section>
+
+<!-- VISUAL BREAK -->
+<div class="visual-strip">
+    <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1400&q=80" alt="Team working together" loading="lazy">
+</div>
 
 <!-- 11. CTA + FORM -->
 <section class="section cta-section" id="register">
@@ -1654,9 +1774,9 @@
     // Mobile nav
     const nav = document.querySelector('.nav');
     const mt = document.getElementById('mobileToggle');
-    function closeNav(){nav.classList.remove('open');document.body.style.overflow=''}
+    function closeNav(){nav.classList.remove('open');mt.classList.remove('active');document.body.style.overflow=''}
     function isOpen(){return nav.classList.contains('open')}
-    mt.addEventListener('click', e => { e.stopPropagation(); if(isOpen()){closeNav()}else{nav.classList.add('open');document.body.style.overflow='hidden'} });
+    mt.addEventListener('click', e => { e.stopPropagation(); if(isOpen()){closeNav()}else{nav.classList.add('open');mt.classList.add('active');document.body.style.overflow='hidden'} });
     window.addEventListener('scroll', () => { if(isOpen()) closeNav(); }, {passive:true});
     document.addEventListener('click', e => { if(isOpen()&&!nav.contains(e.target)&&e.target!==mt) closeNav(); });
     nav.querySelectorAll('a').forEach(l => l.addEventListener('click', closeNav));
