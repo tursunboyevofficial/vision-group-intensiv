@@ -274,8 +274,8 @@
         .hero-top {
             position: relative; z-index: 20;
             display: flex; justify-content: space-between; align-items: center;
-            max-width: 1240px; width: 100%; margin: 0 auto;
-            padding: 84px 36px 0;
+            max-width: 1180px; width: 100%; margin: 0 auto;
+            padding: 84px 28px 0;
         }
         .hero-speaker {
             display: flex; align-items: center; gap: 14px;
@@ -298,8 +298,8 @@
         /* Bottom content — split left/right */
         .hero-bottom {
             position: relative; z-index: 20;
-            max-width: 1240px; width: 100%; margin: auto auto 0;
-            padding: 0 36px 56px;
+            max-width: 1180px; width: 100%; margin: auto auto 0;
+            padding: 0 28px 56px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             align-items: end;
@@ -401,7 +401,13 @@
         .promise-item span { font-size: 15px; font-weight: 600; }
 
         /* ===== 4. MUAMMO ===== */
-        .problems-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(320px,1fr)); gap: 12px; margin-top: 48px; }
+        .problem-layout {
+            display: grid; grid-template-columns: 380px 1fr;
+            gap: 32px; align-items: stretch; margin-top: 48px;
+        }
+        .problem-layout .section-visual img { border-radius: var(--radius-xl); }
+        .problem-layout .problems-grid { margin-top: 0; }
+        .problems-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 48px; }
         .problem-card {
             display: flex; align-items: center; gap: 16px; padding: 20px 22px;
             background: rgba(220,38,38,0.03); border: 1px solid rgba(220,38,38,0.08);
@@ -469,9 +475,20 @@
         .cases-summary-item .cs-lbl { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
         .cases-summary-divider { width: 1px; height: 32px; background: var(--border); }
 
-        .case-slide { display: none; animation: caseFade .5s cubic-bezier(.16,1,.3,1); }
-        .case-slide.active { display: block; }
-        @keyframes caseFade { from{opacity:0;transform:scale(.98)} to{opacity:1;transform:scale(1)} }
+        .case-slider { position: relative; overflow: hidden; }
+        .case-slide {
+            display: none; position: relative;
+        }
+        .case-slide.active { display: block; animation: caseSlideIn 0.6s cubic-bezier(.16,1,.3,1); }
+        .case-slide.exit-left { display: block; animation: caseSlideOutLeft 0.4s cubic-bezier(.7,0,.3,1) forwards; }
+        .case-slide.exit-right { display: block; animation: caseSlideOutRight 0.4s cubic-bezier(.7,0,.3,1) forwards; }
+        .case-slide.enter-left { display: block; animation: caseSlideInLeft 0.6s cubic-bezier(.16,1,.3,1); }
+        .case-slide.enter-right { display: block; animation: caseSlideInRight 0.6s cubic-bezier(.16,1,.3,1); }
+        @keyframes caseSlideIn { from{opacity:0;transform:scale(.96)} to{opacity:1;transform:scale(1)} }
+        @keyframes caseSlideOutLeft { from{opacity:1;transform:translateX(0)} to{opacity:0;transform:translateX(-60px)} }
+        @keyframes caseSlideOutRight { from{opacity:1;transform:translateX(0)} to{opacity:0;transform:translateX(60px)} }
+        @keyframes caseSlideInLeft { from{opacity:0;transform:translateX(60px)} to{opacity:1;transform:translateX(0)} }
+        @keyframes caseSlideInRight { from{opacity:0;transform:translateX(-60px)} to{opacity:1;transform:translateX(0)} }
 
         .case-card {
             display: grid; grid-template-columns: 300px 1fr;
@@ -1060,12 +1077,11 @@
 
         /* ===== RESPONSIVE ===== */
         @media(max-width:1080px){
-            .audience-layout{grid-template-columns:1fr}
+            .audience-layout,.promise-layout,.problem-layout{grid-template-columns:1fr}
             .audience-layout .audience-grid{grid-template-columns:repeat(2,1fr)}
-            .promise-layout{grid-template-columns:1fr}
             .promise-layout .promise-grid{grid-template-columns:1fr}
-            .audience-layout .section-visual,.promise-layout .section-visual{max-height:300px;border-radius:var(--radius-lg)}
-            .audience-layout .section-visual img,.promise-layout .section-visual img{border-radius:var(--radius-lg)}
+            .audience-layout .section-visual,.promise-layout .section-visual,.problem-layout .section-visual{max-height:300px;border-radius:var(--radius-lg)}
+            .audience-layout .section-visual img,.promise-layout .section-visual img,.problem-layout .section-visual img{border-radius:var(--radius-lg)}
             .audience-grid{grid-template-columns:repeat(2,1fr)}
             .expert-layout{grid-template-columns:1fr;gap:36px}
             .solution-grid{grid-template-columns:repeat(2,1fr)}
@@ -1078,7 +1094,7 @@
         }
         @media(max-width:768px){
             .section{padding:72px 0}
-            .audience-layout .section-visual,.promise-layout .section-visual{display:none}
+            .audience-layout .section-visual,.promise-layout .section-visual,.problem-layout .section-visual{display:none}
             .audience-layout .audience-grid{grid-template-columns:1fr}
             .visual-strip{height:200px}
             .format-banner{height:160px;border-radius:var(--radius-md)}
@@ -1134,7 +1150,11 @@
 
             /* Grids mobile */
             .audience-grid{grid-template-columns:1fr}
-            .format-grid{grid-template-columns:1fr}
+            .format-grid{display:flex;overflow-x:auto;gap:12px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:8px}
+            .format-grid::-webkit-scrollbar{display:none}
+            .format-card{flex:0 0 280px;scroll-snap-align:start}
+            .speaker-cards{grid-template-columns:repeat(3,1fr)!important}
+            .speaker-cards div:nth-child(4),.speaker-cards div:nth-child(5){display:none}
             .format-extras{grid-template-columns:1fr 1fr}
             .problems-grid{grid-template-columns:1fr}
             .promise-grid{grid-template-columns:1fr}
@@ -1184,7 +1204,12 @@
             .hero-speaker-role{font-size:11px}
 
             /* Grids small */
+            .format-card{flex:0 0 240px}
             .format-extras{grid-template-columns:1fr}
+            .speaker-cards{grid-template-columns:repeat(2,1fr)!important;gap:12px!important}
+            .speaker-cards div:nth-child(4),.speaker-cards div:nth-child(5){display:block!important}
+            .speaker-cards div:nth-child(5){grid-column:span 2}
+            .reel-card{width:160px!important}
             .expert-stats-grid{grid-template-columns:1fr}
             .case-metrics{grid-template-columns:1fr}
             .case-data{padding:20px 16px}
@@ -1349,16 +1374,27 @@
     </div>
 </section>
 
-<!-- 4. MUAMMO -->
-<section class="section section-alt" id="problem">
+<!-- SPIKER -->
+<section class="section expert-section" id="expert">
     <div class="container">
-        <div class="reveal"><div class="section-eyebrow" data-i18n="sec4_eye">Muammo</div><h2 class="section-title" data-i18n="sec4_title">Nega hozir sizda <span class="accent">natija yo'q?</span></h2></div>
-        <div class="problems-grid">
-            <div class="problem-card reveal reveal-d1"><div class="problem-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><circle cx="12" cy="16" r="0.5" fill="#ef4444" stroke="none"/></svg></div><span data-i18n="prob1">Nima chiqarishni bilmaysiz</span></div>
-            <div class="problem-card reveal reveal-d2"><div class="problem-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/><line x1="6" y1="12" x2="18" y2="12" stroke-dasharray="2 2"/></svg></div><span data-i18n="prob2">Kontent bor, lekin sotuv yo'q</span></div>
-            <div class="problem-card reveal reveal-d3"><div class="problem-icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><line x1="6" y1="8" x2="6" y2="8.01"/><line x1="6" y1="12" x2="6" y2="12.01"/><line x1="6" y1="16" x2="6" y2="16.01"/></svg></div><span data-i18n="prob3">Strategiya yo'q</span></div>
-            <div class="problem-card reveal reveal-d4"><div class="problem-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="18" y1="8" x2="23" y2="13"/><line x1="23" y1="8" x2="18" y2="13"/></svg></div><span data-i18n="prob4">Auditoriya tushunarsiz</span></div>
-            <div class="problem-card reveal reveal-d5"><div class="problem-icon"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><line x1="1" y1="6" x2="1" y2="18" stroke-dasharray="2 2" opacity="0.4"/></svg></div><span data-i18n="prob5">Harakat bor, natija yo'q</span></div>
+        <div class="reveal"><div class="section-eyebrow" data-i18n="sec10_eye">Spiker</div><h2 class="section-title" data-i18n="sec10_title">Kurs <span class="accent">muallifi</span></h2></div>
+        <div class="expert-layout">
+            <div class="expert-img reveal"></div>
+            <div class="expert-info reveal">
+                <h3>Jaxongir Raimjonov</h3>
+                <div class="expert-role" data-i18n="exp_role">Invision asoschisi &middot; Marketing strateg</div>
+                <div class="expert-stats-grid">
+                    <div class="expert-stat"><div class="val" data-i18n="exp_s1v">6 yil</div><div class="lbl" data-i18n="exp_s1l">Marketingda tajriba</div></div>
+                    <div class="expert-stat"><div class="val">100+</div><div class="lbl" data-i18n="exp_s2l">Loyihalar</div></div>
+                    <div class="expert-stat"><div class="val">2 mln+</div><div class="lbl" data-i18n="exp_s3l">Obunachi jalb qilingan</div></div>
+                    <div class="expert-stat"><div class="val">$1M+</div><div class="lbl" data-i18n="exp_s4l">Sotuv reklamasiz</div></div>
+                </div>
+                <div class="expert-list">
+                    <div class="expert-list-item"><span class="mark"></span><span data-i18n="exp_l1">Invision asoschisi</span></div>
+                    <div class="expert-list-item"><span class="mark"></span><span data-i18n="exp_l2">20+ loyiha bir vaqtda</span></div>
+                    <div class="expert-list-item"><span class="mark"></span><span data-i18n="exp_l3">50 mln+ prosmotr</span></div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -1396,24 +1432,12 @@
     </div>
 </section>
 
-<!-- 6. KEYSLAR -->
+<!-- 6. KEYSLAR — SVG -->
 <section class="section cases-section" id="cases">
     <div class="container">
         <div class="reveal"><div class="section-eyebrow" data-i18n="sec6_eye">Keyslar</div><h2 class="section-title" data-i18n="sec6_title">Bizning tizim mijozlarimizga <span class="accent">qanday natija</span> olib kelgani</h2></div>
-        <div class="cases-summary reveal">
-            <div class="cases-summary-item"><span class="cs-num">2 mln+</span><span class="cs-lbl" data-i18n="cs_l1">obunachi</span></div>
-            <div class="cases-summary-divider"></div>
-            <div class="cases-summary-item"><span class="cs-num">$1M+</span><span class="cs-lbl" data-i18n="cs_l2">sotuv</span></div>
-            <div class="cases-summary-divider"></div>
-            <div class="cases-summary-item"><span class="cs-num">50 mln+</span><span class="cs-lbl" data-i18n="cs_l3">prosmotr</span></div>
-            <div class="cases-summary-divider"></div>
-            <div class="cases-summary-item"><span class="cs-num">100+</span><span class="cs-lbl" data-i18n="cs_l4">loyiha</span></div>
-        </div>
-        <div class="case-slider reveal">
-            <div class="case-slide active" data-case="1"><div class="case-card"><div class="case-photo"><img src="img/case1.jpg" alt="Ulug'bek Yoqubov" loading="lazy"><div class="case-photo-name"><h4>Ulug'bek Y.</h4><span data-i18n="c1_role">Rieltor</span></div></div><div class="case-data"><div class="case-top"><div class="case-tags"><span class="case-tag" data-i18n="c1_tag1">Shaxsiy brend</span><span class="case-tag" data-i18n="c1_tag2">Rieltor</span></div><div class="case-nav"><button class="case-nav-btn" data-dir="prev"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><button class="case-nav-btn" data-dir="next"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button></div></div><div class="case-heading"><h3>Ulug'bek Yoqubov</h3><div class="case-sub"><span class="slash">/</span> <span data-i18n="c1_sub">0 dan 230,000 obunachi 1.5 yilda</span></div></div><div class="case-ab"><div class="case-ab-card before"><div class="case-ab-label"><span class="ab-dot"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg></span><span data-i18n="cs_a_lbl">A nuqtasi</span></div><div class="case-ab-list"><div class="case-ab-item"><span class="ab-bullet"></span><span data-i18n="c1_a1">0 ta obunachi</span></div><div class="case-ab-item"><span class="ab-bullet"></span><span data-i18n="c1_a2">Onlayn savdolar bo'lmagan</span></div><div class="case-ab-item"><span class="ab-bullet"></span><span data-i18n="c1_a3">Soha ichida tanilmagan</span></div></div></div><div class="case-ab-card after"><div class="case-ab-label"><span class="ab-dot"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="cs_b_lbl">B nuqtasi</span></div><div class="case-ab-list"><div class="case-ab-item"><span class="ab-bullet"></span><span data-i18n="c1_b1">230,000 ta obunachi</span></div><div class="case-ab-item"><span class="ab-bullet"></span><span data-i18n="c1_b2">Muntazam kontent: 249 post</span></div><div class="case-ab-item"><span class="ab-bullet"></span><span data-i18n="c1_b3">Soha eksperti</span></div></div></div></div><div class="case-metrics"><div class="case-metric highlight"><div class="cm-val">60,000</div><div class="cm-lbl" data-i18n="c1_m1">Obunachi 2 oyda</div></div><div class="case-metric"><div class="cm-val">3–10</div><div class="cm-lbl" data-i18n="c1_m2">Kunlik sotuv</div></div><div class="case-metric"><div class="cm-val">1.5 yil</div><div class="cm-lbl" data-i18n="c1_m3">Hamkorlik</div></div></div></div></div></div>
-            <div class="case-slide" data-case="2"><div class="case-card"><div class="case-photo"><img src="img/case2.jpg" alt="Botir Mukhamedjanov" loading="lazy"><div class="case-photo-name"><h4>Botir M.</h4><span data-i18n="c2_role">Biznes trener</span></div></div><div class="case-data"><div class="case-top"><div class="case-tags"><span class="case-tag" data-i18n="c2_tag1">Shaxsiy brend</span><span class="case-tag">Coaching</span></div><div class="case-nav"><button class="case-nav-btn" data-dir="prev"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><button class="case-nav-btn" data-dir="next"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button></div></div><div class="case-heading"><h3>Botir Mukhamedjanov</h3><div class="case-sub"><span class="slash">/</span> <span data-i18n="c2_sub">0 dan 180,000 obunachi va barqaror sotuv</span></div></div><div class="case-ab"><div class="case-ab-card before"><div class="case-ab-label"><span class="ab-dot"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg></span><span data-i18n="cs_a_lbl">A nuqtasi</span></div><div class="case-ab-list"><div class="case-ab-item"><span class="ab-bullet"></span><span data-i18n="c2_a1">Blog yuritilmagan</span></div><div class="case-ab-item"><span class="ab-bullet"></span><span data-i18n="c2_a2">Faqat offlayn trening</span></div><div class="case-ab-item"><span class="ab-bullet"></span><span data-i18n="c2_a3">Onlayn daromad 0</span></div></div></div><div class="case-ab-card after"><div class="case-ab-label"><span class="ab-dot"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="cs_b_lbl">B nuqtasi</span></div><div class="case-ab-list"><div class="case-ab-item"><span class="ab-bullet"></span><span data-i18n="c2_b1">180,000 faol obunachi</span></div><div class="case-ab-item"><span class="ab-bullet"></span><span data-i18n="c2_b2">Oyiga 5+ onlayn trening</span></div><div class="case-ab-item"><span class="ab-bullet"></span><span data-i18n="c2_b3">Soha lideri</span></div></div></div></div><div class="case-metrics"><div class="case-metric highlight"><div class="cm-val">180K</div><div class="cm-lbl" data-i18n="c2_m1">Obunachi 1 yilda</div></div><div class="case-metric"><div class="cm-val">5x</div><div class="cm-lbl" data-i18n="c2_m2">Daromad o'sishi</div></div><div class="case-metric"><div class="cm-val">1 yil</div><div class="cm-lbl" data-i18n="c2_m3">Hamkorlik</div></div></div></div></div></div>
-            <div class="case-slide" data-case="3"><div class="case-card"><div class="case-photo"><img src="img/case3.jpg" alt="Oybek Egamberdiyev" loading="lazy"><div class="case-photo-name"><h4>Oybek E.</h4><span data-i18n="c3_role">Restoran egasi</span></div></div><div class="case-data"><div class="case-top"><div class="case-tags"><span class="case-tag" data-i18n="c3_tag1">Soha brendi</span><span class="case-tag">HoReCa</span></div><div class="case-nav"><button class="case-nav-btn" data-dir="prev"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><button class="case-nav-btn" data-dir="next"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button></div></div><div class="case-heading"><h3>Oybek Egamberdiyev</h3><div class="case-sub"><span class="slash">/</span> <span data-i18n="c3_sub">Restoran blogini 0 dan 95K gacha</span></div></div><div class="case-ab"><div class="case-ab-card before"><div class="case-ab-label"><span class="ab-dot"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg></span><span data-i18n="cs_a_lbl">A nuqtasi</span></div><div class="case-ab-list"><div class="case-ab-item"><span class="ab-bullet"></span><span data-i18n="c3_a1">Instagram faol emas</span></div><div class="case-ab-item"><span class="ab-bullet"></span><span data-i18n="c3_a2">Faqat offlayn</span></div><div class="case-ab-item"><span class="ab-bullet"></span><span data-i18n="c3_a3">Strategiya yo'q</span></div></div></div><div class="case-ab-card after"><div class="case-ab-label"><span class="ab-dot"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="cs_b_lbl">B nuqtasi</span></div><div class="case-ab-list"><div class="case-ab-item"><span class="ab-bullet"></span><span data-i18n="c3_b1">95,000 obunachi</span></div><div class="case-ab-item"><span class="ab-bullet"></span><span data-i18n="c3_b2">Reels viral o'sish</span></div><div class="case-ab-item"><span class="ab-bullet"></span><span data-i18n="c3_b3">Buyurtmalar 4x oshdi</span></div></div></div></div><div class="case-metrics"><div class="case-metric highlight"><div class="cm-val">95K</div><div class="cm-lbl" data-i18n="c3_m1">8 oyda obunachi</div></div><div class="case-metric"><div class="cm-val">4x</div><div class="cm-lbl" data-i18n="c3_m2">Buyurtma o'sishi</div></div><div class="case-metric"><div class="cm-val">12M</div><div class="cm-lbl" data-i18n="c3_m3">Prosmotr</div></div></div></div></div></div>
-            <div class="case-dots"><button class="case-dot active" data-goto="1"></button><button class="case-dot" data-goto="2"></button><button class="case-dot" data-goto="3"></button></div>
+        <div class="cases-svg reveal" style="margin-top:40px;text-align:center">
+            <img src="img/Final/Group 2089346608.svg" alt="Keyslar" loading="lazy" style="width:100%;max-width:900px;height:auto;margin:0 auto;display:block">
         </div>
     </div>
 </section>
@@ -1457,7 +1481,7 @@
 
 <!-- VISUAL BREAK -->
 <div class="visual-strip to-dark">
-    <img src="https://images.unsplash.com/photo-1764162051349-7cc989a1399d?w=1400&q=80" alt="Content creator filming video" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1400&q=80" alt="Personal branding workshop" loading="lazy">
 </div>
 
 <!-- 9. NATIJA -->
@@ -1475,121 +1499,33 @@
     </div>
 </section>
 
-<!-- 10. EKSPERT -->
-<section class="section expert-section" id="expert">
-    <div class="container">
-        <div class="reveal"><div class="section-eyebrow" data-i18n="sec10_eye">Spiker</div><h2 class="section-title" data-i18n="sec10_title">Kurs <span class="accent">muallifi</span></h2></div>
-        <div class="expert-layout">
-            <div class="expert-img reveal"></div>
-            <div class="expert-info reveal">
-                <h3>Jaxongir Raimjonov</h3>
-                <div class="expert-role" data-i18n="exp_role">Invision asoschisi &middot; Marketing strateg</div>
-                <div class="expert-stats-grid">
-                    <div class="expert-stat"><div class="val" data-i18n="exp_s1v">6 yil</div><div class="lbl" data-i18n="exp_s1l">Marketingda tajriba</div></div>
-                    <div class="expert-stat"><div class="val">100+</div><div class="lbl" data-i18n="exp_s2l">Loyihalar</div></div>
-                    <div class="expert-stat"><div class="val">2 mln+</div><div class="lbl" data-i18n="exp_s3l">Obunachi jalb qilingan</div></div>
-                    <div class="expert-stat"><div class="val">$1M+</div><div class="lbl" data-i18n="exp_s4l">Sotuv reklamasiz</div></div>
-                </div>
-                <div class="expert-list">
-                    <div class="expert-list-item"><span class="mark"></span><span data-i18n="exp_l1">Invision asoschisi</span></div>
-                    <div class="expert-list-item"><span class="mark"></span><span data-i18n="exp_l2">20+ loyiha bir vaqtda</span></div>
-                    <div class="expert-list-item"><span class="mark"></span><span data-i18n="exp_l3">50 mln+ prosmotr</span></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- SPEAKERS GRID -->
+<!-- SPEAKERS + REELS -->
 <section class="section speakers-section">
     <div class="container">
         <div class="reveal">
-            <div class="section-eyebrow" data-i18n="spk_eye">Noldan &rarr; Brendgacha</div>
-            <div class="speakers-intro" data-i18n="spk_intro"><strong>Biz xizmat ko'rsatgan va biz bilan</strong> <em>o'z shaxsiy brendini qurgan ekspertlar va tadbirkorlarning bir qismi</em></div>
+            <div class="section-eyebrow">Spikerlar</div>
+            <h2 class="section-title">Kursda <span class="accent">kimlar o'qitadi?</span></h2>
         </div>
-        <div class="speakers-grid reveal">
-            <!-- <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/speaker1.png" alt="Maris" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
-                <div class="speaker-name">Maris</div>
-            </div>
-            <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/speaker2.png" alt="Umid" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
-                <div class="speaker-name">Umid</div>
-            </div>
-            <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/speaker3.png" alt="Abdulboriy" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
-                <div class="speaker-name">Abdulboriy</div>
-            </div>
-            <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/speaker4.png" alt="Humoyun" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
-                <div class="speaker-name">Humoyun</div>
-            </div>
-            <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/speaker5.png" alt="Abdulloh" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
-                <div class="speaker-name">Abdulloh</div>
-            </div> -->
-            <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Ulugbek Yoqubov.png" alt="Ulugbek Yoqubov" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
-                <div class="speaker-name">Ulugbek<br>Yoqubov</div>
-            </div>
-            <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Islomjon Muxammadjonov.png" alt="Islomjon Muxammadjonov" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
-                <div class="speaker-name">Islomjon<br>Muxammadjonov</div>
-            </div>
-            <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Shuxrat Alimjonov.png" alt="Shuxrat Alimjonov" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
-                <div class="speaker-name">Shuxrat<br>Alimjonov</div>
-            </div>
-            <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Jasur Invest.png" alt="Jasur Invest" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
-                <div class="speaker-name">Jasur<br>Invest</div>
-            </div>
-            <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Jamshid Ergashev.png" alt="Jamshid Ergashev" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
-                <div class="speaker-name">Jamshid<br>Ergashev</div>
-            </div>
-            <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/TurgunovMuhammadali.png" alt="Turgunov Muhammadali" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
-                <div class="speaker-name">Turgunov<br>Muhammadali</div>
-            </div>
-            <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Oybek Turagent.png" alt="Oybek Turagent" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
-                <div class="speaker-name">Oybek<br>Turagent</div>
-            </div>
-            <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Mukhamedjanov Botirjon.png" alt="Mukhamedjanov Botirjon" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
-                <div class="speaker-name">Botirjon<br>Mukhamedjanov</div>
-            </div>
-            <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Ulugbek Rashitov.png" alt="Ulugbek Rashitov" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
-                <div class="speaker-name">Ulugbek<br>Rashitov</div>
-            </div>
-            <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Ravshan Pulatjon.png" alt="Ravshan Pulatjon" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
-                <div class="speaker-name">Ravshan<br>Pulatjon</div>
-            </div>
-            <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Murod Sherzodovich.png" alt="Murod Sherzodovich" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
-                <div class="speaker-name">Murod<br>Sherzodovich</div>
-            </div>
-            <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Bobir Zokirov.png" alt="Bobir Zokirov" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
-                <div class="speaker-name">Bobir<br>Zokirov</div>
-            </div>
-            <div class="speaker-item">
-                <div class="speaker-avatar"><img src="img/hamkorlar/Final/Sanjarxoja.png" alt="Sanjarxo'ja" loading="lazy"><div class="speaker-plus"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
-                <div class="speaker-name">Sanjarxo'ja</div>
-            </div>
+        <div class="speaker-cards reveal" style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:40px">
+            <div style="text-align:center"><img src="img/speaker1.png" alt="Spiker 1" loading="lazy" style="width:100%;border-radius:16px;aspect-ratio:3/4;object-fit:cover;box-shadow:0 4px 20px rgba(0,0,0,0.1)"></div>
+            <div style="text-align:center"><img src="img/speaker2.png" alt="Spiker 2" loading="lazy" style="width:100%;border-radius:16px;aspect-ratio:3/4;object-fit:cover;box-shadow:0 4px 20px rgba(0,0,0,0.1)"></div>
+            <div style="text-align:center"><img src="img/speaker3.png" alt="Spiker 3" loading="lazy" style="width:100%;border-radius:16px;aspect-ratio:3/4;object-fit:cover;box-shadow:0 4px 20px rgba(0,0,0,0.1)"></div>
+            <div style="text-align:center"><img src="img/speaker4.png" alt="Spiker 4" loading="lazy" style="width:100%;border-radius:16px;aspect-ratio:3/4;object-fit:cover;box-shadow:0 4px 20px rgba(0,0,0,0.1)"></div>
+            <div style="text-align:center"><img src="img/speaker5.png" alt="Spiker 5" loading="lazy" style="width:100%;border-radius:16px;aspect-ratio:3/4;object-fit:cover;box-shadow:0 4px 20px rgba(0,0,0,0.1)"></div>
         </div>
-        <div class="speakers-more reveal">
-            <div class="speakers-more-avatars">
-                <img src="https://i.pravatar.cc/64?img=11" alt="">
-                <img src="https://i.pravatar.cc/64?img=33" alt="">
-                <img src="https://i.pravatar.cc/64?img=53" alt="">
-                <img src="https://i.pravatar.cc/64?img=59" alt="">
-            </div>
-            <span class="speakers-more-text" data-i18n="spk_more">va yana 40+ ekspertlar va tadbirkorlar</span>
+        <!-- YouTube Reels -->
+        <div class="reveal" style="margin-top:72px">
+            <div class="section-eyebrow">Reels</div>
+            <h2 class="section-title" style="margin-bottom:8px">Haliyam bir qarorga kelmagan bo'lsangiz,<br><span class="accent">mijozlarimizning fikrlari bilan tanishing</span></h2>
         </div>
+        <div class="reels-grid reveal" style="display:flex;gap:16px;margin-top:32px;overflow-x:auto;padding-bottom:16px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch">
+            <div class="reel-card" style="flex:0 0 auto;width:200px;scroll-snap-align:start"><div style="position:relative;width:100%;aspect-ratio:9/16;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.12)"><iframe src="https://www.youtube.com/embed/a1un10bwYnU" title="Reel 1" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%"></iframe></div></div>
+            <div class="reel-card" style="flex:0 0 auto;width:200px;scroll-snap-align:start"><div style="position:relative;width:100%;aspect-ratio:9/16;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.12)"><iframe src="https://www.youtube.com/embed/OorUQTtH-VU" title="Reel 2" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%"></iframe></div></div>
+            <div class="reel-card" style="flex:0 0 auto;width:200px;scroll-snap-align:start"><div style="position:relative;width:100%;aspect-ratio:9/16;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.12)"><iframe src="https://www.youtube.com/embed/szfHU8VJMHs" title="Reel 3" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%"></iframe></div></div>
+            <div class="reel-card" style="flex:0 0 auto;width:200px;scroll-snap-align:start"><div style="position:relative;width:100%;aspect-ratio:9/16;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.12)"><iframe src="https://www.youtube.com/embed/DiG8g40Dh0o" title="Reel 4" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%"></iframe></div></div>
+            <div class="reel-card" style="flex:0 0 auto;width:200px;scroll-snap-align:start"><div style="position:relative;width:100%;aspect-ratio:9/16;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.12)"><iframe src="https://www.youtube.com/embed/ZE0S4OMGeJY" title="Reel 5" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%"></iframe></div></div>
+        </div>
+    <!-- old speakers grid removed -->
     </div>
 </section>
 
@@ -1742,22 +1678,57 @@
         });
     });
 
-    // Case slider
+    // Case slider with smooth directional animation
     const slides = document.querySelectorAll('.case-slide');
     const dots = document.querySelectorAll('.case-dot');
-    let cur = 1;
-    function goTo(n) {
-        if(n<1) n=slides.length; if(n>slides.length) n=1; cur=n;
-        slides.forEach(s=>s.classList.remove('active'));
+    let cur = 1, animating = false;
+    function goTo(n, direction) {
+        if(animating) return;
+        if(n<1) n=slides.length; if(n>slides.length) n=1;
+        if(n===cur) return;
+        animating = true;
+        const dir = direction || (n > cur ? 'next' : 'prev');
+        const oldSlide = document.querySelector(`.case-slide[data-case="${cur}"]`);
+        const newSlide = document.querySelector(`.case-slide[data-case="${n}"]`);
+        // Exit old slide
+        const exitClass = dir==='next' ? 'exit-left' : 'exit-right';
+        const enterClass = dir==='next' ? 'enter-left' : 'enter-right';
+        oldSlide.classList.remove('active');
+        oldSlide.classList.add(exitClass);
+        // Enter new slide after short delay
+        setTimeout(() => {
+            oldSlide.classList.remove(exitClass);
+            oldSlide.style.display = 'none';
+            newSlide.classList.add('active', enterClass);
+            setTimeout(() => newSlide.classList.remove(enterClass), 600);
+            animating = false;
+        }, 350);
+        // Update dots
         dots.forEach(d=>d.classList.remove('active'));
-        document.querySelector(`.case-slide[data-case="${n}"]`).classList.add('active');
         document.querySelector(`.case-dot[data-goto="${n}"]`).classList.add('active');
+        cur = n;
     }
-    document.querySelectorAll('.case-nav-btn').forEach(b => b.addEventListener('click', () => goTo(b.dataset.dir==='next'?cur+1:cur-1)));
-    dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.goto)));
-    let auto = setInterval(() => goTo(cur+1), 6000);
-    document.querySelector('.case-slider').addEventListener('mouseenter', () => clearInterval(auto));
-    document.querySelector('.case-slider').addEventListener('mouseleave', () => { auto = setInterval(() => goTo(cur+1), 6000); });
+    document.querySelectorAll('.case-nav-btn').forEach(b => {
+        b.addEventListener('click', () => {
+            const dir = b.dataset.dir;
+            goTo(dir==='next'?cur+1:cur-1, dir==='next'?'next':'prev');
+        });
+    });
+    dots.forEach(d => d.addEventListener('click', () => {
+        const target = +d.dataset.goto;
+        goTo(target, target > cur ? 'next' : 'prev');
+    }));
+    let auto = setInterval(() => goTo(cur+1, 'next'), 6000);
+    const caseSlider = document.querySelector('.case-slider');
+    caseSlider.addEventListener('mouseenter', () => clearInterval(auto));
+    caseSlider.addEventListener('mouseleave', () => { auto = setInterval(() => goTo(cur+1, 'next'), 6000); });
+    // Touch swipe support
+    let touchStartX = 0;
+    caseSlider.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, {passive:true});
+    caseSlider.addEventListener('touchend', e => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if(Math.abs(diff) > 50) { diff > 0 ? goTo(cur+1,'next') : goTo(cur-1,'prev'); }
+    }, {passive:true});
 
     // FAQ accordion
     document.querySelectorAll('.faq-q').forEach(q => {
