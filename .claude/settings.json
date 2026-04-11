@@ -3,7 +3,19 @@
     "allow": [
       "Bash(curl -s -L -A \"Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/120.0.0.0 Safari/537.36\" \"https://invision.uz/\")",
       "WebFetch(domain:invision.uz)",
-      "Bash(python3 -c ':*)"
+      "Bash(python3 -c ':*)",
+      "Read(//Users/nazir/**)",
+      "Bash(cp \"/Users/nazir/Downloads/DSC05181.JPG\" \"/Users/nazir/Desktop/Vsison grpup - Intensiv/img/hero.jpg\")",
+      "Bash(cp \"/Users/nazir/Downloads/IMG_7769.JPG\" \"/Users/nazir/Desktop/Vsison grpup - Intensiv/img/expert.jpg\")",
+      "Bash(ls -la /Users/nazir/Downloads/IMG_058*.PNG /Users/nazir/Downloads/IMG_059*.PNG /Users/nazir/Downloads/IMG_7767.JPG)",
+      "Bash(cp /Users/nazir/Downloads/IMG_0590.PNG speaker1.png)",
+      "Bash(cp /Users/nazir/Downloads/IMG_0589.PNG speaker2.png)",
+      "Bash(cp /Users/nazir/Downloads/IMG_0591.PNG speaker3.png)",
+      "Bash(cp /Users/nazir/Downloads/IMG_0587.PNG speaker4.png)",
+      "Bash(cp /Users/nazir/Downloads/IMG_0588.PNG speaker5.png)"
+    ],
+    "additionalDirectories": [
+      "/Users/nazir/Downloads"
     ]
   }
 }
