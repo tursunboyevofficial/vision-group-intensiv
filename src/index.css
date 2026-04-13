@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --orange: #ff7842;
+    --orange-dark: #e85d2a;
+    --orange-light: #ff9a6c;
+
+    --background: 0 0% 100%;
+    --foreground: 240 10% 8%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 8%;
+    --primary: 18 100% 63%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 240 10% 8%;
+    --muted: 240 5% 96%;
+    --muted-foreground: 230 5% 45%;
+    --accent: 240 5% 96%;
+    --accent-foreground: 240 10% 8%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 0% / 0.06;
+    --input: 214 32% 91%;
+    --ring: 18 100% 63%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 240 30% 4%;
+    --foreground: 240 5% 95%;
+    --card: 240 20% 7%;
+    --card-foreground: 240 5% 95%;
+    --primary: 18 100% 63%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 15% 12%;
+    --secondary-foreground: 240 5% 95%;
+    --muted: 240 15% 12%;
+    --muted-foreground: 230 10% 55%;
+    --accent: 240 15% 12%;
+    --accent-foreground: 240 5% 95%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 100% / 0.06;
+    --input: 240 15% 12%;
+    --ring: 18 100% 63%;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground font-sans antialiased; letter-spacing: -0.2px; }
+  html { scroll-behavior: smooth; }
+}
+
+/* Gradient utilities */
+.gradient-text {
+  background: linear-gradient(135deg, #ff7842, #e85d2a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gradient-bg { background: linear-gradient(135deg, #ff7842 0%, #e85d2a 100%); }
+
+/* Standard card */
+.card-std {
+  @apply bg-card border rounded-2xl transition-all duration-300 ease-out;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.card-std:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  @apply -translate-y-0.5 border-[rgba(255,120,66,0.15)];
+}
+
+/* Standard primary button */
+.btn-primary {
+  background: linear-gradient(135deg, #ff7842 0%, #e85d2a 100%);
+  @apply text-white font-bold rounded-full no-underline transition-all duration-300 ease-out inline-flex items-center justify-center;
+}
+.btn-primary:hover {
+  @apply -translate-y-0.5;
+  box-shadow: 0 8px 24px rgba(255,120,66,0.3);
+}
+
+/* Standard ghost/secondary button */
+.btn-ghost {
+  @apply bg-transparent border rounded-full font-medium transition-all duration-300 ease-out inline-flex items-center justify-center text-muted-foreground;
+}
+.btn-ghost:hover {
+  @apply bg-foreground/5 text-foreground;
+}
+
+/* Sweep animation */
+@keyframes sweep { 0%, 100% { left: -100%; } 50% { left: 150%; } }
+
+/* Scrollbar hide */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Icon box standard */
+.icon-box-std {
+  @apply w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300;
+  background: rgba(255,120,66,0.08);
+  border: 1px solid rgba(255,120,66,0.1);
+}
+.icon-box-std svg {
+  @apply w-[22px] h-[22px] fill-none;
+  stroke: #ff7842;
+  stroke-width: 1.8;
+}
+
+/* Check icon standard */
+.check-std {
+  @apply w-[26px] h-[26px] rounded-lg flex items-center justify-center shrink-0;
+  background: linear-gradient(135deg, #ff7842 0%, #e85d2a 100%);
+}
+
+/* Standard transition for all interactive elements */
+.std-hover {
+  @apply transition-all duration-300 ease-out;
+}
+.std-hover:hover {
+  @apply -translate-y-0.5;
+}

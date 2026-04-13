@@ -1,0 +1,2208 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invision - Intensiv</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+        :root {
+            --accent-1: #ff7842;
+            --accent-2: #e85d2a;
+            --accent-3: #ff9a6c;
+            --orange: #ff7842;
+            --accent-gradient: linear-gradient(135deg, #ff7842 0%, #e85d2a 100%);
+            --accent-gradient-r: linear-gradient(135deg, #ff9a6c, #ff7842);
+            --blue: #576ee1;
+            --bg: #ffffff;
+            --bg-alt: #f7f7f8;
+            --bg-warm: #fafafa;
+            --card-bg: #ffffff;
+            --card-hover: #faf8f7;
+            --dark-card: #101114;
+            --text-primary: #1a1a1f;
+            --text-secondary: #6b6e7a;
+            --text-tertiary: #9a9da8;
+            --border: rgba(0,0,0,0.06);
+            --border-hover: rgba(255,120,66,0.25);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.08);
+            --shadow-card: 0 2px 12px rgba(0,0,0,0.04);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-pill: 100px;
+            --transition: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.5;
+            letter-spacing: -0.2px;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+        .section { padding: 100px 0; position: relative; }
+        .section-alt { background: var(--bg-alt); }
+
+        .section-eyebrow {
+            display: inline-flex; align-items: center; gap: 10px;
+            font-size: 12px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 3px; color: var(--accent-1); margin-bottom: 20px;
+        }
+        .section-eyebrow::before {
+            content: ''; width: 24px; height: 1.5px;
+            background: var(--accent-gradient); display: block;
+        }
+
+        .section-title {
+            font-size: clamp(32px, 5vw, 50px); font-weight: 800;
+            line-height: 1.1; letter-spacing: -2px; margin-bottom: 18px;
+            color: var(--text-primary);
+        }
+        .section-title .accent {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .section-desc { font-size: 17px; color: var(--text-secondary); line-height: 1.65; max-width: 560px; }
+
+        /* Icon system */
+        .icon-box {
+            width: 48px; height: 48px;
+            background: rgba(255,120,66,0.08); border: 1px solid rgba(255,120,66,0.1);
+            border-radius: var(--radius-md);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            transition: var(--transition);
+        }
+        .icon-box svg { width: 22px; height: 22px; stroke: var(--accent-1); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+        .icon-box-sm {
+            width: 36px; height: 36px;
+            background: rgba(255,120,66,0.06); border: 1px solid rgba(255,120,66,0.08);
+            border-radius: var(--radius-sm);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .icon-box-sm svg { width: 18px; height: 18px; stroke: var(--accent-1); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+        .check-icon {
+            width: 26px; height: 26px;
+            background: var(--accent-gradient); border-radius: var(--radius-sm);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .check-icon svg { width: 13px; height: 13px; stroke: #fff; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+        /* Animations */
+        .reveal {
+            opacity: 0; transform: translateY(28px);
+            transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-d1{transition-delay:.08s}.reveal-d2{transition-delay:.16s}.reveal-d3{transition-delay:.24s}.reveal-d4{transition-delay:.32s}.reveal-d5{transition-delay:.4s}
+
+        /* ===== HEADER ===== */
+        .header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: transparent;
+            border-bottom: 1px solid transparent;
+            transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
+        }
+        .header .logo { color: #fff; }
+        .header .nav a { color: rgba(255,255,255,0.7); }
+        .header .nav a:hover { color: #fff; }
+        .header .mobile-toggle span { background: #fff; }
+        .header.scrolled {
+            background: rgba(255,255,255,0.97); box-shadow: var(--shadow-sm);
+            border-bottom-color: var(--border);
+        }
+        .header.scrolled .logo { color: var(--text-primary); }
+        .header.scrolled .nav a { color: var(--text-secondary); }
+        .header.scrolled .nav a:hover { color: var(--text-primary); }
+        .header.scrolled .mobile-toggle span { background: var(--text-primary); }
+        .header .container { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+
+        .logo { font-size: 20px; font-weight: 900; letter-spacing: 2px; color: var(--text-primary); text-decoration: none; text-transform: uppercase; }
+        .logo .logo-on { background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .logo-sub { font-size: 9px; font-weight: 500; letter-spacing: 1.5px; color: var(--text-tertiary); text-transform: lowercase; display: block; margin-top: -2px; }
+
+        .nav { display: flex; align-items: center; gap: 28px; }
+        .nav a { font-size: 13px; font-weight: 500; color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+        .nav a:hover { color: var(--text-primary); }
+        .header-cta {
+            padding: 9px 24px; background: var(--accent-gradient); color: #fff;
+            border: none; border-radius: var(--radius-pill);
+            font-size: 13px; font-weight: 700; font-family: inherit;
+            cursor: pointer; text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .header-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(255,120,66,0.25); }
+
+        /* Navbar controls */
+        .nav-controls { display: flex; align-items: center; gap: 6px; margin-left: 8px; }
+
+        .lang-btn, .theme-btn {
+            width: 34px; height: 34px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 12px; font-weight: 700;
+            color: rgba(255,255,255,0.7);
+            font-family: inherit; transition: all 0.2s;
+        }
+        .lang-btn:hover, .theme-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+        .theme-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .header.scrolled .lang-btn, .header.scrolled .theme-btn {
+            background: var(--bg-alt); border-color: var(--border); color: var(--text-secondary);
+        }
+        .header.scrolled .lang-btn:hover, .header.scrolled .theme-btn:hover { color: var(--text-primary); background: var(--border); }
+
+        /* Lang dropdown */
+        .lang-wrap { position: relative; }
+        .lang-dropdown {
+            display: none; position: absolute; top: 42px; right: 0;
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: var(--radius-md); box-shadow: var(--shadow-lg);
+            overflow: hidden; min-width: 110px; z-index: 100;
+        }
+        .lang-dropdown.open { display: block; }
+        .lang-option {
+            display: block; width: 100%; padding: 10px 16px;
+            background: none; border: none; text-align: left;
+            font-size: 13px; font-weight: 600; font-family: inherit;
+            color: var(--text-secondary); cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+        }
+        .lang-option:hover { background: var(--bg-alt); color: var(--text-primary); }
+        .lang-option.active { color: var(--orange); }
+
+        /* ===== DARK MODE ===== */
+        [data-theme="dark"] {
+            --bg: #0a0a0f;
+            --bg-alt: #0e0e14;
+            --card-bg: #111118;
+            --card-hover: #1a1a24;
+            --text-primary: #f0f0f3;
+            --text-secondary: #8a8a9a;
+            --text-tertiary: #5a5a6a;
+            --border: rgba(255,255,255,0.06);
+            --shadow-sm: none;
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.3);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.4);
+            --shadow-card: 0 2px 12px rgba(0,0,0,0.2);
+        }
+        [data-theme="dark"] .header.scrolled {
+            background: rgba(10,10,15,0.95);
+            border-bottom-color: rgba(255,255,255,0.06);
+        }
+        [data-theme="dark"] .header.scrolled .logo { color: #f0f0f3; }
+        [data-theme="dark"] .header.scrolled .nav a { color: #8a8a9a; }
+        [data-theme="dark"] .header.scrolled .nav a:hover { color: #f0f0f3; }
+        [data-theme="dark"] .header.scrolled .mobile-toggle span { background: #f0f0f3; }
+        [data-theme="dark"] .header.scrolled .lang-btn,
+        [data-theme="dark"] .header.scrolled .theme-btn {
+            background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.08); color: #8a8a9a;
+        }
+        [data-theme="dark"] .problem-card { background: rgba(220,38,38,0.06); border-color: rgba(220,38,38,0.12); }
+        [data-theme="dark"] .footer { background: #0a0a0f; border-color: rgba(255,255,255,0.06); }
+        [data-theme="dark"] .footer p, [data-theme="dark"] .footer .footer-sub { color: #5a5a6a; }
+        [data-theme="dark"] .cta-section { background: #0e0e14; }
+        [data-theme="dark"] .speakers-section { background: #0e0e14; }
+
+        .mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; position: relative; z-index: 1001; }
+        .mobile-toggle span {
+            display: block; width: 22px; height: 2px;
+            background: #fff; border-radius: 2px;
+            transition: transform 0.35s cubic-bezier(.77,0,.18,1), opacity 0.25s;
+            margin: 5px 0;
+        }
+        .header.scrolled .mobile-toggle span { background: var(--text-primary); }
+        [data-theme="dark"] .header.scrolled .mobile-toggle span { background: #f0f0f3; }
+        .mobile-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .mobile-toggle.active span:nth-child(2) { opacity: 0; transform: translateX(-8px); }
+        .mobile-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* ===== 1. HERO ===== */
+        .hero {
+            position: relative; overflow: hidden;
+            min-height: 100vh;
+            background: #000;
+            color: #fff;
+            display: flex; flex-direction: column;
+        }
+
+        /* Background photo */
+        .hero-bg {
+            position: absolute; inset: 0;
+            background: url('img/hero.png') center 18% / cover no-repeat;
+        }
+        .hero-bg::after {
+            content: ''; position: absolute; inset: 0;
+            background:
+                linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.05) 38%, rgba(0,0,0,0.05) 62%, rgba(0,0,0,0.7) 100%),
+                linear-gradient(0deg, rgba(0,0,0,0.55) 0%, transparent 35%),
+                linear-gradient(180deg, rgba(0,0,0,0.4) 0%, transparent 18%);
+            pointer-events: none;
+        }
+
+        /* Giant watermark text behind — odam ustidan */
+        .hero-watermark {
+            position: absolute; bottom: -2%; left: 50%; transform: translateX(-50%);
+            font-size: clamp(100px, 18vw, 220px);
+            font-weight: 900; letter-spacing: -6px;
+            text-transform: uppercase;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.06);
+            white-space: nowrap;
+            z-index: 5; pointer-events: none;
+            user-select: none;
+            line-height: 0.85;
+        }
+
+        /* Top bar — spiker info + format */
+        .hero-top {
+            position: relative; z-index: 20;
+            display: flex; justify-content: space-between; align-items: center;
+            max-width: 1180px; width: 100%; margin: 0 auto;
+            padding: 84px 28px 0;
+        }
+        .hero-speaker {
+            display: flex; align-items: center; gap: 14px;
+        }
+        .hero-speaker-icon {
+            width: 42px; height: 42px;
+            border: 1.5px solid rgba(255,120,66,0.4);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .hero-speaker-icon svg { width: 20px; height: 20px; stroke: var(--orange); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+        .hero-speaker-name { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; }
+        .hero-speaker-role { font-size: 12px; color: rgba(255,255,255,0.45); font-weight: 500; }
+
+        .hero-tags { display: flex; gap: 24px; }
+        .hero-tag { text-align: center; }
+        .hero-tag-label { font-size: 11px; color: rgba(255,255,255,0.35); font-weight: 500; letter-spacing: 0.5px; }
+        .hero-tag-val { font-size: 15px; font-weight: 700; color: var(--orange); margin-top: 2px; }
+
+        /* Bottom content — split left/right */
+        .hero-bottom {
+            position: relative; z-index: 20;
+            max-width: 1180px; width: 100%; margin: auto auto 0;
+            padding: 0 28px 56px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: end;
+        }
+
+        /* Left — CTA area */
+        .hero-cta {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 16px 40px;
+            background: var(--accent-gradient); color: #fff;
+            border: none; border-radius: var(--radius-pill);
+            font-size: 16px; font-weight: 700; font-family: inherit;
+            cursor: pointer; text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative; overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .hero-cta::after {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: sweep 4s ease-in-out infinite;
+        }
+        @keyframes sweep { 0%,100%{left:-100%} 50%{left:150%} }
+        .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(255,120,66,0.35); }
+        .hero-cta svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+        .hero-metrics {
+            display: flex; gap: 28px;
+        }
+        .hero-metric .val {
+            font-size: 24px; font-weight: 800; letter-spacing: -0.5px; color: #fff; line-height: 1;
+        }
+        .hero-metric .val .or { color: var(--orange); }
+        .hero-metric .lbl {
+            font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 4px;
+            font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase;
+        }
+
+        /* Right — tagline */
+        .hero-right {
+            justify-self: end; text-align: right;
+            max-width: 440px;
+        }
+        .hero-tagline {
+            font-size: clamp(22px, 3vw, 34px); font-weight: 300;
+            line-height: 1.25; letter-spacing: -0.5px;
+            color: rgba(255,255,255,0.85);
+        }
+        .hero-tagline strong {
+            font-weight: 800; color: #fff; display: block;
+        }
+        .hero-tagline .or {
+            color: var(--orange); font-weight: 800; font-style: italic;
+        }
+        .hero-badge {
+            display: inline-block; font-size: 11px; font-weight: 700;
+            letter-spacing: 2.5px; text-transform: uppercase;
+            color: rgba(255,255,255,0.45); margin-bottom: 14px;
+        }
+        .hero-sub {
+            font-size: 15px; color: rgba(255,255,255,0.45);
+            line-height: 1.65; margin-top: 14px; max-width: 400px;
+        }
+        .hero-info {
+            display: inline-block; font-size: 13px; font-weight: 600;
+            color: rgba(255,255,255,0.35); letter-spacing: 0.5px;
+            margin-bottom: 14px;
+        }
+        @keyframes ping { 0%{transform:scale(1);opacity:.8} 100%{transform:scale(2.2);opacity:0} }
+
+        /* ===== 2. KIMLAR UCHUN ===== */
+        .audience-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-top: 48px; }
+        .audience-card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: var(--radius-lg); padding: 32px 24px;
+            transition: var(--transition); position: relative; overflow: hidden;
+            box-shadow: var(--shadow-card);
+        }
+        .audience-card::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: var(--accent-gradient); opacity: 0; transition: opacity var(--transition);
+        }
+        .audience-card:hover { border-color: var(--border-hover); box-shadow: var(--shadow-md); transform: translateY(-3px); }
+        .audience-card:hover::after { opacity: 1; }
+        .audience-card .icon-box { margin-bottom: 22px; }
+        .audience-card h3 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 8px; }
+        .audience-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.55; }
+
+        /* ===== 3. VA'DA ===== */
+        .promise-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(320px,1fr)); gap: 12px; margin-top: 48px; }
+        .promise-item {
+            display: flex; align-items: center; gap: 16px; padding: 20px 22px;
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: var(--radius-md); transition: var(--transition);
+            box-shadow: var(--shadow-card);
+        }
+        .promise-item:hover { border-color: var(--border-hover); box-shadow: var(--shadow-md); }
+        .promise-item span { font-size: 15px; font-weight: 600; }
+
+        /* ===== 4. MUAMMO ===== */
+        .problem-layout {
+            display: grid; grid-template-columns: 380px 1fr;
+            gap: 32px; align-items: stretch; margin-top: 48px;
+        }
+        .problem-layout .section-visual img { border-radius: var(--radius-xl); }
+        .problem-layout .problems-grid { margin-top: 0; }
+        .problems-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 48px; }
+        .problem-card {
+            display: flex; align-items: center; gap: 16px; padding: 20px 22px;
+            background: rgba(220,38,38,0.03); border: 1px solid rgba(220,38,38,0.08);
+            border-radius: var(--radius-md); transition: var(--transition);
+        }
+        .problem-card:hover { background: rgba(220,38,38,0.06); border-color: rgba(220,38,38,0.15); }
+        .problem-icon {
+            width: 36px; height: 36px; background: rgba(220,38,38,0.08);
+            border: 1px solid rgba(220,38,38,0.12); border-radius: var(--radius-sm);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .problem-icon svg { width: 16px; height: 16px; stroke: #ef4444; fill: none; stroke-width: 2; stroke-linecap: round; }
+        .problem-card span { font-size: 15px; font-weight: 600; color: var(--text-primary); }
+
+        /* ===== 5. YECHIM ===== */
+        .solution-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 16px; margin-top: 48px;
+        }
+        .solution-card {
+            position: relative; border-radius: var(--radius-lg);
+            overflow: hidden; min-height: 240px;
+            display: flex; flex-direction: column; justify-content: flex-end;
+            cursor: default; transition: transform 0.4s cubic-bezier(.16,1,.3,1), box-shadow 0.4s;
+        }
+        .solution-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .solution-card img {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            object-fit: cover; transition: transform 0.6s cubic-bezier(.16,1,.3,1);
+        }
+        .solution-card:hover img { transform: scale(1.05); }
+        .solution-card::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(0deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0.1) 100%);
+            pointer-events: none; transition: background 0.4s;
+        }
+        .solution-card:hover::after {
+            background: linear-gradient(0deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.15) 100%);
+        }
+        .solution-card-content {
+            position: relative; z-index: 2; padding: 24px;
+        }
+        .solution-card .step-num {
+            width: 36px; height: 36px; background: var(--accent-gradient);
+            border-radius: var(--radius-sm); display: flex; align-items: center;
+            justify-content: center; font-size: 14px; font-weight: 800; color: #fff;
+            margin-bottom: 12px; flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(255,120,66,0.3);
+        }
+        .solution-card p {
+            font-size: 16px; font-weight: 700; color: #fff;
+            line-height: 1.35; letter-spacing: -0.2px;
+        }
+
+        /* ===== 6. KEYSLAR ===== */
+        .cases-section { background: var(--bg-alt); }
+
+        .cases-summary { display: flex; gap: 32px; margin-top: 40px; margin-bottom: 40px; flex-wrap: wrap; }
+        .cases-summary-item { display: flex; align-items: baseline; gap: 10px; }
+        .cases-summary-item .cs-num {
+            font-size: 30px; font-weight: 900; letter-spacing: -1px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .cases-summary-item .cs-lbl { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
+        .cases-summary-divider { width: 1px; height: 32px; background: var(--border); }
+
+        .case-slider { position: relative; overflow: hidden; }
+        .case-slide {
+            display: none; position: relative;
+        }
+        .case-slide.active { display: block; animation: caseSlideIn 0.6s cubic-bezier(.16,1,.3,1); }
+        .case-slide.exit-left { display: block; animation: caseSlideOutLeft 0.4s cubic-bezier(.7,0,.3,1) forwards; }
+        .case-slide.exit-right { display: block; animation: caseSlideOutRight 0.4s cubic-bezier(.7,0,.3,1) forwards; }
+        .case-slide.enter-left { display: block; animation: caseSlideInLeft 0.6s cubic-bezier(.16,1,.3,1); }
+        .case-slide.enter-right { display: block; animation: caseSlideInRight 0.6s cubic-bezier(.16,1,.3,1); }
+        @keyframes caseSlideIn { from{opacity:0;transform:scale(.96)} to{opacity:1;transform:scale(1)} }
+        @keyframes caseSlideOutLeft { from{opacity:1;transform:translateX(0)} to{opacity:0;transform:translateX(-60px)} }
+        @keyframes caseSlideOutRight { from{opacity:1;transform:translateX(0)} to{opacity:0;transform:translateX(60px)} }
+        @keyframes caseSlideInLeft { from{opacity:0;transform:translateX(60px)} to{opacity:1;transform:translateX(0)} }
+        @keyframes caseSlideInRight { from{opacity:0;transform:translateX(-60px)} to{opacity:1;transform:translateX(0)} }
+
+        .case-card {
+            display: grid; grid-template-columns: 300px 1fr;
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: var(--radius-xl); overflow: hidden; min-height: 460px;
+            box-shadow: var(--shadow-lg);
+        }
+        .case-photo {
+            position: relative; overflow: hidden;
+        }
+        .case-photo img {
+            width: 100%; height: 100%; object-fit: cover;
+            display: block;
+        }
+        .case-photo::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50%;
+            background: linear-gradient(to top, rgba(0,0,0,0.5), transparent); pointer-events: none;
+        }
+        .case-photo-name { position: absolute; bottom: 24px; left: 24px; z-index: 2; }
+        .case-photo-name h4 { font-size: 18px; font-weight: 700; color: #fff; }
+        .case-photo-name span { font-size: 13px; color: rgba(255,255,255,0.7); }
+
+        .case-data { padding: 32px; display: flex; flex-direction: column; gap: 20px; }
+        .case-top { display: flex; justify-content: space-between; align-items: flex-start; }
+        .case-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .case-tag {
+            padding: 5px 14px; border: 1px solid rgba(255,120,66,0.25);
+            border-radius: var(--radius-pill);
+            font-size: 11px; font-weight: 700; color: var(--accent-1);
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .case-nav { display: flex; gap: 8px; flex-shrink: 0; }
+        .case-nav-btn {
+            width: 40px; height: 40px; background: var(--bg-alt);
+            border: 1px solid var(--border); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: var(--transition);
+        }
+        .case-nav-btn:hover { border-color: var(--border-hover); background: rgba(255,120,66,0.06); }
+        .case-nav-btn svg { width: 16px; height: 16px; stroke: var(--text-primary); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+        .case-heading h3 { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 4px; color: var(--text-primary); }
+        .case-heading .case-sub { font-size: 15px; color: var(--text-secondary); }
+        .case-heading .case-sub .slash { color: var(--orange); font-weight: 700; }
+
+        .case-ab { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .case-ab-card { padding: 18px; border-radius: var(--radius-md); border: 1px solid var(--border); }
+        .case-ab-card.before { background: var(--bg-alt); }
+        .case-ab-card.after { background: rgba(255,120,66,0.04); border-color: rgba(255,120,66,0.15); }
+        .case-ab-label { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; color: var(--text-primary); }
+        .case-ab-label .ab-dot { width: 16px; height: 16px; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+        .before .ab-dot { background: var(--text-tertiary); }
+        .after .ab-dot { background: var(--accent-gradient); }
+        .ab-dot svg { width: 9px; height: 9px; stroke: #fff; fill: none; stroke-width: 2.5; stroke-linecap: round; }
+        .case-ab-list { display: flex; flex-direction: column; gap: 6px; }
+        .case-ab-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: var(--text-secondary); line-height: 1.4; }
+        .case-ab-item .ab-bullet { width: 4px; height: 4px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+        .before .ab-bullet { background: var(--text-tertiary); }
+        .after .ab-bullet { background: var(--accent-1); }
+
+        .case-metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+        .case-metric { padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--bg-alt); }
+        .case-metric.highlight { background: var(--accent-gradient); border-color: transparent; }
+        .case-metric .cm-val { font-size: 17px; font-weight: 800; margin-bottom: 3px; color: var(--text-primary); }
+        .case-metric.highlight .cm-val { color: #fff; }
+        .case-metric .cm-lbl { font-size: 11px; color: var(--text-secondary); line-height: 1.3; }
+        .case-metric.highlight .cm-lbl { color: rgba(255,255,255,0.7); }
+
+        .case-dots { display: flex; justify-content: center; gap: 8px; margin-top: 24px; }
+        .case-dot { width: 8px; height: 8px; background: rgba(0,0,0,0.1); border-radius: 50%; border: none; cursor: pointer; transition: all 0.3s; }
+        .case-dot.active { width: 28px; border-radius: 4px; background: var(--accent-gradient); }
+
+        /* ===== 7. FORMAT ===== */
+        .format-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-top: 48px; }
+        .format-card {
+            padding: 32px 24px; background: var(--card-bg);
+            border: 1px solid var(--border); border-radius: var(--radius-lg);
+            transition: var(--transition); box-shadow: var(--shadow-card);
+        }
+        .format-card:hover { border-color: var(--border-hover); box-shadow: var(--shadow-md); }
+        .format-card .big-num {
+            font-size: 40px; font-weight: 900; letter-spacing: -1.5px; line-height: 1;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .format-card .sub { font-size: 16px; font-weight: 700; margin-top: 4px; margin-bottom: 12px; color: var(--text-primary); }
+        .format-card .detail { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+        .format-extras { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-top: 16px; }
+        .format-extra {
+            display: flex; align-items: center; gap: 14px; padding: 16px 18px;
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: var(--radius-md); transition: var(--transition);
+            box-shadow: var(--shadow-card);
+        }
+        .format-extra:hover { border-color: var(--border-hover); }
+        .format-extra span { font-size: 14px; font-weight: 600; }
+
+        /* ===== 8. MODULLAR ===== */
+        .module-tabs {
+            display: flex; gap: 8px; margin-top: 40px; margin-bottom: 32px;
+            overflow-x: auto; padding-bottom: 8px;
+            scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .module-tabs::-webkit-scrollbar { display: none; }
+        .module-tab {
+            padding: 10px 22px; background: var(--card-bg);
+            border: 1px solid var(--border); border-radius: var(--radius-pill);
+            color: var(--text-secondary); font-size: 14px; font-weight: 600;
+            font-family: inherit; cursor: pointer; white-space: nowrap;
+            transition: var(--transition); box-shadow: var(--shadow-card);
+        }
+        .module-tab:hover { border-color: var(--border-hover); color: var(--text-primary); }
+        .module-tab.active { background: var(--accent-gradient); color: #fff; border-color: transparent; box-shadow: 0 4px 16px rgba(255,120,66,0.2); }
+
+        .module-panel { display: none; animation: fadeTab .4s ease; }
+        .module-panel.active { display: block; }
+        @keyframes fadeTab { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+        .module-head { margin-bottom: 20px; }
+        .module-head h3 { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 4px; }
+        .module-head p { color: var(--text-secondary); font-size: 15px; }
+        .module-list { display: grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap: 10px; }
+        .module-item {
+            display: flex; align-items: center; gap: 14px; padding: 16px 20px;
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: var(--radius-md); transition: var(--transition);
+            box-shadow: var(--shadow-card);
+        }
+        .module-item:hover { border-color: var(--border-hover); box-shadow: var(--shadow-md); }
+        .module-item .bullet { width: 7px; height: 7px; background: var(--accent-gradient); border-radius: 50%; flex-shrink: 0; }
+        .module-item span { font-size: 15px; font-weight: 500; }
+
+        /* ===== 9. NATIJA ===== */
+        .result-section { background: var(--dark-card); color: #fff; position: relative; overflow: hidden; }
+        .result-section .section-eyebrow { color: var(--accent-3); }
+        .result-section .section-title { color: #fff; }
+        .result-bg-img {
+            position: absolute; right: 0; top: 0; bottom: 0; width: 45%;
+            background: url('https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800&q=80') center / cover no-repeat;
+            opacity: 0.15;
+            -webkit-mask: linear-gradient(to left, rgba(0,0,0,0.6), transparent);
+            mask: linear-gradient(to left, rgba(0,0,0,0.6), transparent);
+        }
+        .results-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 12px; margin-top: 48px; position: relative; z-index: 2; }
+        .result-item {
+            display: flex; align-items: center; gap: 18px; padding: 22px;
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
+            border-radius: var(--radius-md); transition: var(--transition);
+        }
+        .result-item:hover { border-color: rgba(255,120,66,0.2); background: rgba(255,255,255,0.07); }
+        .result-item .icon-box { background: rgba(255,120,66,0.12); border-color: rgba(255,120,66,0.2); }
+        .result-item .icon-box svg { stroke: var(--orange); }
+        .result-item p { font-size: 16px; font-weight: 600; color: #fff; }
+
+        /* ===== 10. EKSPERT ===== */
+        .expert-section { background: var(--dark-card); color: #fff; }
+        .expert-section .section-eyebrow { color: var(--accent-3); }
+        .expert-section .section-title { color: #fff; }
+        .expert-layout { display: grid; grid-template-columns: 400px 1fr; gap: 56px; align-items: start; margin-top: 48px; }
+        .expert-img {
+            width: 100%; aspect-ratio: 3/4;
+            background: url('img/expert.jpg') center top / cover no-repeat;
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(255,255,255,0.06);
+            position: relative; overflow: hidden;
+        }
+        .expert-img::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 30%;
+            background: linear-gradient(to top, rgba(16,17,20,0.6), transparent); pointer-events: none;
+        }
+        .expert-info h3 { font-size: clamp(28px,4vw,40px); font-weight: 800; letter-spacing: -1.5px; margin-bottom: 6px; }
+        .expert-role { font-size: 15px; color: var(--accent-1); font-weight: 600; margin-bottom: 28px; }
+        .expert-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+        .expert-stat { padding: 20px 18px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-md); }
+        .expert-stat .val {
+            font-size: 22px; font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .expert-stat .lbl { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+        .expert-list { display: flex; flex-direction: column; gap: 12px; }
+        .expert-list-item { display: flex; align-items: center; gap: 14px; font-size: 15px; color: rgba(255,255,255,0.6); }
+        .expert-list-item .mark { width: 6px; height: 6px; background: var(--accent-1); border-radius: 50%; flex-shrink: 0; }
+
+        /* ===== 11. CTA + FORM ===== */
+        .cta-section { padding: 100px 0 120px; position: relative; overflow: hidden; background: var(--bg-alt); }
+        .cta-layout { display: grid; grid-template-columns: 1fr 480px; gap: 56px; align-items: start; position: relative; z-index: 2; }
+
+        .cta-left h2 { font-size: clamp(32px,5vw,48px); font-weight: 900; line-height: 1.1; letter-spacing: -2px; margin-bottom: 16px; }
+        .cta-left h2 .accent { background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .cta-left > p { font-size: 17px; color: var(--text-secondary); line-height: 1.65; margin-bottom: 32px; }
+        .cta-checklist { display: flex; flex-direction: column; gap: 14px; margin-bottom: 36px; }
+        .cta-check-item { display: flex; align-items: center; gap: 14px; font-size: 15px; font-weight: 500; }
+
+        .cta-visual { display: flex; flex-direction: column; gap: 14px; }
+        .cta-card-float {
+            display: flex; align-items: center; gap: 16px; padding: 18px 22px;
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
+            opacity: 0; transform: translateX(-20px);
+            transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1);
+        }
+        .cta-card-float:nth-child(2){transition-delay:.12s}.cta-card-float:nth-child(3){transition-delay:.24s}
+        .cta-left.visible .cta-card-float { opacity: 1; transform: translateX(0); }
+        .cta-left.visible .cta-urgency { opacity: 1; transform: translateX(0); }
+
+        .cta-card-float .cf-icon {
+            width: 46px; height: 46px; background: var(--accent-gradient);
+            border-radius: var(--radius-md); display: flex; align-items: center;
+            justify-content: center; flex-shrink: 0;
+            box-shadow: 0 4px 16px rgba(255,120,66,0.2);
+        }
+        .cta-card-float .cf-icon svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .cta-card-float .cf-val { font-size: 18px; font-weight: 800; }
+        .cta-card-float .cf-lbl { font-size: 13px; color: var(--text-secondary); }
+        .cta-card-float .cf-text { display: flex; flex-direction: column; gap: 1px; }
+
+        .cta-urgency {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 18px; background: rgba(255,120,66,0.06);
+            border: 1px solid rgba(255,120,66,0.12); border-radius: var(--radius-md);
+            animation: urgPulse 3s ease-in-out infinite;
+            opacity: 0; transform: translateX(-20px);
+            transition: opacity .6s cubic-bezier(.16,1,.3,1) .36s, transform .6s cubic-bezier(.16,1,.3,1) .36s;
+        }
+        @keyframes urgPulse { 0%,100%{border-color:rgba(255,120,66,0.12)} 50%{border-color:rgba(255,120,66,0.3)} }
+        .cta-urgency .urg-dot {
+            width: 10px; height: 10px; background: #22c55e; border-radius: 50%;
+            flex-shrink: 0; position: relative;
+        }
+        .cta-urgency .urg-dot::after {
+            content: ''; position: absolute; inset: -3px;
+            border: 1.5px solid #22c55e; border-radius: 50%;
+            animation: ping 2s cubic-bezier(0,0,0.2,1) infinite;
+        }
+        .cta-urgency span { font-size: 14px; font-weight: 600; color: var(--accent-1); }
+
+        /* FORM */
+        .form-card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 24px; padding: 40px 32px;
+            box-shadow: var(--shadow-lg);
+        }
+        .form-card h3 { font-size: 22px; font-weight: 700; text-align: center; margin-bottom: 6px; }
+        .form-subtitle { text-align: center; font-size: 14px; color: var(--text-secondary); margin-bottom: 28px; }
+
+        .field { margin-bottom: 14px; }
+        .field input, .field textarea {
+            width: 100%; padding: 14px 18px;
+            background: var(--bg-alt); border: 1px solid var(--border);
+            border-radius: var(--radius-md); color: var(--text-primary);
+            font-size: 15px; font-family: inherit; outline: none;
+            transition: border-color .25s, background .25s, box-shadow .25s;
+        }
+        .field input::placeholder, .field textarea::placeholder { color: var(--text-tertiary); }
+        .field input:focus, .field textarea:focus { border-color: var(--accent-1); background: #fff; box-shadow: 0 0 0 3px rgba(255,120,66,0.08); }
+        .field textarea { resize: vertical; min-height: 80px; }
+
+        .field-label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 12px; margin-top: 8px; }
+
+        .radio-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 16px; }
+        .radio-item { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: var(--radius-sm); cursor: pointer; transition: background .2s; }
+        .radio-item:hover { background: var(--bg-alt); }
+        .radio-item input { display: none; }
+        .radio-dot {
+            width: 20px; height: 20px; border: 2px solid var(--border);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; transition: border-color .2s;
+        }
+        .radio-dot::after { content: ''; width: 10px; height: 10px; background: var(--accent-gradient); border-radius: 50%; opacity: 0; transform: scale(0); transition: all .2s cubic-bezier(.34,1.56,.64,1); }
+        .radio-item input:checked ~ .radio-dot { border-color: var(--accent-1); }
+        .radio-item input:checked ~ .radio-dot::after { opacity: 1; transform: scale(1); }
+        .radio-item input:checked ~ .radio-label { color: var(--text-primary); }
+        .radio-label { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
+
+        .submit-btn {
+            width: 100%; padding: 16px; background: var(--accent-gradient); color: #fff;
+            border: none; border-radius: var(--radius-pill);
+            font-size: 16px; font-weight: 700; font-family: inherit;
+            cursor: pointer; margin-top: 6px;
+            transition: transform .2s, box-shadow .2s;
+            position: relative; overflow: hidden;
+        }
+        .submit-btn::after { content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);animation:sweep 4s ease-in-out infinite; }
+        .submit-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 32px rgba(255,120,66,0.3); }
+
+        .form-success { display: none; text-align: center; padding: 40px 20px; }
+        .form-success.show { display: block; }
+        .form-success .ok-icon { width: 60px; height: 60px; background: var(--accent-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+        .form-success .ok-icon svg { width: 26px; height: 26px; stroke: #fff; fill: none; stroke-width: 2.5; stroke-linecap: round; }
+        .form-success h4 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+        .form-success p { color: var(--text-secondary); font-size: 14px; }
+
+        /* Validation */
+        .field-error input,.field-error textarea { border-color: #ef4444 !important; background: rgba(239,68,68,0.03) !important; }
+        .field-error .field-msg { display: block; }
+        .field-ok input,.field-ok textarea { border-color: #22c55e !important; }
+        .field-msg { display: none; font-size: 12px; font-weight: 500; color: #ef4444; margin-top: 5px; padding-left: 2px; }
+        .radio-error .radio-group { border: 1px solid rgba(239,68,68,0.3); border-radius: var(--radius-md); padding: 4px; }
+        .radio-error .field-msg { display: block; }
+
+        /* ===== SPEAKERS GRID ===== */
+        .speakers-section { background: var(--bg-alt); }
+        .speakers-intro {
+            font-size: clamp(22px, 3.5vw, 38px);
+            font-weight: 300; line-height: 1.3; letter-spacing: -1px;
+            max-width: 780px; margin-top: 16px; margin-bottom: 56px;
+            color: var(--text-primary);
+        }
+        .speakers-intro strong { font-weight: 800; }
+        .speakers-intro em { font-style: italic; color: var(--text-secondary); }
+
+        .speakers-grid {
+            display: flex; flex-wrap: wrap;
+            gap: 20px 16px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        .speaker-item {
+            display: flex; align-items: center;
+            gap: 10px; position: relative;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+        .speaker-item:hover { transform: translateY(-3px); }
+
+        .speaker-avatar {
+            width: 72px; height: 72px;
+            position: relative;
+            flex-shrink: 0;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .speaker-avatar img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            object-position: center 20%;
+            display: block;
+            border-radius: 50%;
+            border: 2px solid var(--bg);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        .speaker-item:hover .speaker-avatar img {
+            border-color: var(--orange);
+            box-shadow: 0 4px 16px rgba(255,120,66,0.15);
+        }
+        .speaker-plus {
+            position: absolute; bottom: 0; right: -2px; z-index: 3;
+            width: 20px; height: 20px;
+            background: var(--accent-gradient);
+            border-radius: 50%; border: 2px solid var(--bg-alt);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .speaker-plus svg {
+            width: 10px; height: 10px; stroke: #fff; fill: none;
+            stroke-width: 2.5; stroke-linecap: round;
+        }
+
+        .speaker-name {
+            font-size: 12px; font-weight: 600;
+            text-align: left; color: var(--text-primary);
+            line-height: 1.3;
+        }
+
+        .speakers-more {
+            display: flex; align-items: center; justify-content: center;
+            gap: 12px; margin-top: 8px;
+        }
+        .speakers-more-avatars {
+            display: flex;
+        }
+        .speakers-more-avatars img {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--bg-alt);
+            object-fit: cover;
+            margin-left: -10px;
+        }
+        .speakers-more-avatars img:first-child { margin-left: 0; }
+        .speakers-more-text {
+            font-size: 16px; font-weight: 600;
+            font-style: italic; color: var(--orange);
+        }
+
+        /* ===== FAQ ===== */
+        .faq-section { background: var(--dark-card); color: #fff; overflow: hidden; position: relative; }
+        .faq-section .section-eyebrow { color: var(--accent-3); }
+        .faq-section .section-title { color: #fff; }
+
+        /* Floating 3D shapes */
+        .faq-shapes { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+        .faq-shape {
+            position: absolute; border-radius: 50%;
+            opacity: 0.06;
+            animation: faqFloat 20s ease-in-out infinite;
+        }
+        .faq-shape:nth-child(1) {
+            width: 300px; height: 300px;
+            background: var(--orange);
+            top: -80px; right: -60px;
+            animation-duration: 18s;
+        }
+        .faq-shape:nth-child(2) {
+            width: 200px; height: 200px;
+            background: var(--orange);
+            bottom: -40px; left: -40px;
+            animation-duration: 22s; animation-delay: -5s;
+        }
+        .faq-shape:nth-child(3) {
+            width: 120px; height: 120px;
+            background: #fff;
+            top: 40%; left: 55%;
+            animation-duration: 16s; animation-delay: -10s;
+            opacity: 0.03;
+        }
+        @keyframes faqFloat {
+            0%,100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(5deg); }
+            50% { transform: translateY(10px) rotate(-3deg); }
+            75% { transform: translateY(-15px) rotate(2deg); }
+        }
+
+        .faq-layout {
+            display: grid; grid-template-columns: 380px 1fr;
+            gap: 64px; align-items: start;
+            position: relative; z-index: 2;
+        }
+
+        .faq-left { position: sticky; top: 120px; }
+        .faq-left .section-desc { color: rgba(255,255,255,0.5); margin-bottom: 32px; }
+
+        .faq-cta-box {
+            padding: 28px; background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius-lg);
+        }
+        .faq-cta-box p {
+            font-size: 15px; color: rgba(255,255,255,0.6);
+            line-height: 1.6; margin-bottom: 20px;
+        }
+        .faq-cta-box p strong { color: #fff; }
+        .faq-cta-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 28px; background: var(--accent-gradient);
+            color: #fff; border: none; border-radius: var(--radius-pill);
+            font-size: 14px; font-weight: 700; font-family: inherit;
+            cursor: pointer; text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .faq-cta-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,120,66,0.25); }
+        .faq-cta-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+        /* Accordion items */
+        .faq-list { display: flex; flex-direction: column; gap: 12px; }
+
+        .faq-item {
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: var(--radius-lg);
+            background: rgba(255,255,255,0.02);
+            overflow: hidden;
+            transition: border-color 0.3s, background 0.3s;
+        }
+        .faq-item:hover { border-color: rgba(255,120,66,0.15); }
+        .faq-item.open { border-color: rgba(255,120,66,0.2); background: rgba(255,255,255,0.04); }
+
+        .faq-q {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 22px 24px; cursor: pointer;
+            gap: 16px;
+            -webkit-user-select: none; user-select: none;
+        }
+        .faq-q span {
+            font-size: 15px; font-weight: 600; color: #fff;
+            line-height: 1.4; flex: 1;
+        }
+
+        .faq-num {
+            font-size: 13px; font-weight: 800; color: var(--orange);
+            margin-right: 12px; flex-shrink: 0;
+            min-width: 24px;
+        }
+
+        .faq-toggle {
+            width: 36px; height: 36px; flex-shrink: 0;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), background 0.3s;
+        }
+        .faq-toggle svg {
+            width: 14px; height: 14px; stroke: rgba(255,255,255,0.6);
+            fill: none; stroke-width: 2; stroke-linecap: round;
+            transition: stroke 0.3s;
+        }
+        .faq-item.open .faq-toggle {
+            transform: rotate(45deg);
+            background: var(--accent-gradient);
+        }
+        .faq-item.open .faq-toggle svg { stroke: #fff; }
+
+        .faq-a {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.16,1,0.3,1), padding 0.4s;
+            padding: 0 24px;
+        }
+        .faq-item.open .faq-a {
+            max-height: 300px;
+            padding: 0 24px 24px;
+        }
+        .faq-a p {
+            font-size: 14px; color: rgba(255,255,255,0.5);
+            line-height: 1.7; padding-left: 36px;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer { padding: 48px 0; border-top: 1px solid var(--border); text-align: center; background: var(--bg); }
+        .footer .logo-f { font-size: 20px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+        .footer .logo-f .f-on { background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .footer .footer-sub { font-size: 10px; color: var(--text-tertiary); letter-spacing: 1px; margin-bottom: 10px; }
+        .footer p { color: var(--text-tertiary); font-size: 13px; }
+
+        /* ===== IMAGE LAYOUTS ===== */
+        .audience-layout {
+            display: grid; grid-template-columns: 1fr 380px;
+            gap: 32px; align-items: stretch; margin-top: 48px;
+        }
+        .audience-layout .audience-grid {
+            grid-template-columns: repeat(2, 1fr); margin-top: 0;
+        }
+        .promise-layout {
+            display: grid; grid-template-columns: 380px 1fr;
+            gap: 32px; align-items: stretch; margin-top: 48px;
+        }
+        .promise-layout .promise-grid { margin-top: 0; }
+        .section-visual {
+            border-radius: var(--radius-xl); overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+        .section-visual img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+            border-radius: var(--radius-xl);
+        }
+
+        .format-banner {
+            margin-top: 24px; border-radius: var(--radius-xl);
+            overflow: hidden; height: 300px; position: relative;
+            box-shadow: var(--shadow-lg);
+        }
+        .format-banner img {
+            width: 100%; height: 100%; object-fit: cover; display: block; object-position: center 30%;
+        }
+        .format-banner::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(90deg, rgba(0,0,0,0.4) 0%, transparent 40%, transparent 60%, rgba(0,0,0,0.4) 100%);
+            pointer-events: none;
+        }
+
+        .visual-strip {
+            position: relative; overflow: hidden;
+            height: 320px;
+        }
+        .visual-strip img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+        }
+        .visual-strip::after {
+            content: ''; position: absolute; inset: 0;
+            background:
+                linear-gradient(0deg, var(--bg) 0%, transparent 20%),
+                linear-gradient(180deg, var(--bg) 0%, transparent 20%),
+                linear-gradient(0deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.15) 100%);
+            pointer-events: none;
+        }
+        .visual-strip.from-dark::after {
+            background:
+                linear-gradient(0deg, var(--bg) 0%, transparent 20%),
+                linear-gradient(180deg, var(--dark-card) 0%, transparent 20%),
+                linear-gradient(0deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.15) 100%);
+        }
+        .visual-strip.to-dark::after {
+            background:
+                linear-gradient(0deg, var(--dark-card) 0%, transparent 20%),
+                linear-gradient(180deg, var(--bg-alt) 0%, transparent 20%),
+                linear-gradient(0deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.15) 100%);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width:1080px){
+            .audience-layout,.promise-layout,.problem-layout{grid-template-columns:1fr}
+            .audience-layout .audience-grid{grid-template-columns:repeat(2,1fr)}
+            .promise-layout .promise-grid{grid-template-columns:1fr}
+            .audience-layout .section-visual,.promise-layout .section-visual,.problem-layout .section-visual{max-height:300px;border-radius:var(--radius-lg)}
+            .audience-layout .section-visual img,.promise-layout .section-visual img,.problem-layout .section-visual img{border-radius:var(--radius-lg)}
+            .audience-grid{grid-template-columns:repeat(2,1fr)}
+            .expert-layout{grid-template-columns:1fr;gap:36px}
+            .solution-grid{grid-template-columns:repeat(2,1fr)}
+            .expert-img{max-width:380px}
+            .cta-layout{grid-template-columns:1fr;gap:40px}
+            .case-card{grid-template-columns:240px 1fr}
+            .faq-layout{grid-template-columns:1fr}
+            .faq-left{position:static}
+            .visual-strip{height:240px}
+        }
+        @media(max-width:768px){
+            .section{padding:72px 0}
+            .audience-layout .section-visual,.promise-layout .section-visual,.problem-layout .section-visual{display:none}
+            .audience-layout .audience-grid{grid-template-columns:1fr}
+            .visual-strip{height:200px}
+            .format-banner{height:160px;border-radius:var(--radius-md)}
+            .nav{display:none}
+            .nav.open{
+                display:flex;flex-direction:column;
+                position:fixed;top:64px;left:0;right:0;bottom:0;
+                background:rgba(255,255,255,0.98);
+                padding:24px 28px;gap:0;
+                z-index:999;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+                overflow-y:auto;
+                animation:navSlide .3s cubic-bezier(.16,1,.3,1);
+            }
+            @keyframes navSlide{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+            [data-theme="dark"] .nav.open{background:rgba(10,10,15,0.98)}
+            .nav.open a:not(.header-cta){
+                font-size:16px;font-weight:600;padding:16px 0;
+                border-bottom:1px solid var(--border);
+                color:var(--text-primary);width:100%;
+            }
+            .nav.open .nav-controls{
+                flex-direction:row;margin:20px 0 16px;gap:10px;
+            }
+            .nav.open .nav-controls .lang-btn,
+            .nav.open .nav-controls .theme-btn{
+                background:var(--bg-alt);border-color:var(--border);
+                color:var(--text-secondary);width:40px;height:40px;
+            }
+            .nav.open .header-cta{
+                width:100%;text-align:center;padding:16px 24px;
+                font-size:16px;margin-top:8px;display:block;
+            }
+            .mobile-toggle{display:block}
+
+            /* Hero mobile */
+            .hero{min-height:100svh;min-height:100vh}
+            .hero-bg{background-position:47% center}
+            .hero-bg::after{
+                background:
+                    linear-gradient(0deg,rgba(0,0,0,0.92) 0%,rgba(0,0,0,0.55) 35%,rgba(0,0,0,0.15) 55%,rgba(0,0,0,0.4) 100%);
+            }
+            .hero-top{padding:80px 20px 0;flex-direction:column;align-items:flex-start;gap:16px}
+            .hero-tags{gap:20px}
+            .hero-bottom{grid-template-columns:1fr;padding:0 20px 32px;gap:20px}
+            .hero-left{order:2}
+            .hero-right{order:1;justify-self:start;text-align:left;max-width:100%}
+            .hero-tagline{font-size:24px;letter-spacing:-0.5px}
+            .hero-sub{font-size:14px;max-width:100%}
+            .hero-cta{padding:14px 32px;font-size:15px}
+            .hero-metrics{flex-wrap:wrap;gap:20px}
+            .hero-watermark{font-size:64px;bottom:-1%}
+            .hero-info{margin-bottom:10px}
+
+            /* Grids mobile */
+            .audience-grid{grid-template-columns:1fr}
+            .format-grid{display:flex;overflow-x:auto;gap:12px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:8px}
+            .format-grid::-webkit-scrollbar{display:none}
+            .format-card{flex:0 0 280px;scroll-snap-align:start}
+            .speaker-cards{grid-template-columns:repeat(3,1fr)!important}
+            .speaker-cards div:nth-child(4),.speaker-cards div:nth-child(5){display:none}
+            .format-extras{grid-template-columns:1fr 1fr}
+            .problems-grid{grid-template-columns:1fr}
+            .promise-grid{grid-template-columns:1fr}
+            .solution-grid{grid-template-columns:1fr}
+            .solution-card{min-height:200px}
+            .module-list{grid-template-columns:1fr}
+            .expert-stats-grid{grid-template-columns:repeat(2,1fr)}
+
+            /* Cases mobile */
+            .case-card{grid-template-columns:1fr}
+            .case-photo{min-height:220px}
+            .case-ab{grid-template-columns:1fr}
+            .case-metrics{grid-template-columns:repeat(3,1fr)}
+            .cases-summary{justify-content:center;gap:20px}
+            .cases-summary-divider{display:none}
+
+            /* Speakers mobile */
+            .speakers-grid{gap:20px 12px;justify-content:center}
+            .speaker-item{flex-direction:column;text-align:center;width:calc(25% - 9px);gap:6px}
+            .speaker-avatar{width:56px;height:56px}
+            .speaker-plus{width:16px;height:16px}
+            .speaker-plus svg{width:8px;height:8px}
+            .speaker-name{text-align:center;font-size:10px;line-height:1.2}
+
+            /* Other mobile */
+            .form-card{padding:28px 20px}
+            .faq-layout{grid-template-columns:1fr}
+            .faq-left{position:static}
+        }
+        @media(max-width:480px){
+            .container{padding:0 16px}
+            .section{padding:48px 0}
+            .section-title{font-size:26px;letter-spacing:-1px}
+            .section-desc{font-size:15px}
+
+            /* Hero small */
+            .hero-top{padding:580px 16px 0}
+            .hero-bottom{padding:0 16px 20px}
+            .hero-tagline{font-size:20px}
+            .hero-sub{font-size:13px}
+            .hero-metrics{gap:16px}
+            .hero-metric .val{font-size:20px}
+            .hero-metric .lbl{font-size:9px}
+            .hero-cta{padding:14px 28px;font-size:14px;width:100%;justify-content:center}
+            .hero-watermark{font-size:44px}
+            .hero-speaker-name{font-size:14px}
+            .hero-speaker-role{font-size:11px}
+
+            /* Grids small */
+            .format-card{flex:0 0 240px}
+            .format-extras{grid-template-columns:1fr}
+            .speaker-cards{grid-template-columns:repeat(2,1fr)!important;gap:12px!important}
+            .speaker-cards div:nth-child(4),.speaker-cards div:nth-child(5){display:block!important}
+            .speaker-cards div:nth-child(5){grid-column:span 2}
+            .reel-card{width:160px!important}
+            .expert-stats-grid{grid-template-columns:1fr}
+            .case-metrics{grid-template-columns:1fr}
+            .case-data{padding:20px 16px}
+            .case-heading h3{font-size:20px}
+            .module-tabs{gap:6px}
+            .form-card{padding:24px 16px;border-radius:16px}
+
+            /* Speakers small */
+            .speakers-grid{gap:14px 6px}
+            .speaker-item{width:calc(25% - 5px)}
+            .speaker-avatar{width:48px;height:48px}
+            .speaker-name{font-size:9px}
+            .speaker-plus{width:14px;height:14px}
+            .speaker-plus svg{width:7px;height:7px}
+            .speakers-more-text{font-size:14px}
+
+            /* FAQ small */
+            .faq-q{padding:16px 14px}
+            .faq-q span{font-size:14px}
+            .faq-a p{font-size:13px;padding-left:28px}
+            .faq-num{font-size:12px;min-width:20px}
+
+            /* CTA small */
+            .cta-layout{gap:28px}
+            .cta-left h2{font-size:28px;letter-spacing:-1px}
+            .cases-summary{gap:12px}
+            .cases-summary-item .cs-num{font-size:22px}
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header" id="header">
+    <div class="container">
+        <a href="#" class="logo">INVIS<span class="logo-on">ION</span><span class="logo-sub">producing &amp; marketing</span></a>
+        <nav class="nav">
+            <a href="#audience" data-i18n="nav_audience">Kimlar uchun</a>
+            <a href="#modules" data-i18n="nav_program">Dastur</a>
+            <a href="#expert" data-i18n="nav_speaker">Spiker</a>
+            <div class="nav-controls">
+                <div class="lang-wrap">
+                    <button class="lang-btn" id="langBtn" title="Til">UZ</button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <button class="lang-option active" data-lang="uz">O'zbekcha</button>
+                        <button class="lang-option" data-lang="ru">Русский</button>
+                        <button class="lang-option" data-lang="en">English</button>
+                    </div>
+                </div>
+                <button class="theme-btn" id="themeBtn" title="Tema">
+                    <svg viewBox="0 0 24 24" class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    <svg viewBox="0 0 24 24" class="icon-moon" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                </button>
+            </div>
+            <a href="#register" class="header-cta" data-i18n="nav_start">Boshlash</a>
+        </nav>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</header>
+
+<!-- 1. HERO -->
+<section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-watermark">INTENSIV</div>
+
+    <!-- Top bar -->
+    <div class="hero-top reveal">
+        <div class="hero-speaker">
+            <div class="hero-speaker-icon">
+                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div>
+                <div class="hero-speaker-name">Jaxongir Raimjonov</div>
+                <div class="hero-speaker-role">Shaxsiy brend bo'yicha mutaxassis</div>
+            </div>
+        </div>
+        <div class="hero-tags">
+            <div class="hero-tag">
+                <div class="hero-tag-label">Formati</div>
+                <div class="hero-tag-val">Onlayn</div>
+            </div>
+            <div class="hero-tag">
+                <div class="hero-tag-label">Davomiylik</div>
+                <div class="hero-tag-val">2 oy</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom content -->
+    <div class="hero-bottom">
+        <div class="hero-left reveal">
+            <a href="#register" class="hero-cta">
+                <span data-i18n="hero_cta">Boshlash</span>
+                <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            <span class="hero-info" data-i18n="hero_info">Onlayn · 2 oy</span>
+            <div class="hero-metrics">
+                <div class="hero-metric"><div class="val"><span class="or">10</span>+</div><div class="lbl">Darslar</div></div>
+                <div class="hero-metric"><div class="val"><span class="or">3</span></div><div class="lbl">Spikerlar</div></div>
+                <div class="hero-metric"><div class="val"><span class="or">100</span>+</div><div class="lbl">Loyihalar</div></div>
+            </div>
+        </div>
+        <div class="hero-right reveal">
+            <span class="hero-badge" data-i18n="hero_badge">INVISION — Intensiv</span>
+            <h1 class="hero-tagline" data-i18n="hero_title">Instagram orqali auditoriya yig'ib, sotuv qiladigan <span class="accent">shaxsiy brend</span> quring</h1>
+            <p class="hero-sub" data-i18n="hero_sub">2 oy ichida sizda aniq strategiya, kontent tizimi va ishlaydigan sotuv mexanizmi bo'ladi</p>
+        </div>
+    </div>
+</section>
+
+<!-- 2. KIMLAR UCHUN -->
+<section class="section section-alt" id="audience">
+    <div class="container">
+        <div class="reveal">
+            <div class="section-eyebrow" data-i18n="sec2_eye">Kimlar uchun</div>
+            <h2 class="section-title" data-i18n="sec2_title">Dastur <span class="accent">kimlar uchun?</span></h2>
+        </div>
+        <div class="audience-layout">
+        <div class="audience-grid">
+            <div class="audience-card reveal reveal-d1">
+                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div>
+                <h3 data-i18n="aud1_t">Soha egalari</h3><p data-i18n="aud1_d">Instagram orqali xizmatini sotmoqchi yoki chekni oshirmoqchi</p>
+            </div>
+            <div class="audience-card reveal reveal-d2">
+                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+                <h3 data-i18n="aud2_t">Blog boshlamoqchilar</h3><p data-i18n="aud2_d">0 dan boshlamoqchi, 10K obunachi yig'moqchi</p>
+            </div>
+            <div class="audience-card reveal reveal-d3">
+                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                <h3 data-i18n="aud3_t">Blog yuritayotganlar</h3><p data-i18n="aud3_d">Kontent bor, lekin sotuv yo'q</p>
+            </div>
+            <div class="audience-card reveal reveal-d4">
+                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.66 2.69 3 6 3s6-1.34 6-3v-5"/></svg></div>
+                <h3 data-i18n="aud4_t">Mutaxassis bo'lishni istaganlar</h3><p data-i18n="aud4_d">Shaxsiy brend orqali pul ishlamoqchi</p>
+            </div>
+        </div>
+        <div class="section-visual section-visual-tall reveal">
+            <img src="https://images.unsplash.com/photo-1556155092-490a1ba16284?w=600&q=80" alt="Social media marketing" loading="lazy">
+        </div>
+        </div>
+    </div>
+</section>
+
+<!-- 3. VA'DA -->
+<section class="section" id="promise">
+    <div class="container">
+        <div class="reveal"><div class="section-eyebrow" data-i18n="sec3_eye">Natija</div><h2 class="section-title" data-i18n="sec3_title">Bu kursda siz <span class="accent">nima olasiz?</span></h2></div>
+        <div class="promise-layout">
+        <div class="section-visual section-visual-tall reveal">
+            <img src="img/promise.jpeg" alt="Spiker auditoriya oldida" loading="lazy">
+        </div>
+        <div class="promise-grid">
+            <div class="promise-item reveal reveal-d1"><div class="icon-box-sm"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span data-i18n="prom1">Noldan tizimli shaxsiy brend qurish</span></div>
+            <div class="promise-item reveal reveal-d2"><div class="icon-box-sm"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div><span data-i18n="prom2">Reels orqali auditoriya yig'ish</span></div>
+            <div class="promise-item reveal reveal-d3"><div class="icon-box-sm"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div><span data-i18n="prom3">Stories orqali sotuv qilish</span></div>
+            <div class="promise-item reveal reveal-d4"><div class="icon-box-sm"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div><span data-i18n="prom4">Ishlaydigan kontent tizimi</span></div>
+            <div class="promise-item reveal reveal-d5"><div class="icon-box-sm"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div><span data-i18n="prom5">Tayyor strategiya va yo'l xaritasi</span></div>
+        </div>
+        </div>
+    </div>
+</section>
+
+<!-- SPIKER -->
+<section class="section expert-section" id="expert">
+    <div class="container">
+        <div class="reveal"><div class="section-eyebrow" data-i18n="sec10_eye">Spiker</div><h2 class="section-title" data-i18n="sec10_title">Kurs <span class="accent">muallifi</span></h2></div>
+        <div class="expert-layout">
+            <div class="expert-img reveal"></div>
+            <div class="expert-info reveal">
+                <h3>Jaxongir Raimjonov</h3>
+                <div class="expert-role" data-i18n="exp_role">Invision asoschisi &middot; Marketing strateg</div>
+                <div class="expert-stats-grid">
+                    <div class="expert-stat"><div class="val" data-i18n="exp_s1v">6 yil</div><div class="lbl" data-i18n="exp_s1l">Marketingda tajriba</div></div>
+                    <div class="expert-stat"><div class="val">100+</div><div class="lbl" data-i18n="exp_s2l">Loyihalar</div></div>
+                    <div class="expert-stat"><div class="val">2 mln+</div><div class="lbl" data-i18n="exp_s3l">Obunachi jalb qilingan</div></div>
+                    <div class="expert-stat"><div class="val">$1M+</div><div class="lbl" data-i18n="exp_s4l">Sotuv reklamasiz</div></div>
+                </div>
+                <div class="expert-list">
+                    <div class="expert-list-item"><span class="mark"></span><span data-i18n="exp_l1">Invision asoschisi</span></div>
+                    <div class="expert-list-item"><span class="mark"></span><span data-i18n="exp_l2">20+ loyiha bir vaqtda</span></div>
+                    <div class="expert-list-item"><span class="mark"></span><span data-i18n="exp_l3">50 mln+ prosmotr</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 5. YECHIM -->
+<section class="section" id="solution">
+    <div class="container">
+        <div class="reveal"><div class="section-eyebrow" data-i18n="sec5_eye">Yechim</div><h2 class="section-title" data-i18n="sec5_title">Biz sizga <span class="accent">tizim beramiz</span></h2><p class="section-desc" data-i18n="sec5_desc">Bu kursda siz quyidagi qadamlarni bosib o'tasiz:</p></div>
+        <div class="solution-grid">
+            <div class="solution-card reveal reveal-d1">
+                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&q=80" alt="Personal branding" loading="lazy">
+                <div class="solution-card-content"><div class="step-num">1</div><p data-i18n="sol1">O'zingizni ochasiz va pozitsiya tanlaysiz</p></div>
+            </div>
+            <div class="solution-card reveal reveal-d2">
+                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&q=80" alt="Strategy planning" loading="lazy">
+                <div class="solution-card-content"><div class="step-num">2</div><p data-i18n="sol2">Aniq strategiya qurasiz</p></div>
+            </div>
+            <div class="solution-card reveal reveal-d3">
+                <img src="https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=600&q=80" alt="Content system" loading="lazy">
+                <div class="solution-card-content"><div class="step-num">3</div><p data-i18n="sol3">Kontentni tizimga solasiz</p></div>
+            </div>
+            <div class="solution-card reveal reveal-d4">
+                <img src="https://images.unsplash.com/photo-1759393852314-59dc00faeed3?w=600&q=80" alt="Creating Reels" loading="lazy">
+                <div class="solution-card-content"><div class="step-num">4</div><p data-i18n="sol4">Reels orqali o'sishni boshlaysiz</p></div>
+            </div>
+            <div class="solution-card reveal reveal-d5">
+                <img src="https://images.unsplash.com/photo-1621184078811-1120e2f1fc9e?w=600&q=80" alt="Instagram Stories" loading="lazy">
+                <div class="solution-card-content"><div class="step-num">5</div><p data-i18n="sol5">Stories orqali sotishni o'rganasiz</p></div>
+            </div>
+            <div class="solution-card reveal">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80" alt="Sales funnel analytics" loading="lazy">
+                <div class="solution-card-content"><div class="step-num">6</div><p data-i18n="sol6">O'z voronkangizni qurib chiqasiz</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 6. KEYSLAR — SVG -->
+<section class="section cases-section" id="cases">
+    <div class="container">
+        <div class="reveal"><div class="section-eyebrow" data-i18n="sec6_eye">Keyslar</div><h2 class="section-title" data-i18n="sec6_title">Bizning tizim mijozlarimizga <span class="accent">qanday natija</span> olib kelgani</h2></div>
+        <div class="cases-svg reveal" style="margin-top:40px;text-align:center">
+            <img src="img/Final/Group 2089346608.svg" alt="Keyslar" loading="lazy" style="width:100%;max-width:900px;height:auto;margin:0 auto;display:block">
+        </div>
+    </div>
+</section>
+
+<!-- 7. FORMAT -->
+<section class="section" id="format">
+    <div class="container">
+        <div class="reveal"><div class="section-eyebrow" data-i18n="sec7_eye">Format</div><h2 class="section-title" data-i18n="sec7_title">Kurs qanday <span class="accent">o'tadi?</span></h2></div>
+        <div class="format-grid reveal">
+            <div class="format-card"><div class="big-num">2</div><div class="sub" data-i18n="fmt1_sub">oy davom etadi</div><div class="detail" data-i18n="fmt1_det">1-oy: asosiy darslar<br>2-oy: amaliyot</div></div>
+            <div class="format-card"><div class="big-num">10</div><div class="sub" data-i18n="fmt2_sub">ta dars</div><div class="detail" data-i18n="fmt2_det">3 ta spiker<br>5 ta mehmon spiker</div></div>
+            <div class="format-card"><div class="big-num">1:1</div><div class="sub" data-i18n="fmt3_sub">Shaxsiy razbor</div><div class="detail" data-i18n="fmt3_det">Kurator nazorati<br>Savollarga javob</div></div>
+        </div>
+        <div class="format-extras reveal">
+            <div class="format-extra"><div class="icon-box-sm"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><span data-i18n="fmtx1">Tayyor shablonlar</span></div>
+            <div class="format-extra"><div class="icon-box-sm"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><span data-i18n="fmtx2">1 ga 1 razbor</span></div>
+            <div class="format-extra"><div class="icon-box-sm"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div><span data-i18n="fmtx3">Kurator nazorati</span></div>
+            <div class="format-extra"><div class="icon-box-sm"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><span data-i18n="fmtx4">Shaxsan javob beraman</span></div>
+        </div>
+        <div class="format-banner reveal">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&q=80" alt="Team collaboration" loading="lazy">
+        </div>
+    </div>
+</section>
+
+<!-- 8. MODULLAR -->
+<section class="section section-alt" id="modules">
+    <div class="container">
+        <div class="reveal"><div class="section-eyebrow" data-i18n="sec8_eye">Dastur</div><h2 class="section-title" data-i18n="sec8_title">Dastur <span class="accent">modullari</span></h2></div>
+        <div class="module-tabs reveal">
+            <button class="module-tab active" data-tab="1" data-i18n="mod_t1">Modul 1</button><button class="module-tab" data-tab="2" data-i18n="mod_t2">Modul 2</button><button class="module-tab" data-tab="3" data-i18n="mod_t3">Modul 3</button><button class="module-tab" data-tab="4" data-i18n="mod_t4">Modul 4</button><button class="module-tab" data-tab="5" data-i18n="mod_t5">Modul 5</button><button class="module-tab" data-tab="6" data-i18n="mod_t6">Modul 6</button>
+        </div>
+        <div class="module-panel active" data-panel="1"><div class="module-head"><h3 data-i18n="m1_h">Analiz va shaxsiyat</h3><p data-i18n="m1_d">Bozor tahlili, o'zingizni ochish va auditoriyani aniqlash</p></div><div class="module-list"><div class="module-item"><div class="bullet"></div><span data-i18n="m1_i1">Bozor va konkurent tahlili</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m1_i2">SWOT tahlil</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m1_i3">Shaxsiyatni ochish</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m1_i4">Maqsad qo'yish</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m1_i5">Auditoriya aniqlash</span></div></div></div>
+        <div class="module-panel" data-panel="2"><div class="module-head"><h3 data-i18n="m2_h">Strategiya</h3><p data-i18n="m2_d">To'liq yo'l xarita va blog pasporti</p></div><div class="module-list"><div class="module-item"><div class="bullet"></div><span data-i18n="m2_i1">To'liq yo'l xarita</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m2_i2">Pozitsiya tanlash</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m2_i3">Blog pasporti</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m2_i4">O'sish rejasi</span></div></div></div>
+        <div class="module-panel" data-panel="3"><div class="module-head"><h3 data-i18n="m3_h">Kontent — Reels</h3><p data-i18n="m3_d">Ssenariy, million prosmotr formulasi</p></div><div class="module-list"><div class="module-item"><div class="bullet"></div><span data-i18n="m3_i1">Ssenariy yozish</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m3_i2">Million prosmotr formulasi</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m3_i3">Tayyor shablonlar</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m3_i4">Rubrikalar</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m3_i5">Idea topish</span></div></div></div>
+        <div class="module-panel" data-panel="4"><div class="module-head"><h3 data-i18n="m4_h">Stories — Progrev</h3><p data-i18n="m4_d">Stories orqali sotuv va ishonch qurish</p></div><div class="module-list"><div class="module-item"><div class="bullet"></div><span data-i18n="m4_i1">Stories orqali sotuv</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m4_i2">Ishonch qurish</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m4_i3">Progrev tizimi</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m4_i4">Real metodlar</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m4_i5">Prosmotr oshirish</span></div></div></div>
+        <div class="module-panel" data-panel="5"><div class="module-head"><h3 data-i18n="m5_h">Voronka va trafik</h3><p data-i18n="m5_d">Ishlaydigan voronkalar va trafik</p></div><div class="module-list"><div class="module-item"><div class="bullet"></div><span data-i18n="m5_i1">Ishlaydigan voronkalar</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m5_i2">Trafik jalb qilish</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m5_i3">Konversiya va raqamlar</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m5_i4">Xatolar</span></div></div></div>
+        <div class="module-panel" data-panel="6"><div class="module-head"><h3 data-i18n="m6_h">Platformalar</h3><p data-i18n="m6_d">YouTube, Telegram va boshqa platformalar</p></div><div class="module-list"><div class="module-item"><div class="bullet"></div><span data-i18n="m6_i1">YouTube</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m6_i2">Telegram</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m6_i3">Kontent moslash</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m6_i4">Formatlar</span></div><div class="module-item"><div class="bullet"></div><span data-i18n="m6_i5">Sotuv mexanizmi</span></div></div></div>
+    </div>
+</section>
+
+<!-- VISUAL BREAK -->
+<div class="visual-strip to-dark">
+    <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1400&q=80" alt="Personal branding workshop" loading="lazy">
+</div>
+
+<!-- 9. NATIJA -->
+<section class="section result-section" id="result">
+    <div class="result-bg-img"></div>
+    <div class="container">
+        <div class="reveal"><div class="section-eyebrow" data-i18n="sec9_eye">Natija</div><h2 class="section-title" data-i18n="sec9_title">Kursdan keyin <span class="accent">siz:</span></h2></div>
+        <div class="results-grid">
+            <div class="result-item reveal reveal-d1"><div class="icon-box"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></div><p data-i18n="res1">Aniq strategiyaga ega bo'lasiz</p></div>
+            <div class="result-item reveal reveal-d2"><div class="icon-box"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div><p data-i18n="res2">Kontent tizimi bo'ladi</p></div>
+            <div class="result-item reveal reveal-d3"><div class="icon-box"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><p data-i18n="res3">Sotuvni tushunasiz</p></div>
+            <div class="result-item reveal reveal-d4"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><p data-i18n="res4">Auditoriya yig'asiz</p></div>
+            <div class="result-item reveal reveal-d5"><div class="icon-box"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><p data-i18n="res5">Daromad qilishni boshlaysiz</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- SPEAKERS + REELS -->
+<section class="section speakers-section">
+    <div class="container">
+        <div class="reveal">
+            <div class="section-eyebrow">Spikerlar</div>
+            <h2 class="section-title">Kursda <span class="accent">kimlar o'qitadi?</span></h2>
+        </div>
+        <div class="speaker-cards reveal" style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:40px">
+            <div style="text-align:center"><img src="img/speaker1.png" alt="Spiker 1" loading="lazy" style="width:100%;border-radius:16px;aspect-ratio:3/4;object-fit:cover;box-shadow:0 4px 20px rgba(0,0,0,0.1)"></div>
+            <div style="text-align:center"><img src="img/speaker2.png" alt="Spiker 2" loading="lazy" style="width:100%;border-radius:16px;aspect-ratio:3/4;object-fit:cover;box-shadow:0 4px 20px rgba(0,0,0,0.1)"></div>
+            <div style="text-align:center"><img src="img/speaker3.png" alt="Spiker 3" loading="lazy" style="width:100%;border-radius:16px;aspect-ratio:3/4;object-fit:cover;box-shadow:0 4px 20px rgba(0,0,0,0.1)"></div>
+            <div style="text-align:center"><img src="img/speaker4.png" alt="Spiker 4" loading="lazy" style="width:100%;border-radius:16px;aspect-ratio:3/4;object-fit:cover;box-shadow:0 4px 20px rgba(0,0,0,0.1)"></div>
+            <div style="text-align:center"><img src="img/speaker5.png" alt="Spiker 5" loading="lazy" style="width:100%;border-radius:16px;aspect-ratio:3/4;object-fit:cover;box-shadow:0 4px 20px rgba(0,0,0,0.1)"></div>
+        </div>
+        <!-- YouTube Reels -->
+        <div class="reveal" style="margin-top:72px">
+            <div class="section-eyebrow">Reels</div>
+            <h2 class="section-title" style="margin-bottom:8px">Haliyam bir qarorga kelmagan bo'lsangiz,<br><span class="accent">mijozlarimizning fikrlari bilan tanishing</span></h2>
+        </div>
+        <div class="reels-grid reveal" style="display:flex;gap:16px;margin-top:32px;overflow-x:auto;padding-bottom:16px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch">
+            <div class="reel-card" style="flex:0 0 auto;width:200px;scroll-snap-align:start"><div style="position:relative;width:100%;aspect-ratio:9/16;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.12)"><iframe src="https://www.youtube.com/embed/a1un10bwYnU" title="Reel 1" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%"></iframe></div></div>
+            <div class="reel-card" style="flex:0 0 auto;width:200px;scroll-snap-align:start"><div style="position:relative;width:100%;aspect-ratio:9/16;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.12)"><iframe src="https://www.youtube.com/embed/OorUQTtH-VU" title="Reel 2" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%"></iframe></div></div>
+            <div class="reel-card" style="flex:0 0 auto;width:200px;scroll-snap-align:start"><div style="position:relative;width:100%;aspect-ratio:9/16;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.12)"><iframe src="https://www.youtube.com/embed/szfHU8VJMHs" title="Reel 3" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%"></iframe></div></div>
+            <div class="reel-card" style="flex:0 0 auto;width:200px;scroll-snap-align:start"><div style="position:relative;width:100%;aspect-ratio:9/16;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.12)"><iframe src="https://www.youtube.com/embed/DiG8g40Dh0o" title="Reel 4" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%"></iframe></div></div>
+            <div class="reel-card" style="flex:0 0 auto;width:200px;scroll-snap-align:start"><div style="position:relative;width:100%;aspect-ratio:9/16;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.12)"><iframe src="https://www.youtube.com/embed/ZE0S4OMGeJY" title="Reel 5" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%"></iframe></div></div>
+        </div>
+    <!-- old speakers grid removed -->
+    </div>
+</section>
+
+<!-- VISUAL BREAK -->
+<div class="visual-strip">
+    <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1400&q=80" alt="Team working together" loading="lazy">
+</div>
+
+<!-- 11. CTA + FORM -->
+<section class="section cta-section" id="register">
+    <div class="container">
+        <div class="cta-layout">
+            <div class="cta-left reveal">
+                <div class="section-eyebrow" data-i18n="cta_eye">Ro'yxatdan o'tish</div>
+                <h2 data-i18n="cta_title">Hozir <span class="accent">boshlang</span></h2>
+                <p data-i18n="cta_desc">Joylar cheklangan. Ro'yxatdan o'ting va intensiv kursga qo'shiling.</p>
+                <div class="cta-checklist">
+                    <div class="cta-check-item"><div class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span data-i18n="cta_c1">2 oylik intensiv dastur</span></div>
+                    <div class="cta-check-item"><div class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span data-i18n="cta_c2">Shaxsiy razbor va kurator</span></div>
+                    <div class="cta-check-item"><div class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span data-i18n="cta_c3">Tayyor shablonlar va strategiya</span></div>
+                    <div class="cta-check-item"><div class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span data-i18n="cta_c4">Ishlaydigan sotuv tizimi</span></div>
+                </div>
+                <div class="cta-visual">
+                    <div class="cta-card-float"><div class="cf-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="cf-text"><span class="cf-val">100+</span><span class="cf-lbl" data-i18n="cta_f1">Shaxsiy brend loyihalari</span></div></div>
+                    <div class="cta-card-float"><div class="cf-icon"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><div class="cf-text"><span class="cf-val">2 mln+</span><span class="cf-lbl" data-i18n="cta_f2">Obunachi jalb qilingan</span></div></div>
+                    <div class="cta-card-float"><div class="cf-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div class="cf-text"><span class="cf-val">$1M+</span><span class="cf-lbl" data-i18n="cta_f3">Sotuv reklamasiz</span></div></div>
+                    <div class="cta-urgency"><span class="urg-dot"></span><span data-i18n="cta_urg">Hozir ro'yxatdan o'tayotganlar bor</span></div>
+                </div>
+            </div>
+            <div class="form-card reveal" id="formCard">
+                <h3 data-i18n="form_title">Kursga qo'shilish</h3>
+                <p class="form-subtitle" data-i18n="form_sub">Ma'lumotlaringizni to'ldiring — biz siz bilan bog'lanamiz</p>
+                <form id="regForm" novalidate>
+                    <div class="field" id="f-name"><input type="text" name="fullname" data-ph-i18n="f_name_ph" placeholder="Ism-familiya" required autocomplete="name" maxlength="60"><div class="field-msg" data-i18n="f_name_err">Ism-familiya faqat harflardan iborat bo'lishi kerak (kamida 3 ta belgi)</div></div>
+                    <div class="field" id="f-phone"><input type="tel" name="phone" placeholder="+998 XX XXX XX XX" required autocomplete="tel" maxlength="17"><div class="field-msg" data-i18n="f_phone_err">To'g'ri format: +998 XX XXX XX XX (9 ta raqam)</div></div>
+                    <div class="field" id="f-telegram"><input type="text" name="telegram" placeholder="@username" autocomplete="off" maxlength="34"><div class="field-msg" data-i18n="f_tg_err">Telegram: @ bilan boshlanib, kamida 5 belgi</div></div>
+                    <div class="field" id="f-instagram"><input type="text" name="instagram" placeholder="instagram_username" autocomplete="off" maxlength="30"><div class="field-msg" data-i18n="f_ig_err">Instagram: faqat harf, raqam, . yoki _ (kamida 3 belgi)</div></div>
+                    <div id="f-income">
+                        <span class="field-label" data-i18n="f_income_lbl">Hozirgi kundagi daromadingizni belgilang</span>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="income" value="200-500"><span class="radio-dot"></span><span class="radio-label">$200 – $500</span></label>
+                            <label class="radio-item"><input type="radio" name="income" value="600-1000"><span class="radio-dot"></span><span class="radio-label">$600 – $1000</span></label>
+                            <label class="radio-item"><input type="radio" name="income" value="1000-2000"><span class="radio-dot"></span><span class="radio-label">$1000 – $2000</span></label>
+                            <label class="radio-item"><input type="radio" name="income" value="2000-5000"><span class="radio-dot"></span><span class="radio-label">$2000 – $5000</span></label>
+                            <label class="radio-item"><input type="radio" name="income" value="5000+"><span class="radio-dot"></span><span class="radio-label">$5000+</span></label>
+                        </div>
+                        <div class="field-msg" data-i18n="f_inc_err">Daromad darajasini tanlang</div>
+                    </div>
+                    <div class="field" id="f-goal"><label class="field-label" data-i18n="f_goal_lbl">Dasturda nima maqsadda o'qimoqchisiz?</label><textarea name="goal" data-ph-i18n="f_goal_ph" placeholder="Batafsil yozishingizni so'raymiz" minlength="10" maxlength="500"></textarea><div class="field-msg" data-i18n="f_goal_err">Kamida 10 ta belgi yozing</div></div>
+                    <button type="submit" class="submit-btn" data-i18n="form_btn">Ro'yxatdan o'tish</button>
+                </form>
+                <div class="form-success" id="formSuccess"><div class="ok-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><h4 data-i18n="f_ok_t">Rahmat!</h4><p data-i18n="f_ok_d">So'rovingiz qabul qilindi. Tez orada bog'lanamiz.</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="section faq-section" id="faq">
+    <div class="faq-shapes">
+        <div class="faq-shape"></div>
+        <div class="faq-shape"></div>
+        <div class="faq-shape"></div>
+    </div>
+    <div class="container">
+        <div class="faq-layout">
+            <div class="faq-left reveal">
+                <div class="section-eyebrow" data-i18n="faq_eye">FAQ</div>
+                <h2 class="section-title" data-i18n="faq_title">Ko'p beriladigan <span class="accent">savollar</span></h2>
+                <p class="section-desc" data-i18n="faq_desc">Savollaringizga javob topa olmadingizmi?</p>
+                <div class="faq-cta-box">
+                    <p data-i18n="faq_cta_t"><strong>Ma'lumotlaringizni qoldiring</strong> va savollaringizga javob oling</p>
+                    <a href="#register" class="faq-cta-btn">
+                        <span data-i18n="faq_cta_btn">Ro'yxatdan o'tish</span>
+                        <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="faq-list reveal">
+                <div class="faq-item">
+                    <div class="faq-q">
+                        <span class="faq-num">01</span>
+                        <span data-i18n="faq_q1">Xizmatlaringiz narxi qanday shakllanadi va kichik yoki o'rta biznes uchun mos paketlaringiz bormi?</span>
+                        <div class="faq-toggle"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                    </div>
+                    <div class="faq-a"><p data-i18n="faq_a1">Xizmatlar narxi birinchi navbatda ish hajmi va murakkabligiga qarab shakllanadi, ya'ni oddiy banner yoki flyer kabi dizaynlar arzonroq bo'lsa, to'liq brend identikasi, strategik kontent rejalari, 3D yoki animatsion yechimlar yuqoriroq narxga ega bo'ladi. Muddat ham muhim omil bo'lib, qisqa vaqtda bajariladigan ishlarda qo'shimcha xarajat hisoblanadi.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">
+                        <span class="faq-num">02</span>
+                        <span data-i18n="faq_q2">Siz mening biznesim uchun eng samarali marketing strategiyasini qanday aniqlaysiz?</span>
+                        <div class="faq-toggle"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                    </div>
+                    <div class="faq-a"><p data-i18n="faq_a2">Biz avval sizning biznesingizni, auditoriyangizni va raqobatchilaringizni chuqur tahlil qilamiz. SWOT tahlil, bozor segmentatsiyasi va kontent audit orqali eng samarali strategiyani shakllantiramiz.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">
+                        <span class="faq-num">03</span>
+                        <span data-i18n="faq_q3">Shaxsiy brendni rivojlantirish uchun qancha vaqt kerak bo'ladi?</span>
+                        <div class="faq-toggle"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                    </div>
+                    <div class="faq-a"><p data-i18n="faq_a3">Odatda birinchi natijalar 2-3 oyda ko'rinadi. Barqaror shaxsiy brend qurilishi 6-12 oy davom etadi. Biz sizga har bir bosqichda yo'l xaritasi va aniq ko'rsatkichlar beramiz.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">
+                        <span class="faq-num">04</span>
+                        <span data-i18n="faq_q4">Instagram Reels va Stories orqali sotuv qilish haqiqatan ham ishlaydi mi?</span>
+                        <div class="faq-toggle"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                    </div>
+                    <div class="faq-a"><p data-i18n="faq_a4">Ha, bizning mijozlarimiz Reels orqali 2 mln dan ortiq obunachi jalb qilgan va Stories orqali reklamasiz $1M dan ortiq sotuv qilgan. Tizimli yondashuv bilan bu har qanday soha uchun ishlaydi.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">
+                        <span class="faq-num">05</span>
+                        <span data-i18n="faq_q5">Kurs tugaganidan keyin ham qo'llab-quvvatlash bormi?</span>
+                        <div class="faq-toggle"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                    </div>
+                    <div class="faq-a"><p data-i18n="faq_a5">Albatta. Kurs bitiruvchilari maxsus hamjamiyatga qo'shiladi, doimiy yangiliklar, shablonlar va yordam oladi. Bundan tashqari shaxsiy maslahat uchun alohida paketlar mavjud.</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <div class="logo-f">INVIS<span class="f-on">ION</span></div>
+        <div class="footer-sub">producing &amp; marketing</div>
+        <p data-i18n="footer_copy">&copy; 2026 Invision. Barcha huquqlar himoyalangan.</p>
+    </div>
+</footer>
+
+<script>
+    // Reveal
+    const io = new IntersectionObserver(es => { es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }); }, {threshold:.08,rootMargin:'0px 0px -30px 0px'});
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Header
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 60); }, {passive:true});
+
+    // Module tabs
+    document.querySelectorAll('.module-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.module-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.module-panel').forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            document.querySelector(`.module-panel[data-panel="${tab.dataset.tab}"]`).classList.add('active');
+        });
+    });
+
+    // Case slider with smooth directional animation
+    const slides = document.querySelectorAll('.case-slide');
+    const dots = document.querySelectorAll('.case-dot');
+    let cur = 1, animating = false;
+    function goTo(n, direction) {
+        if(animating) return;
+        if(n<1) n=slides.length; if(n>slides.length) n=1;
+        if(n===cur) return;
+        animating = true;
+        const dir = direction || (n > cur ? 'next' : 'prev');
+        const oldSlide = document.querySelector(`.case-slide[data-case="${cur}"]`);
+        const newSlide = document.querySelector(`.case-slide[data-case="${n}"]`);
+        // Exit old slide
+        const exitClass = dir==='next' ? 'exit-left' : 'exit-right';
+        const enterClass = dir==='next' ? 'enter-left' : 'enter-right';
+        oldSlide.classList.remove('active');
+        oldSlide.classList.add(exitClass);
+        // Enter new slide after short delay
+        setTimeout(() => {
+            oldSlide.classList.remove(exitClass);
+            oldSlide.style.display = 'none';
+            newSlide.classList.add('active', enterClass);
+            setTimeout(() => newSlide.classList.remove(enterClass), 600);
+            animating = false;
+        }, 350);
+        // Update dots
+        dots.forEach(d=>d.classList.remove('active'));
+        document.querySelector(`.case-dot[data-goto="${n}"]`).classList.add('active');
+        cur = n;
+    }
+    document.querySelectorAll('.case-nav-btn').forEach(b => {
+        b.addEventListener('click', () => {
+            const dir = b.dataset.dir;
+            goTo(dir==='next'?cur+1:cur-1, dir==='next'?'next':'prev');
+        });
+    });
+    dots.forEach(d => d.addEventListener('click', () => {
+        const target = +d.dataset.goto;
+        goTo(target, target > cur ? 'next' : 'prev');
+    }));
+    let auto = setInterval(() => goTo(cur+1, 'next'), 6000);
+    const caseSlider = document.querySelector('.case-slider');
+    if (caseSlider) {
+        caseSlider.addEventListener('mouseenter', () => clearInterval(auto));
+        caseSlider.addEventListener('mouseleave', () => { auto = setInterval(() => goTo(cur+1, 'next'), 6000); });
+        // Touch swipe support
+        let touchStartX = 0;
+        caseSlider.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, {passive:true});
+        caseSlider.addEventListener('touchend', e => {
+            const diff = touchStartX - e.changedTouches[0].clientX;
+            if(Math.abs(diff) > 50) { diff > 0 ? goTo(cur+1,'next') : goTo(cur-1,'prev'); }
+        }, {passive:true});
+    }
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-q').forEach(q => {
+        q.addEventListener('click', () => {
+            const item = q.parentElement;
+            const wasOpen = item.classList.contains('open');
+            // Close all
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+            // Toggle clicked
+            if (!wasOpen) item.classList.add('open');
+        });
+    });
+
+    // Mobile nav
+    const nav = document.querySelector('.nav');
+    const mt = document.getElementById('mobileToggle');
+    function closeNav(){nav.classList.remove('open');mt.classList.remove('active');document.body.style.overflow=''}
+    function isOpen(){return nav.classList.contains('open')}
+    mt.addEventListener('click', e => { e.stopPropagation(); if(isOpen()){closeNav()}else{nav.classList.add('open');mt.classList.add('active');document.body.style.overflow='hidden'} });
+    window.addEventListener('scroll', () => { if(isOpen()) closeNav(); }, {passive:true});
+    document.addEventListener('click', e => { if(isOpen()&&!nav.contains(e.target)&&e.target!==mt) closeNav(); });
+    nav.querySelectorAll('a').forEach(l => l.addEventListener('click', closeNav));
+
+    // Form validation
+    const form = document.getElementById('regForm');
+    const $=id=>document.getElementById(id);
+    function setOk(id){$(id).classList.remove('field-error','radio-error');$(id).classList.add('field-ok')}
+    function setErr(id){$(id).classList.remove('field-ok');$(id).classList.add(id==='f-income'?'radio-error':'field-error')}
+    function clr(id){$(id).classList.remove('field-error','field-ok','radio-error')}
+
+    const nameIn=form.fullname, nameRx=/^[A-Za-zА-Яа-яЁёЎўҚқҒғҲҳ\s''\-]{3,60}$/, nameCh=/[^A-Za-zА-Яа-яЁёЎўҚқҒғҲҳ\s''\-]/g;
+    nameIn.addEventListener('input',function(){this.value=this.value.replace(nameCh,'');if(!this.value.length){clr('f-name');return}nameRx.test(this.value.trim())?setOk('f-name'):setErr('f-name')});
+
+    const phIn=form.phone;
+    phIn.addEventListener('focus',function(){if(!this.value)this.value='+998 '});
+    phIn.addEventListener('input',function(){let r=this.value.replace(/[^\d]/g,'');if(!r.startsWith('998'))r='998'+r.replace(/^998*/,'');let d=r.substring(3,12),f='+998';if(d.length>0)f+=' '+d.substring(0,2);if(d.length>2)f+=' '+d.substring(2,5);if(d.length>5)f+=' '+d.substring(5,7);if(d.length>7)f+=' '+d.substring(7,9);this.value=f;if(!d.length){clr('f-phone');return}d.length===9?setOk('f-phone'):setErr('f-phone')});
+    phIn.addEventListener('keydown',function(e){if([8,9,13,27,46].includes(e.keyCode)||(e.keyCode>=35&&e.keyCode<=40)||(e.ctrlKey||e.metaKey))return;if((e.keyCode<48||e.keyCode>57)&&(e.keyCode<96||e.keyCode>105))e.preventDefault();if(e.keyCode===8&&this.selectionStart<=5&&this.selectionEnd<=5)e.preventDefault()});
+    phIn.addEventListener('paste',function(e){e.preventDefault();let d=(e.clipboardData||window.clipboardData).getData('text').replace(/[^\d]/g,'');let c=d.startsWith('998')?d.substring(3):d;c=c.substring(0,9);let f='+998';if(c.length>0)f+=' '+c.substring(0,2);if(c.length>2)f+=' '+c.substring(2,5);if(c.length>5)f+=' '+c.substring(5,7);if(c.length>7)f+=' '+c.substring(7,9);this.value=f;c.length===9?setOk('f-phone'):setErr('f-phone')});
+
+    const tgIn=form.telegram, tgRx=/^[A-Za-z0-9_]{5,32}$/, tgCh=/[^A-Za-z0-9_@]/g;
+    tgIn.addEventListener('focus',function(){if(!this.value)this.value='@'});
+    tgIn.addEventListener('input',function(){this.value=this.value.replace(tgCh,'');if(!this.value.startsWith('@'))this.value='@'+this.value.replace(/@/g,'');let a=this.value.substring(1).replace(/@/g,'');this.value='@'+a;if(!a.length){clr('f-telegram');return}tgRx.test(a)?setOk('f-telegram'):setErr('f-telegram')});
+
+    const igIn=form.instagram, igRx=/^[A-Za-z0-9._]{3,30}$/, igCh=/[^A-Za-z0-9._]/g;
+    igIn.addEventListener('input',function(){this.value=this.value.replace(igCh,'');if(this.value.startsWith('.'))this.value=this.value.substring(1);this.value=this.value.replace(/\.{2,}/g,'.');if(!this.value.length){clr('f-instagram');return}igRx.test(this.value)?setOk('f-instagram'):setErr('f-instagram')});
+
+    document.querySelectorAll('input[name="income"]').forEach(r=>r.addEventListener('change',()=>setOk('f-income')));
+    const goalIn=form.goal;
+    goalIn.addEventListener('input',function(){if(!this.value.length){clr('f-goal');return}this.value.trim().length>=10?setOk('f-goal'):setErr('f-goal')});
+
+    form.addEventListener('submit',function(e){
+        e.preventDefault();let v=true;
+        if(!nameRx.test(nameIn.value.trim())){setErr('f-name');v=false}else setOk('f-name');
+        let pd=phIn.value.replace(/[^\d]/g,'').substring(3);if(pd.length!==9){setErr('f-phone');v=false}else setOk('f-phone');
+        if(tgIn.value&&tgIn.value!=='@'){let b=tgIn.value.startsWith('@')?tgIn.value.substring(1):tgIn.value;if(!tgRx.test(b)){setErr('f-telegram');v=false}else setOk('f-telegram')}
+        if(igIn.value&&!igRx.test(igIn.value)){setErr('f-instagram');v=false}
+        if(!form.querySelector('input[name="income"]:checked')){setErr('f-income');v=false}
+        if(goalIn.value&&goalIn.value.trim().length<10){setErr('f-goal');v=false}
+        if(!v){let fe=this.closest('.form-card').querySelector('.field-error,.radio-error');if(fe)fe.scrollIntoView({behavior:'smooth',block:'center'});return}
+        this.style.display='none';$('formSuccess').classList.add('show');
+    });
+
+    // ===== LANGUAGE SYSTEM =====
+    const translations = {
+        uz: {
+            nav_audience: "Kimlar uchun", nav_program: "Dastur", nav_speaker: "Spiker", nav_start: "Boshlash",
+            hero_badge: "INVISION — Intensiv",
+            hero_title: 'Instagram orqali auditoriya yig\'ib, sotuv qiladigan <span class="accent">shaxsiy brend</span> quring',
+            hero_sub: "2 oy ichida sizda aniq strategiya, kontent tizimi va ishlaydigan sotuv mexanizmi bo'ladi",
+            hero_cta: "Boshlash", hero_info: "Onlayn · 2 oy",
+            // Sec 2 — Audience
+            sec2_eye: "Kimlar uchun", sec2_title: 'Dastur <span class="accent">kimlar uchun?</span>',
+            aud1_t: "Soha egalari", aud1_d: "Instagram orqali xizmatini sotmoqchi yoki chekni oshirmoqchi",
+            aud2_t: "Blog boshlamoqchilar", aud2_d: "0 dan boshlamoqchi, 10K obunachi yig'moqchi",
+            aud3_t: "Blog yuritayotganlar", aud3_d: "Kontent bor, lekin sotuv yo'q",
+            aud4_t: "Mutaxassis bo'lishni istaganlar", aud4_d: "Shaxsiy brend orqali pul ishlamoqchi",
+            // Sec 3 — Promise
+            sec3_eye: "Natija", sec3_title: 'Bu kursda siz <span class="accent">nima olasiz?</span>',
+            prom1: "Noldan tizimli shaxsiy brend qurish", prom2: "Reels orqali auditoriya yig'ish",
+            prom3: "Stories orqali sotuv qilish", prom4: "Ishlaydigan kontent tizimi",
+            prom5: "Tayyor strategiya va yo'l xaritasi",
+            // Sec 4 — Problem
+            sec4_eye: "Muammo", sec4_title: 'Nega hozir sizda <span class="accent">natija yo\'q?</span>',
+            prob1: "Nima chiqarishni bilmaysiz", prob2: "Kontent bor, lekin sotuv yo'q",
+            prob3: "Strategiya yo'q", prob4: "Auditoriya tushunarsiz", prob5: "Harakat bor, natija yo'q",
+            // Sec 5 — Solution
+            sec5_eye: "Yechim", sec5_title: 'Biz sizga <span class="accent">tizim beramiz</span>',
+            sec5_desc: "Bu kursda siz quyidagi qadamlarni bosib o'tasiz:",
+            sol1: "O'zingizni ochasiz va pozitsiya tanlaysiz", sol2: "Aniq strategiya qurasiz",
+            sol3: "Kontentni tizimga solasiz", sol4: "Reels orqali o'sishni boshlaysiz",
+            sol5: "Stories orqali sotishni o'rganasiz", sol6: "O'z voronkangizni qurib chiqasiz",
+            // Sec 6 — Cases
+            sec6_eye: "Keyslar", sec6_title: 'Bizning tizim mijozlarimizga <span class="accent">qanday natija</span> olib kelgani',
+            cs_l1: "obunachi", cs_l2: "sotuv", cs_l3: "prosmotr", cs_l4: "loyiha",
+            cs_a_lbl: "A nuqtasi", cs_b_lbl: "B nuqtasi",
+            c1_role: "Rieltor", c1_tag1: "Shaxsiy brend", c1_tag2: "Rieltor",
+            c1_sub: "0 dan 230,000 obunachi 1.5 yilda",
+            c1_a1: "0 ta obunachi", c1_a2: "Onlayn savdolar bo'lmagan", c1_a3: "Soha ichida tanilmagan",
+            c1_b1: "230,000 ta obunachi", c1_b2: "Muntazam kontent: 249 post", c1_b3: "Soha eksperti",
+            c1_m1: "Obunachi 2 oyda", c1_m2: "Kunlik sotuv", c1_m3: "Hamkorlik",
+            c2_role: "Biznes trener", c2_tag1: "Shaxsiy brend",
+            c2_sub: "0 dan 180,000 obunachi va barqaror sotuv",
+            c2_a1: "Blog yuritilmagan", c2_a2: "Faqat offlayn trening", c2_a3: "Onlayn daromad 0",
+            c2_b1: "180,000 faol obunachi", c2_b2: "Oyiga 5+ onlayn trening", c2_b3: "Soha lideri",
+            c2_m1: "Obunachi 1 yilda", c2_m2: "Daromad o'sishi", c2_m3: "Hamkorlik",
+            c3_role: "Restoran egasi", c3_tag1: "Soha brendi",
+            c3_sub: "Restoran blogini 0 dan 95K gacha",
+            c3_a1: "Instagram faol emas", c3_a2: "Faqat offlayn", c3_a3: "Strategiya yo'q",
+            c3_b1: "95,000 obunachi", c3_b2: "Reels viral o'sish", c3_b3: "Buyurtmalar 4x oshdi",
+            c3_m1: "8 oyda obunachi", c3_m2: "Buyurtma o'sishi", c3_m3: "Prosmotr",
+            // Sec 7 — Format
+            sec7_eye: "Format", sec7_title: 'Kurs qanday <span class="accent">o\'tadi?</span>',
+            fmt1_sub: "oy davom etadi", fmt1_det: "1-oy: asosiy darslar<br>2-oy: amaliyot",
+            fmt2_sub: "ta dars", fmt2_det: "3 ta spiker<br>5 ta mehmon spiker",
+            fmt3_sub: "Shaxsiy razbor", fmt3_det: "Kurator nazorati<br>Savollarga javob",
+            fmtx1: "Tayyor shablonlar", fmtx2: "1 ga 1 razbor", fmtx3: "Kurator nazorati", fmtx4: "Shaxsan javob beraman",
+            // Sec 8 — Modules
+            sec8_eye: "Dastur", sec8_title: 'Dastur <span class="accent">modullari</span>',
+            mod_t1: "Modul 1", mod_t2: "Modul 2", mod_t3: "Modul 3", mod_t4: "Modul 4", mod_t5: "Modul 5", mod_t6: "Modul 6",
+            m1_h: "Analiz va shaxsiyat", m1_d: "Bozor tahlili, o'zingizni ochish va auditoriyani aniqlash",
+            m1_i1: "Bozor va konkurent tahlili", m1_i2: "SWOT tahlil", m1_i3: "Shaxsiyatni ochish", m1_i4: "Maqsad qo'yish", m1_i5: "Auditoriya aniqlash",
+            m2_h: "Strategiya", m2_d: "To'liq yo'l xarita va blog pasporti",
+            m2_i1: "To'liq yo'l xarita", m2_i2: "Pozitsiya tanlash", m2_i3: "Blog pasporti", m2_i4: "O'sish rejasi",
+            m3_h: "Kontent — Reels", m3_d: "Ssenariy, million prosmotr formulasi",
+            m3_i1: "Ssenariy yozish", m3_i2: "Million prosmotr formulasi", m3_i3: "Tayyor shablonlar", m3_i4: "Rubrikalar", m3_i5: "Idea topish",
+            m4_h: "Stories — Progrev", m4_d: "Stories orqali sotuv va ishonch qurish",
+            m4_i1: "Stories orqali sotuv", m4_i2: "Ishonch qurish", m4_i3: "Progrev tizimi", m4_i4: "Real metodlar", m4_i5: "Prosmotr oshirish",
+            m5_h: "Voronka va trafik", m5_d: "Ishlaydigan voronkalar va trafik",
+            m5_i1: "Ishlaydigan voronkalar", m5_i2: "Trafik jalb qilish", m5_i3: "Konversiya va raqamlar", m5_i4: "Xatolar",
+            m6_h: "Platformalar", m6_d: "YouTube, Telegram va boshqa platformalar",
+            m6_i1: "YouTube", m6_i2: "Telegram", m6_i3: "Kontent moslash", m6_i4: "Formatlar", m6_i5: "Sotuv mexanizmi",
+            // Sec 9 — Result
+            sec9_eye: "Natija", sec9_title: 'Kursdan keyin <span class="accent">siz:</span>',
+            res1: "Aniq strategiyaga ega bo'lasiz", res2: "Kontent tizimi bo'ladi",
+            res3: "Sotuvni tushunasiz", res4: "Auditoriya yig'asiz", res5: "Daromad qilishni boshlaysiz",
+            // Sec 10 — Expert
+            sec10_eye: "Spiker", sec10_title: 'Kurs <span class="accent">muallifi</span>',
+            exp_role: "Invision asoschisi &middot; Marketing strateg",
+            exp_s1v: "6 yil", exp_s1l: "Marketingda tajriba", exp_s2l: "Loyihalar", exp_s3l: "Obunachi jalb qilingan", exp_s4l: "Sotuv reklamasiz",
+            exp_l1: "Invision asoschisi", exp_l2: "20+ loyiha bir vaqtda", exp_l3: "50 mln+ prosmotr",
+            // Speakers
+            spk_eye: "Noldan &rarr; Brendgacha",
+            spk_intro: '<strong>Biz xizmat ko\'rsatgan va biz bilan</strong> <em>o\'z shaxsiy brendini qurgan ekspertlar va tadbirkorlarning bir qismi</em>',
+            spk_more: "va yana 40+ ekspertlar va tadbirkorlar",
+            // CTA
+            cta_eye: "Ro'yxatdan o'tish", cta_title: 'Hozir <span class="accent">boshlang</span>',
+            cta_desc: "Joylar cheklangan. Ro'yxatdan o'ting va intensiv kursga qo'shiling.",
+            cta_c1: "2 oylik intensiv dastur", cta_c2: "Shaxsiy razbor va kurator",
+            cta_c3: "Tayyor shablonlar va strategiya", cta_c4: "Ishlaydigan sotuv tizimi",
+            cta_f1: "Shaxsiy brend loyihalari", cta_f2: "Obunachi jalb qilingan", cta_f3: "Sotuv reklamasiz",
+            cta_urg: "Hozir ro'yxatdan o'tayotganlar bor",
+            // Form
+            form_title: "Kursga qo'shilish", form_sub: "Ma'lumotlaringizni to'ldiring — biz siz bilan bog'lanamiz",
+            form_btn: "Ro'yxatdan o'tish",
+            f_name_ph: "Ism-familiya", f_name_err: "Ism-familiya faqat harflardan iborat bo'lishi kerak (kamida 3 ta belgi)",
+            f_phone_err: "To'g'ri format: +998 XX XXX XX XX (9 ta raqam)",
+            f_tg_err: "Telegram: @ bilan boshlanib, kamida 5 belgi",
+            f_ig_err: "Instagram: faqat harf, raqam, . yoki _ (kamida 3 belgi)",
+            f_income_lbl: "Hozirgi kundagi daromadingizni belgilang", f_inc_err: "Daromad darajasini tanlang",
+            f_goal_lbl: "Dasturda nima maqsadda o'qimoqchisiz?", f_goal_ph: "Batafsil yozishingizni so'raymiz",
+            f_goal_err: "Kamida 10 ta belgi yozing",
+            f_ok_t: "Rahmat!", f_ok_d: "So'rovingiz qabul qilindi. Tez orada bog'lanamiz.",
+            // FAQ
+            faq_eye: "FAQ", faq_title: 'Ko\'p beriladigan <span class="accent">savollar</span>',
+            faq_desc: "Savollaringizga javob topa olmadingizmi?",
+            faq_cta_t: "<strong>Ma'lumotlaringizni qoldiring</strong> va savollaringizga javob oling",
+            faq_cta_btn: "Ro'yxatdan o'tish",
+            faq_q1: "Xizmatlaringiz narxi qanday shakllanadi va kichik yoki o'rta biznes uchun mos paketlaringiz bormi?",
+            faq_a1: "Xizmatlar narxi birinchi navbatda ish hajmi va murakkabligiga qarab shakllanadi, ya'ni oddiy banner yoki flyer kabi dizaynlar arzonroq bo'lsa, to'liq brend identikasi, strategik kontent rejalari, 3D yoki animatsion yechimlar yuqoriroq narxga ega bo'ladi. Muddat ham muhim omil bo'lib, qisqa vaqtda bajariladigan ishlarda qo'shimcha xarajat hisoblanadi.",
+            faq_q2: "Siz mening biznesim uchun eng samarali marketing strategiyasini qanday aniqlaysiz?",
+            faq_a2: "Biz avval sizning biznesingizni, auditoriyangizni va raqobatchilaringizni chuqur tahlil qilamiz. SWOT tahlil, bozor segmentatsiyasi va kontent audit orqali eng samarali strategiyani shakllantiramiz.",
+            faq_q3: "Shaxsiy brendni rivojlantirish uchun qancha vaqt kerak bo'ladi?",
+            faq_a3: "Odatda birinchi natijalar 2-3 oyda ko'rinadi. Barqaror shaxsiy brend qurilishi 6-12 oy davom etadi. Biz sizga har bir bosqichda yo'l xaritasi va aniq ko'rsatkichlar beramiz.",
+            faq_q4: "Instagram Reels va Stories orqali sotuv qilish haqiqatan ham ishlaydi mi?",
+            faq_a4: "Ha, bizning mijozlarimiz Reels orqali 2 mln dan ortiq obunachi jalb qilgan va Stories orqali reklamasiz $1M dan ortiq sotuv qilgan. Tizimli yondashuv bilan bu har qanday soha uchun ishlaydi.",
+            faq_q5: "Kurs tugaganidan keyin ham qo'llab-quvvatlash bormi?",
+            faq_a5: "Albatta. Kurs bitiruvchilari maxsus hamjamiyatga qo'shiladi, doimiy yangiliklar, shablonlar va yordam oladi. Bundan tashqari shaxsiy maslahat uchun alohida paketlar mavjud.",
+            // Footer
+            footer_copy: "© 2026 Invision. Barcha huquqlar himoyalangan."
+        },
+        ru: {
+            nav_audience: "Для кого", nav_program: "Программа", nav_speaker: "Спикер", nav_start: "Начать",
+            hero_badge: "INVISION — Интенсив",
+            hero_title: 'Создайте <span class="accent">личный бренд</span>, который привлекает аудиторию и продаёт через Instagram',
+            hero_sub: "За 2 месяца у вас будет чёткая стратегия, система контента и работающий механизм продаж",
+            hero_cta: "Начать", hero_info: "Онлайн · 2 месяца",
+            // Sec 2
+            sec2_eye: "Для кого", sec2_title: 'Для кого <span class="accent">эта программа?</span>',
+            aud1_t: "Владельцы бизнеса", aud1_d: "Хотят продавать услуги или увеличить чек через Instagram",
+            aud2_t: "Начинающие блогеры", aud2_d: "Хотят начать с нуля и набрать 10К подписчиков",
+            aud3_t: "Действующие блогеры", aud3_d: "Контент есть, но продаж нет",
+            aud4_t: "Будущие эксперты", aud4_d: "Хотят зарабатывать через личный бренд",
+            // Sec 3
+            sec3_eye: "Результат", sec3_title: 'Что вы <span class="accent">получите?</span>',
+            prom1: "Системный личный бренд с нуля", prom2: "Набор аудитории через Reels",
+            prom3: "Продажи через Stories", prom4: "Работающая система контента",
+            prom5: "Готовая стратегия и дорожная карта",
+            // Sec 4
+            sec4_eye: "Проблема", sec4_title: 'Почему у вас <span class="accent">нет результата?</span>',
+            prob1: "Не знаете, что публиковать", prob2: "Контент есть, но продаж нет",
+            prob3: "Нет стратегии", prob4: "Аудитория не понятна", prob5: "Действия есть, результата нет",
+            // Sec 5
+            sec5_eye: "Решение", sec5_title: 'Мы даём вам <span class="accent">систему</span>',
+            sec5_desc: "На этом курсе вы пройдёте следующие шаги:",
+            sol1: "Раскроете себя и выберете позицию", sol2: "Построите чёткую стратегию",
+            sol3: "Систематизируете контент", sol4: "Начнёте расти через Reels",
+            sol5: "Научитесь продавать через Stories", sol6: "Создадите свою воронку продаж",
+            // Sec 6 — Cases
+            sec6_eye: "Кейсы", sec6_title: 'Какие <span class="accent">результаты</span> наша система принесла клиентам',
+            cs_l1: "подписчиков", cs_l2: "продаж", cs_l3: "просмотров", cs_l4: "проектов",
+            cs_a_lbl: "Точка А", cs_b_lbl: "Точка Б",
+            c1_role: "Риэлтор", c1_tag1: "Личный бренд", c1_tag2: "Риэлтор",
+            c1_sub: "От 0 до 230 000 подписчиков за 1.5 года",
+            c1_a1: "0 подписчиков", c1_a2: "Онлайн-продаж не было", c1_a3: "Неизвестен в нише",
+            c1_b1: "230 000 подписчиков", c1_b2: "Регулярный контент: 249 постов", c1_b3: "Эксперт в нише",
+            c1_m1: "Подписчиков за 2 мес.", c1_m2: "Ежедневные продажи", c1_m3: "Сотрудничество",
+            c2_role: "Бизнес-тренер", c2_tag1: "Личный бренд",
+            c2_sub: "От 0 до 180 000 подписчиков и стабильные продажи",
+            c2_a1: "Блог не вёлся", c2_a2: "Только офлайн-тренинги", c2_a3: "Онлайн-доход 0",
+            c2_b1: "180 000 активных подписчиков", c2_b2: "5+ онлайн-тренингов в месяц", c2_b3: "Лидер ниши",
+            c2_m1: "Подписчиков за 1 год", c2_m2: "Рост дохода", c2_m3: "Сотрудничество",
+            c3_role: "Владелец ресторана", c3_tag1: "Бренд бизнеса",
+            c3_sub: "Блог ресторана от 0 до 95К",
+            c3_a1: "Instagram не активен", c3_a2: "Только офлайн", c3_a3: "Нет стратегии",
+            c3_b1: "95 000 подписчиков", c3_b2: "Вирусный рост через Reels", c3_b3: "Заказы выросли в 4 раза",
+            c3_m1: "Подписчиков за 8 мес.", c3_m2: "Рост заказов", c3_m3: "Просмотры",
+            // Sec 7
+            sec7_eye: "Формат", sec7_title: 'Как проходит <span class="accent">курс?</span>',
+            fmt1_sub: "месяца длится", fmt1_det: "1-й месяц: основные уроки<br>2-й месяц: практика",
+            fmt2_sub: "уроков", fmt2_det: "3 спикера<br>5 приглашённых спикеров",
+            fmt3_sub: "Личный разбор", fmt3_det: "Контроль куратора<br>Ответы на вопросы",
+            fmtx1: "Готовые шаблоны", fmtx2: "Разбор 1 на 1", fmtx3: "Контроль куратора", fmtx4: "Лично отвечу на вопросы",
+            // Sec 8
+            sec8_eye: "Программа", sec8_title: 'Модули <span class="accent">программы</span>',
+            mod_t1: "Модуль 1", mod_t2: "Модуль 2", mod_t3: "Модуль 3", mod_t4: "Модуль 4", mod_t5: "Модуль 5", mod_t6: "Модуль 6",
+            m1_h: "Анализ и личность", m1_d: "Анализ рынка, раскрытие личности и определение аудитории",
+            m1_i1: "Анализ рынка и конкурентов", m1_i2: "SWOT-анализ", m1_i3: "Раскрытие личности", m1_i4: "Постановка целей", m1_i5: "Определение аудитории",
+            m2_h: "Стратегия", m2_d: "Полная дорожная карта и паспорт блога",
+            m2_i1: "Полная дорожная карта", m2_i2: "Выбор позиции", m2_i3: "Паспорт блога", m2_i4: "План роста",
+            m3_h: "Контент — Reels", m3_d: "Сценарии и формула миллиона просмотров",
+            m3_i1: "Написание сценариев", m3_i2: "Формула миллиона просмотров", m3_i3: "Готовые шаблоны", m3_i4: "Рубрики", m3_i5: "Поиск идей",
+            m4_h: "Stories — Прогрев", m4_d: "Продажи и доверие через Stories",
+            m4_i1: "Продажи через Stories", m4_i2: "Построение доверия", m4_i3: "Система прогрева", m4_i4: "Реальные методы", m4_i5: "Увеличение просмотров",
+            m5_h: "Воронка и трафик", m5_d: "Работающие воронки и трафик",
+            m5_i1: "Работающие воронки", m5_i2: "Привлечение трафика", m5_i3: "Конверсия и цифры", m5_i4: "Ошибки",
+            m6_h: "Платформы", m6_d: "YouTube, Telegram и другие платформы",
+            m6_i1: "YouTube", m6_i2: "Telegram", m6_i3: "Адаптация контента", m6_i4: "Форматы", m6_i5: "Механизм продаж",
+            // Sec 9
+            sec9_eye: "Результат", sec9_title: 'После курса <span class="accent">вы:</span>',
+            res1: "Будете иметь чёткую стратегию", res2: "Получите систему контента",
+            res3: "Поймёте продажи", res4: "Соберёте аудиторию", res5: "Начнёте зарабатывать",
+            // Sec 10
+            sec10_eye: "Спикер", sec10_title: 'Автор <span class="accent">курса</span>',
+            exp_role: "Основатель Invision &middot; Маркетинг-стратег",
+            exp_s1v: "6 лет", exp_s1l: "Опыт в маркетинге", exp_s2l: "Проектов", exp_s3l: "Привлечено подписчиков", exp_s4l: "Продаж без рекламы",
+            exp_l1: "Основатель Invision", exp_l2: "20+ проектов одновременно", exp_l3: "50 млн+ просмотров",
+            // Speakers
+            spk_eye: "С нуля &rarr; До бренда",
+            spk_intro: '<strong>Часть экспертов и предпринимателей,</strong> <em>которым мы помогли и которые построили свой личный бренд вместе с нами</em>',
+            spk_more: "и ещё 40+ экспертов и предпринимателей",
+            // CTA
+            cta_eye: "Регистрация", cta_title: 'Начните <span class="accent">сейчас</span>',
+            cta_desc: "Места ограничены. Зарегистрируйтесь и присоединяйтесь к интенсивному курсу.",
+            cta_c1: "2-месячная интенсивная программа", cta_c2: "Личный разбор и куратор",
+            cta_c3: "Готовые шаблоны и стратегия", cta_c4: "Работающая система продаж",
+            cta_f1: "Проектов личного бренда", cta_f2: "Привлечено подписчиков", cta_f3: "Продаж без рекламы",
+            cta_urg: "Сейчас регистрируются новые участники",
+            // Form
+            form_title: "Записаться на курс", form_sub: "Заполните данные — мы свяжемся с вами",
+            form_btn: "Зарегистрироваться",
+            f_name_ph: "Имя и фамилия", f_name_err: "Имя должно содержать только буквы (минимум 3 символа)",
+            f_phone_err: "Правильный формат: +998 XX XXX XX XX (9 цифр)",
+            f_tg_err: "Telegram: начинается с @, минимум 5 символов",
+            f_ig_err: "Instagram: только буквы, цифры, . или _ (минимум 3 символа)",
+            f_income_lbl: "Укажите ваш текущий доход", f_inc_err: "Выберите уровень дохода",
+            f_goal_lbl: "С какой целью хотите пройти программу?", f_goal_ph: "Опишите подробно",
+            f_goal_err: "Минимум 10 символов",
+            f_ok_t: "Спасибо!", f_ok_d: "Ваша заявка принята. Мы скоро свяжемся с вами.",
+            // FAQ
+            faq_eye: "FAQ", faq_title: 'Часто задаваемые <span class="accent">вопросы</span>',
+            faq_desc: "Не нашли ответ на свой вопрос?",
+            faq_cta_t: "<strong>Оставьте свои данные</strong> и получите ответы на ваши вопросы",
+            faq_cta_btn: "Зарегистрироваться",
+            faq_q1: "Как формируется стоимость ваших услуг и есть ли у вас пакеты для малого и среднего бизнеса?",
+            faq_a1: "Стоимость услуг зависит от объёма и сложности работы. Простые дизайны (баннеры, флаеры) стоят дешевле, а полная айдентика бренда, стратегические контент-планы, 3D или анимация — дороже. Сроки тоже влияют: срочные заказы оцениваются с надбавкой.",
+            faq_q2: "Как вы определяете наиболее эффективную маркетинговую стратегию для моего бизнеса?",
+            faq_a2: "Сначала мы глубоко анализируем ваш бизнес, аудиторию и конкурентов. Через SWOT-анализ, сегментацию рынка и аудит контента формируем наиболее эффективную стратегию.",
+            faq_q3: "Сколько времени нужно для развития личного бренда?",
+            faq_a3: "Обычно первые результаты видны через 2-3 месяца. Устойчивый личный бренд строится 6-12 месяцев. Мы даём вам дорожную карту и чёткие показатели на каждом этапе.",
+            faq_q4: "Продажи через Instagram Reels и Stories действительно работают?",
+            faq_a4: "Да, наши клиенты привлекли более 2 млн подписчиков через Reels и совершили продаж на $1M+ через Stories без рекламы. Системный подход работает в любой нише.",
+            faq_q5: "Есть ли поддержка после окончания курса?",
+            faq_a5: "Конечно. Выпускники курса присоединяются к закрытому сообществу, получают обновления, шаблоны и помощь. Также доступны индивидуальные консультации.",
+            // Footer
+            footer_copy: "© 2026 Invision. Все права защищены."
+        },
+        en: {
+            nav_audience: "For whom", nav_program: "Program", nav_speaker: "Speaker", nav_start: "Start",
+            hero_badge: "INVISION — Intensive",
+            hero_title: 'Build a <span class="accent">personal brand</span> that attracts audience and sells through Instagram',
+            hero_sub: "In 2 months you'll have a clear strategy, content system and working sales mechanism",
+            hero_cta: "Get started", hero_info: "Online · 2 months",
+            // Sec 2
+            sec2_eye: "For whom", sec2_title: 'Who is this <span class="accent">program for?</span>',
+            aud1_t: "Business owners", aud1_d: "Want to sell services or increase revenue via Instagram",
+            aud2_t: "Aspiring bloggers", aud2_d: "Want to start from zero and reach 10K followers",
+            aud3_t: "Active bloggers", aud3_d: "Have content but no sales",
+            aud4_t: "Future experts", aud4_d: "Want to monetize through personal brand",
+            // Sec 3
+            sec3_eye: "Result", sec3_title: 'What will you <span class="accent">get?</span>',
+            prom1: "Build a systematic personal brand from scratch", prom2: "Grow your audience through Reels",
+            prom3: "Sell through Stories", prom4: "A working content system",
+            prom5: "Ready-made strategy and roadmap",
+            // Sec 4
+            sec4_eye: "Problem", sec4_title: 'Why don\'t you have <span class="accent">results yet?</span>',
+            prob1: "You don't know what to post", prob2: "Content exists but no sales",
+            prob3: "No strategy", prob4: "Audience is unclear", prob5: "Effort exists, results don't",
+            // Sec 5
+            sec5_eye: "Solution", sec5_title: 'We give you <span class="accent">the system</span>',
+            sec5_desc: "In this course you will go through the following steps:",
+            sol1: "Discover yourself and choose your position", sol2: "Build a clear strategy",
+            sol3: "Systematize your content", sol4: "Start growing through Reels",
+            sol5: "Learn to sell through Stories", sol6: "Build your own sales funnel",
+            // Sec 6 — Cases
+            sec6_eye: "Case Studies", sec6_title: 'How our system brought <span class="accent">real results</span> to our clients',
+            cs_l1: "followers", cs_l2: "in sales", cs_l3: "views", cs_l4: "projects",
+            cs_a_lbl: "Point A", cs_b_lbl: "Point B",
+            c1_role: "Realtor", c1_tag1: "Personal brand", c1_tag2: "Realtor",
+            c1_sub: "From 0 to 230,000 followers in 1.5 years",
+            c1_a1: "0 followers", c1_a2: "No online sales", c1_a3: "Unknown in the niche",
+            c1_b1: "230,000 followers", c1_b2: "Consistent content: 249 posts", c1_b3: "Niche expert",
+            c1_m1: "Followers in 2 months", c1_m2: "Daily sales", c1_m3: "Partnership",
+            c2_role: "Business coach", c2_tag1: "Personal brand",
+            c2_sub: "From 0 to 180,000 followers and steady sales",
+            c2_a1: "No blog", c2_a2: "Offline training only", c2_a3: "Online income 0",
+            c2_b1: "180,000 active followers", c2_b2: "5+ online trainings per month", c2_b3: "Niche leader",
+            c2_m1: "Followers in 1 year", c2_m2: "Income growth", c2_m3: "Partnership",
+            c3_role: "Restaurant owner", c3_tag1: "Business brand",
+            c3_sub: "Restaurant blog from 0 to 95K",
+            c3_a1: "Instagram not active", c3_a2: "Offline only", c3_a3: "No strategy",
+            c3_b1: "95,000 followers", c3_b2: "Viral Reels growth", c3_b3: "Orders increased 4x",
+            c3_m1: "Followers in 8 months", c3_m2: "Order growth", c3_m3: "Views",
+            // Sec 7
+            sec7_eye: "Format", sec7_title: 'How does the <span class="accent">course work?</span>',
+            fmt1_sub: "months duration", fmt1_det: "Month 1: core lessons<br>Month 2: practice",
+            fmt2_sub: "lessons", fmt2_det: "3 speakers<br>5 guest speakers",
+            fmt3_sub: "Personal review", fmt3_det: "Curator supervision<br>Q&A sessions",
+            fmtx1: "Ready-made templates", fmtx2: "1-on-1 review", fmtx3: "Curator supervision", fmtx4: "I personally answer questions",
+            // Sec 8
+            sec8_eye: "Program", sec8_title: 'Course <span class="accent">modules</span>',
+            mod_t1: "Module 1", mod_t2: "Module 2", mod_t3: "Module 3", mod_t4: "Module 4", mod_t5: "Module 5", mod_t6: "Module 6",
+            m1_h: "Analysis & Identity", m1_d: "Market analysis, self-discovery and audience identification",
+            m1_i1: "Market & competitor analysis", m1_i2: "SWOT analysis", m1_i3: "Personality discovery", m1_i4: "Goal setting", m1_i5: "Audience identification",
+            m2_h: "Strategy", m2_d: "Complete roadmap and blog passport",
+            m2_i1: "Complete roadmap", m2_i2: "Position selection", m2_i3: "Blog passport", m2_i4: "Growth plan",
+            m3_h: "Content — Reels", m3_d: "Scripts and the million-view formula",
+            m3_i1: "Script writing", m3_i2: "Million views formula", m3_i3: "Ready-made templates", m3_i4: "Content categories", m3_i5: "Finding ideas",
+            m4_h: "Stories — Warm-up", m4_d: "Sales and trust building through Stories",
+            m4_i1: "Selling through Stories", m4_i2: "Building trust", m4_i3: "Warm-up system", m4_i4: "Real methods", m4_i5: "Increasing views",
+            m5_h: "Funnels & Traffic", m5_d: "Working funnels and traffic strategies",
+            m5_i1: "Working funnels", m5_i2: "Traffic acquisition", m5_i3: "Conversion & metrics", m5_i4: "Common mistakes",
+            m6_h: "Platforms", m6_d: "YouTube, Telegram and other platforms",
+            m6_i1: "YouTube", m6_i2: "Telegram", m6_i3: "Content adaptation", m6_i4: "Formats", m6_i5: "Sales mechanism",
+            // Sec 9
+            sec9_eye: "Result", sec9_title: 'After the course <span class="accent">you will:</span>',
+            res1: "Have a clear strategy", res2: "Have a content system",
+            res3: "Understand sales", res4: "Build an audience", res5: "Start earning",
+            // Sec 10
+            sec10_eye: "Speaker", sec10_title: 'Course <span class="accent">author</span>',
+            exp_role: "Invision founder &middot; Marketing strategist",
+            exp_s1v: "6 years", exp_s1l: "Marketing experience", exp_s2l: "Projects", exp_s3l: "Followers attracted", exp_s4l: "Sales without ads",
+            exp_l1: "Invision founder", exp_l2: "20+ simultaneous projects", exp_l3: "50M+ views",
+            // Speakers
+            spk_eye: "From Zero &rarr; To Brand",
+            spk_intro: '<strong>Some of the experts and entrepreneurs</strong> <em>we\'ve worked with and who built their personal brand together with us</em>',
+            spk_more: "and 40+ more experts and entrepreneurs",
+            // CTA
+            cta_eye: "Registration", cta_title: 'Start <span class="accent">now</span>',
+            cta_desc: "Spots are limited. Register and join the intensive course.",
+            cta_c1: "2-month intensive program", cta_c2: "Personal review and curator",
+            cta_c3: "Ready-made templates and strategy", cta_c4: "Working sales system",
+            cta_f1: "Personal brand projects", cta_f2: "Followers attracted", cta_f3: "Sales without ads",
+            cta_urg: "People are registering right now",
+            // Form
+            form_title: "Join the course", form_sub: "Fill in your details — we'll contact you",
+            form_btn: "Register",
+            f_name_ph: "Full name", f_name_err: "Name must contain only letters (minimum 3 characters)",
+            f_phone_err: "Correct format: +998 XX XXX XX XX (9 digits)",
+            f_tg_err: "Telegram: starts with @, minimum 5 characters",
+            f_ig_err: "Instagram: only letters, numbers, . or _ (minimum 3 characters)",
+            f_income_lbl: "Select your current income level", f_inc_err: "Please select an income level",
+            f_goal_lbl: "What is your goal for taking this program?", f_goal_ph: "Please describe in detail",
+            f_goal_err: "Minimum 10 characters",
+            f_ok_t: "Thank you!", f_ok_d: "Your application has been received. We'll contact you soon.",
+            // FAQ
+            faq_eye: "FAQ", faq_title: 'Frequently asked <span class="accent">questions</span>',
+            faq_desc: "Can't find the answer to your question?",
+            faq_cta_t: "<strong>Leave your details</strong> and get answers to your questions",
+            faq_cta_btn: "Register",
+            faq_q1: "How is the pricing structured and do you have packages for small or medium businesses?",
+            faq_a1: "Pricing depends on the scope and complexity of work. Simple designs (banners, flyers) are more affordable, while full brand identity, strategic content plans, 3D or animation solutions cost more. Deadlines also matter — rush orders have additional costs.",
+            faq_q2: "How do you determine the most effective marketing strategy for my business?",
+            faq_a2: "We start by deeply analyzing your business, audience and competitors. Through SWOT analysis, market segmentation and content audit, we create the most effective strategy.",
+            faq_q3: "How long does it take to develop a personal brand?",
+            faq_a3: "Usually first results appear within 2-3 months. Building a sustainable personal brand takes 6-12 months. We provide you with a roadmap and clear metrics at every stage.",
+            faq_q4: "Does selling through Instagram Reels and Stories really work?",
+            faq_a4: "Yes, our clients have attracted over 2 million followers through Reels and made $1M+ in sales through Stories without advertising. A systematic approach works in any niche.",
+            faq_q5: "Is there support after the course ends?",
+            faq_a5: "Absolutely. Course graduates join an exclusive community, receive ongoing updates, templates and support. Individual consulting packages are also available.",
+            // Footer
+            footer_copy: "© 2026 Invision. All rights reserved."
+        }
+    };
+
+    let currentLang = 'uz';
+    const langBtn = document.getElementById('langBtn');
+    const langDropdown = document.getElementById('langDropdown');
+
+    langBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        langDropdown.classList.toggle('open');
+    });
+    document.addEventListener('click', () => langDropdown.classList.remove('open'));
+
+    document.querySelectorAll('.lang-option').forEach(opt => {
+        opt.addEventListener('click', () => {
+            currentLang = opt.dataset.lang;
+            langBtn.textContent = currentLang.toUpperCase();
+            document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('active'));
+            opt.classList.add('active');
+            langDropdown.classList.remove('open');
+            applyLang();
+        });
+    });
+
+    function applyLang() {
+        const t = translations[currentLang];
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.dataset.i18n;
+            if (t[key]) el.innerHTML = t[key];
+        });
+        document.querySelectorAll('[data-ph-i18n]').forEach(el => {
+            const key = el.dataset.phI18n;
+            if (t[key]) el.placeholder = t[key];
+        });
+    }
+
+    // ===== DARK MODE =====
+    const themeBtn = document.getElementById('themeBtn');
+    const sunIcon = themeBtn.querySelector('.icon-sun');
+    const moonIcon = themeBtn.querySelector('.icon-moon');
+
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        if (theme === 'dark') {
+            sunIcon.style.display = 'none';
+            moonIcon.style.display = 'block';
+        } else {
+            sunIcon.style.display = 'block';
+            moonIcon.style.display = 'none';
+        }
+        localStorage.setItem('theme', theme);
+    }
+
+    themeBtn.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) setTheme(savedTheme);
+</script>
+</body>
+</html>

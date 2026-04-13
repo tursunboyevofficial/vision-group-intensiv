@@ -26,7 +26,23 @@
       "Bash(ls -la Sanjar*)",
       "Bash(ls -la \"/Users/nazir/Desktop/Vsison grpup - Intensiv/img/speaker\"*.png)",
       "Bash(python3 -m http.server 8080)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://www.youtube.com/embed/a1un10bwYnU\" --max-time 5)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://www.youtube.com/embed/a1un10bwYnU\" --max-time 5)",
+      "Bash(cp temp-react/package.json .)",
+      "Bash(cp temp-react/tsconfig.json .)",
+      "Bash(cp temp-react/tsconfig.app.json .)",
+      "Bash(cp temp-react/tsconfig.node.json .)",
+      "Bash(cp temp-react/vite.config.ts .)",
+      "Bash(cp temp-react/index.html .)",
+      "Bash(cp -r temp-react/src .)",
+      "Bash(rm -rf temp-react)",
+      "Bash(npm install:*)",
+      "Bash(pkill -f \"python3 -m http.server 8080\")",
+      "Bash(npx vite:*)",
+      "Bash(open http://localhost:3000)",
+      "Bash(open http://localhost:3003)",
+      "Bash(npx tsc:*)",
+      "Bash(curl -s http://localhost:3003)",
+      "WebFetch(domain:21st.dev)"
     ],
     "additionalDirectories": [
       "/Users/nazir/Downloads"
