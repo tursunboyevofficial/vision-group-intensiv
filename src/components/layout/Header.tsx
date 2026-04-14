@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react"
-import { Menu, X, Sun, Moon } from "lucide-react"
-import { useTheme } from "@/context/ThemeContext"
+import { Menu, X } from "lucide-react"
 import { useLang } from "@/context/LangContext"
 import { langNames, type Lang } from "@/lib/i18n"
 
@@ -8,7 +7,6 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
-  const { theme, toggleTheme } = useTheme()
   const { lang, setLang, t } = useLang()
 
   useEffect(() => {
@@ -104,10 +102,6 @@ export function Header() {
                 <button className={`${ctrlCls} ${ctrlStyle} font-sans`} onClick={toggleLang}>{lang.toUpperCase()}</button>
                 {langOpen && <LangDropdown lang={lang} onSelect={selectLang} />}
               </div>
-              <button onClick={toggleTheme}
-                className={`${ctrlCls} ${ctrlStyle} ${theme === "dark" ? "!bg-[#ff7842]/15 !text-[#ff7842]" : ""}`}>
-                {theme === "dark" ? <Moon className="w-3.5 h-3.5" /> : <Sun className="w-3.5 h-3.5" />}
-              </button>
               <a href="#register" className="btn-primary px-5 py-2 text-[13px] ml-1">{t("nav_start")}</a>
             </div>
           </div>
@@ -135,13 +129,7 @@ export function Header() {
               <button className={`${ctrlCls} ${ctrlMobile} font-sans`} onClick={toggleLang}>{lang.toUpperCase()}</button>
               {langOpen && <LangDropdown lang={lang} onSelect={selectLang} />}
             </div>
-            <button onClick={toggleTheme}
-              className={`${ctrlCls} ${ctrlMobile} ${theme === "dark" ? "!bg-[#ff7842]/15 !text-[#ff7842]" : ""}`}>
-              {theme === "dark" ? <Moon className="w-3.5 h-3.5" /> : <Sun className="w-3.5 h-3.5" />}
-            </button>
-            <span className="text-xs text-muted-foreground ml-1">
-              {theme === "dark" ? "Dark" : "Light"} · {langNames[lang]}
-            </span>
+            <span className="text-xs text-muted-foreground ml-1">{langNames[lang]}</span>
           </div>
           <div className="pt-2">
             <a href="#register" onClick={clickLink} className="btn-primary w-full py-2.5 text-sm">{t("nav_start")}</a>

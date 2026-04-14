@@ -53,7 +53,13 @@
       "Bash(sips -s format jpeg -s formatOptions 75 -Z 600 speaker4.png --out optimized/speaker4.jpg)",
       "Bash(sips -s format jpeg -s formatOptions 75 -Z 600 speaker5.png --out optimized/speaker5.jpg)",
       "Bash(sips -s format jpeg -s formatOptions 75 -Z 800 promise.jpeg --out optimized/promise.jpg)",
-      "Bash(du -sh \"/Users/nazir/Desktop/Vsison grpup - Intensiv/public/img\"/*)"
+      "Bash(du -sh \"/Users/nazir/Desktop/Vsison grpup - Intensiv/public/img\"/*)",
+      "Bash(npm run:*)",
+      "WebFetch(domain:randomuser.me)",
+      "Bash(ls img/video/)",
+      "Bash(ls public/img/)",
+      "Bash(ls img/video/ -la)",
+      "Bash(ls public/img/video/)"
     ],
     "additionalDirectories": [
       "/Users/nazir/Downloads"

@@ -9,6 +9,8 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ['Bricolage Grotesque', 'Inter', 'sans-serif'],
+        serif: ['Instrument Serif', 'Georgia', 'serif'],
       },
       keyframes: {
         'accordion-down': {
