@@ -42,7 +42,18 @@
       "Bash(open http://localhost:3003)",
       "Bash(npx tsc:*)",
       "Bash(curl -s http://localhost:3003)",
-      "WebFetch(domain:21st.dev)"
+      "WebFetch(domain:21st.dev)",
+      "Bash(mkdir -p public/img/optimized)",
+      "Bash(sips -s format jpeg -Z 1600 \"img/IMG_7330 \\(1\\).DNG\" --out public/img/optimized/format.jpg)",
+      "Bash(sips -s format jpeg -s formatOptions 80 -Z 1600 hero.png --out optimized/hero.jpg)",
+      "Bash(sips -s format jpeg -s formatOptions 80 -Z 800 expert.jpg --out optimized/expert.jpg)",
+      "Bash(sips -s format jpeg -s formatOptions 75 -Z 600 speaker1.png --out optimized/speaker1.jpg)",
+      "Bash(sips -s format jpeg -s formatOptions 75 -Z 600 speaker2.png --out optimized/speaker2.jpg)",
+      "Bash(sips -s format jpeg -s formatOptions 75 -Z 600 speaker3.png --out optimized/speaker3.jpg)",
+      "Bash(sips -s format jpeg -s formatOptions 75 -Z 600 speaker4.png --out optimized/speaker4.jpg)",
+      "Bash(sips -s format jpeg -s formatOptions 75 -Z 600 speaker5.png --out optimized/speaker5.jpg)",
+      "Bash(sips -s format jpeg -s formatOptions 75 -Z 800 promise.jpeg --out optimized/promise.jpg)",
+      "Bash(du -sh \"/Users/nazir/Desktop/Vsison grpup - Intensiv/public/img\"/*)"
     ],
     "additionalDirectories": [
       "/Users/nazir/Downloads"

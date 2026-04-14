@@ -6,11 +6,11 @@ import { SectionHeader } from "@/components/shared/SectionHeader"
 import { useLang } from "@/context/LangContext"
 
 const speakers = [
-  { img: "/img/speaker1.png", name: "Martis" },
-  { img: "/img/speaker2.png", name: "Umid" },
-  { img: "/img/speaker3.png", name: "Abdulboriy" },
-  { img: "/img/speaker4.png", name: "Humoyun" },
-  { img: "/img/speaker5.png", name: "Abdulloh" },
+  { img: "/img/optimized/speaker1.jpg", name: "Martis" },
+  { img: "/img/optimized/speaker2.jpg", name: "Umid" },
+  { img: "/img/optimized/speaker3.jpg", name: "Abdulboriy" },
+  { img: "/img/optimized/speaker4.jpg", name: "Humoyun" },
+  { img: "/img/optimized/speaker5.jpg", name: "Abdulloh" },
 ]
 
 const reels = [
@@ -67,9 +67,12 @@ export function Speakers() {
 
 function ReelsPlayer() {
   const [active, setActive] = useState(0)
+  const [interacted, setInteracted] = useState(false)
   const total = reels.length
-  const next = () => setActive((p) => (p + 1) % total)
-  const prev = () => setActive((p) => (p - 1 + total) % total)
+  const change = (fn: (p: number) => number) => { setInteracted(true); setActive(fn) }
+  const next = () => change((p) => (p + 1) % total)
+  const prev = () => change((p) => (p - 1 + total) % total)
+  const select = (i: number) => { setInteracted(true); setActive(i) }
 
   return (
     <div className="mt-10 grid md:grid-cols-[320px_1fr] gap-6 md:gap-10 items-center">
@@ -82,7 +85,7 @@ function ReelsPlayer() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.96 }}
               transition={{ duration: 0.4, ease: [0.39, 0.575, 0.565, 1] }}
-              src={`https://www.youtube.com/embed/${reels[active].id}?autoplay=1&rel=0&modestbranding=1`}
+              src={`https://www.youtube.com/embed/${reels[active].id}?autoplay=${interacted ? 1 : 0}&rel=0&modestbranding=1`}
               title={reels[active].author}
               className="absolute inset-0 w-full h-full"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -111,7 +114,7 @@ function ReelsPlayer() {
       {/* Thumbnail ro'yxati */}
       <div className="grid grid-cols-5 md:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-3">
         {reels.map((r, i) => (
-          <button key={r.id} onClick={() => setActive(i)}
+          <button key={r.id} onClick={() => select(i)}
             className={`relative aspect-[9/16] rounded-xl overflow-hidden border-2 transition-all duration-300 group ${
               i === active
                 ? "border-[#ff7842] shadow-[0_6px_20px_rgba(255,120,66,0.25)] scale-[1.02]"

@@ -10,7 +10,7 @@ export function Hero() {
 
   return (
     <section id="home" className="relative overflow-hidden min-h-screen bg-black text-white flex flex-col">
-      <div className="absolute inset-0 bg-[url('/img/hero.png')] bg-cover bg-[47%_30%] md:bg-[center_18%]" />
+      <div className="absolute inset-0 bg-[url('/img/optimized/hero.jpg')] bg-cover bg-[47%_30%] md:bg-[center_18%]" />
       <div className="absolute inset-0 pointer-events-none transition-opacity duration-500" style={{
         background: "linear-gradient(90deg,rgba(0,0,0,.7) 0%,rgba(0,0,0,.05) 38%,rgba(0,0,0,.05) 62%,rgba(0,0,0,.7) 100%),linear-gradient(0deg,rgba(0,0,0,.55) 0%,transparent 35%),linear-gradient(180deg,rgba(0,0,0,.4) 0%,transparent 18%)",
         opacity: theme === "dark" ? 1 : 0.85,

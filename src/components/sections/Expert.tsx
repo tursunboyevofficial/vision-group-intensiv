@@ -24,7 +24,7 @@ export function Expert() {
           <div className="mt-14 grid md:grid-cols-[280px_1fr] gap-8 md:gap-12 items-center max-w-[900px] mx-auto">
             {/* Rasm */}
             <div className="relative aspect-[3/4] max-w-[240px] mx-auto md:mx-0 rounded-2xl overflow-hidden">
-              <img src="/img/expert.jpg" alt="Jaxongir Raimjonov" loading="lazy" className="w-full h-full object-cover" />
+              <img src="/img/optimized/expert.jpg" alt="Jaxongir Raimjonov" loading="lazy" decoding="async" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
             </div>
 

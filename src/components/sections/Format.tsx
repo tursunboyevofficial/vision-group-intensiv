@@ -22,8 +22,8 @@ export function Format() {
 
         <BlurFade delay={0.2}>
           <div className="mt-16 rounded-2xl overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&q=80"
-              alt="Team collaboration" loading="lazy" className="w-full h-[280px] object-cover" />
+            <img src="/img/optimized/format.jpg"
+              alt="Format" loading="lazy" decoding="async" className="w-full h-[280px] md:h-[400px] object-cover" />
           </div>
         </BlurFade>
       </div>
