@@ -1,13 +1,16 @@
 import { useState } from "react"
-import { CheckCircle2 } from "lucide-react"
+import { CheckCircle2, Loader2 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { useLang } from "@/context/LangContext"
+import { sendLeadToTelegram } from "@/lib/telegram"
 
 const incomeOptions = ["$200–500", "$600–1000", "$1000–2000", "$2000–5000", "$5000+"]
 
 export function RegisterForm() {
   const { t } = useLang()
   const [submitted, setSubmitted] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [sendError, setSendError] = useState<string | null>(null)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [form, setForm] = useState({ fullname: "", phone: "", telegram: "", instagram: "", income: "", goal: "" })
 
@@ -38,11 +41,32 @@ export function RegisterForm() {
     return f
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const errs = validate()
     setErrors(errs)
-    if (Object.keys(errs).length === 0) setSubmitted(true)
+    if (Object.keys(errs).length > 0) return
+    setSending(true)
+    setSendError(null)
+    try {
+      const res = await sendLeadToTelegram({
+        fullname: form.fullname,
+        phone: form.phone,
+        telegram: form.telegram,
+        instagram: form.instagram,
+        income: form.income,
+        goal: form.goal,
+      })
+      if (!res.ok) {
+        setSendError(res.error || "Xatolik yuz berdi")
+        return
+      }
+      setSubmitted(true)
+    } catch {
+      setSendError("Tarmoqda xatolik. Qayta urinib ko'ring.")
+    } finally {
+      setSending(false)
+    }
   }
 
   if (submitted) {
@@ -85,13 +109,20 @@ export function RegisterForm() {
             onChange={e => setForm({ ...form, instagram: e.target.value.replace(/[^A-Za-z0-9._]/g, "") })} />
         </Field>
         <Field label={t("f_income_lbl")} error={errors.income}>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-            {incomeOptions.map(opt => (
-              <button key={opt} type="button" onClick={() => setForm({ ...form, income: opt })}
-                className={`px-3 py-2.5 rounded-xl border text-sm font-medium transition-all duration-300 ease-out ${
-                  form.income === opt ? "gradient-bg text-white border-transparent shadow-[0_4px_12px_rgba(37,99,235,0.2)]" : "bg-card hover:bg-muted hover:border-foreground/10"
-                }`}>{opt}</button>
-            ))}
+          <div className="relative">
+            <select value={form.income}
+              onChange={e => setForm({ ...form, income: e.target.value })}
+              className={`flex h-11 w-full rounded-xl border border-input bg-background/50 px-4 pr-10 text-sm appearance-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:border-[#2563eb]/30 shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)] hover:border-foreground/15 transition-all duration-300 ${
+                form.income ? "text-foreground" : "text-muted-foreground/60"
+              }`}>
+              <option value="" disabled>Daromadni tanlang</option>
+              {incomeOptions.map(opt => (
+                <option key={opt} value={opt}>{opt}</option>
+              ))}
+            </select>
+            <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
           </div>
         </Field>
         <Field label={t("f_goal_lbl")} error={errors.goal}>
@@ -99,9 +130,21 @@ export function RegisterForm() {
             onChange={e => setForm({ ...form, goal: e.target.value })}
             className="flex min-h-[80px] w-full rounded-xl border border-input bg-background/50 px-4 py-3 text-sm placeholder:text-muted-foreground/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:border-[#2563eb]/30 shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)] hover:border-foreground/15 transition-all duration-300" />
         </Field>
-        <button type="submit"
-          className="btn-primary w-full py-3.5 rounded-xl text-base relative overflow-hidden">
-          {t("form_btn")}
+        {sendError && (
+          <div className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-xs text-destructive">
+            {sendError}
+          </div>
+        )}
+        <button type="submit" disabled={sending}
+          className="btn-primary w-full py-3.5 rounded-xl text-base relative overflow-hidden disabled:opacity-70 disabled:cursor-not-allowed">
+          {sending ? (
+            <span className="inline-flex items-center gap-2">
+              <Loader2 className="w-4 h-4 animate-spin" />
+              Yuborilmoqda...
+            </span>
+          ) : (
+            t("form_btn")
+          )}
           <span className="absolute top-0 left-[-100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/20 to-transparent animate-[sweep_4s_ease-in-out_infinite]" />
         </button>
       </form>

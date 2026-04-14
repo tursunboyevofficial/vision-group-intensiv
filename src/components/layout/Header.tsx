@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react"
 import { Menu, X } from "lucide-react"
+import { AnimatePresence, motion } from "framer-motion"
 import { useLang } from "@/context/LangContext"
 import { langNames, type Lang } from "@/lib/i18n"
 
@@ -23,7 +24,6 @@ export function Header() {
     setMobileOpen(false)
   }, [])
 
-  // Tashqariga bosilsa yopiladi
   useEffect(() => {
     if (!mobileOpen && !langOpen) return
     const handle = (e: MouseEvent) => {
@@ -81,14 +81,15 @@ export function Header() {
         <div className={`mx-auto px-5 flex items-center justify-between gap-3 transition-all duration-500 ${
           scrolled ? "h-12" : "h-14"
         }`}>
-          <a href="#" className="no-underline shrink-0">
-            <span className={`font-black tracking-[2px] uppercase transition-all duration-300 ${scrolled ? "text-base" : "text-lg"}`}>
-              <span className={isLight ? "text-white" : "text-foreground"}>INVIS</span>
-              <span className="gradient-text">ION</span>
-            </span>
+          <a href="#" className="no-underline shrink-0 flex items-center">
+            <img
+              src="/img/logo.svg"
+              alt="Invision"
+              className={`transition-all duration-300 ${scrolled ? "h-6" : "h-7"} ${isLight ? "" : "dark:brightness-100"}`}
+              style={{ filter: isLight ? "brightness(0) invert(1)" : undefined }}
+            />
           </a>
 
-          {/* Desktop */}
           <div className="hidden md:flex md:items-center md:gap-6">
             {navLinks.map(link => (
               <a key={link.href} href={link.href}
@@ -106,36 +107,82 @@ export function Header() {
             </div>
           </div>
 
-          {/* Mobile burger */}
-          <button className={`md:hidden ${ctrlCls} ${isLight ? "bg-white/15 hover:bg-white/25" : "bg-foreground/5 hover:bg-foreground/10"}`}
-            onClick={toggleMenu}>
-            {mobileOpen
-              ? <X className={`w-4 h-4 pointer-events-none ${isLight ? "text-white" : "text-foreground"}`} />
-              : <Menu className={`w-4 h-4 pointer-events-none ${isLight ? "text-white" : "text-foreground"}`} />}
+          <button className={`md:hidden relative ${ctrlCls} ${isLight ? "bg-white/15 hover:bg-white/25" : "bg-foreground/5 hover:bg-foreground/10"}`}
+            onClick={toggleMenu}
+            aria-label="Menu">
+            <AnimatePresence mode="wait" initial={false}>
+              {mobileOpen ? (
+                <motion.span key="x"
+                  initial={{ rotate: -90, opacity: 0, scale: 0.6 }}
+                  animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                  exit={{ rotate: 90, opacity: 0, scale: 0.6 }}
+                  transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+                  className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <X className={`w-4 h-4 ${isLight ? "text-white" : "text-foreground"}`} />
+                </motion.span>
+              ) : (
+                <motion.span key="menu"
+                  initial={{ rotate: 90, opacity: 0, scale: 0.6 }}
+                  animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                  exit={{ rotate: -90, opacity: 0, scale: 0.6 }}
+                  transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+                  className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <Menu className={`w-4 h-4 ${isLight ? "text-white" : "text-foreground"}`} />
+                </motion.span>
+              )}
+            </AnimatePresence>
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="md:hidden mt-2 rounded-2xl border backdrop-blur-[12px] backdrop-saturate-[200%] bg-white/85 dark:bg-[rgba(10,10,15,0.8)] border-white/30 dark:border-white/10 shadow-xl p-4 flex flex-col gap-1">
-          {navLinks.map(link => (
-            <a key={link.href} href={link.href} onClick={clickLink}
-              className="text-sm font-medium text-foreground/70 hover:text-foreground no-underline py-2.5 px-3 rounded-xl hover:bg-foreground/5 transition-all duration-300"
-            >{link.label}</a>
-          ))}
-          <div className="flex items-center gap-2 px-3 py-2 mt-1 border-t">
-            <div className="relative">
-              <button className={`${ctrlCls} ${ctrlMobile} font-sans`} onClick={toggleLang}>{lang.toUpperCase()}</button>
-              {langOpen && <LangDropdown lang={lang} onSelect={selectLang} />}
-            </div>
-            <span className="text-xs text-muted-foreground ml-1">{langNames[lang]}</span>
-          </div>
-          <div className="pt-2">
-            <a href="#register" onClick={clickLink} className="btn-primary w-full py-2.5 text-sm">{t("nav_start")}</a>
-          </div>
-        </div>
-      )}
+      {/* Mobile menu — animatsiya bilan */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0, y: -12, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -12, scale: 0.96 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            style={{ originY: 0 }}
+            className="md:hidden mt-2 rounded-2xl border backdrop-blur-[12px] backdrop-saturate-[200%] bg-white/85 dark:bg-[rgba(10,10,15,0.85)] border-white/30 dark:border-white/10 shadow-xl p-4 flex flex-col gap-1 overflow-hidden"
+          >
+            {navLinks.map((link, i) => (
+              <motion.a
+                key={link.href}
+                href={link.href}
+                onClick={clickLink}
+                initial={{ opacity: 0, x: -12 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.08 + i * 0.05, duration: 0.3 }}
+                className="text-sm font-medium text-foreground/70 hover:text-foreground no-underline py-2.5 px-3 rounded-xl hover:bg-foreground/5 transition-colors duration-200"
+              >
+                {link.label}
+              </motion.a>
+            ))}
+            <motion.div
+              initial={{ opacity: 0, x: -12 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.08 + navLinks.length * 0.05, duration: 0.3 }}
+              className="flex items-center gap-2 px-3 py-2 mt-1 border-t"
+            >
+              <div className="relative">
+                <button className={`${ctrlCls} ${ctrlMobile} font-sans`} onClick={toggleLang}>{lang.toUpperCase()}</button>
+                {langOpen && <LangDropdown lang={lang} onSelect={selectLang} />}
+              </div>
+              <span className="text-xs text-muted-foreground ml-1">{langNames[lang]}</span>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.08 + (navLinks.length + 1) * 0.05, duration: 0.3 }}
+              className="pt-2"
+            >
+              <a href="#register" onClick={clickLink} className="btn-primary w-full py-2.5 text-sm">{t("nav_start")}</a>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   )
 }

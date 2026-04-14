@@ -14,7 +14,7 @@ export function FAQ() {
   ]
 
   return (
-    <section id="faq" className="py-[100px] bg-[#101114] text-white overflow-hidden relative">
+    <section id="faq" className="pt-10 md:pt-14 pb-[100px] bg-[#101114] text-white overflow-hidden relative">
       <div className="max-w-[1180px] mx-auto px-7">
         <div className="grid md:grid-cols-[1fr_1.5fr] gap-12">
           <BlurFade className="md:sticky md:top-24 md:self-start">
@@ -32,7 +32,7 @@ export function FAQ() {
           </BlurFade>
 
           <BlurFade delay={0.2}>
-            <Accordion type="single" collapsible className="space-y-2">
+            <Accordion type="single" collapsible defaultValue="faq-0" className="space-y-2">
               {faqs.map((faq, i) => (
                 <AccordionItem key={i} value={`faq-${i}`} className="border-white/10 px-1">
                   <AccordionTrigger className="text-white/90 text-left hover:no-underline hover:text-white text-sm font-semibold py-5 [&>svg]:text-white/40">

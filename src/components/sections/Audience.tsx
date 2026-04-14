@@ -19,32 +19,34 @@ export function Audience() {
         <AnimatedContainer>
           <SectionHeader eyebrow={t("sec2_eye")} title={t("sec2_title")} accent={t("sec2_accent")} />
         </AnimatedContainer>
-        <AnimatedContainer delay={0.3} className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <AnimatedContainer delay={0.3} className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-3">
           {features.map((f, i) => {
             const Icon = f.icon
             return (
-              <div key={i} className="card-std relative overflow-hidden p-6 flex flex-col group">
-                {/* Katta orqa fon ikon */}
+              <div key={i} className="card-std relative overflow-hidden p-4 md:p-5 flex items-start gap-4 group">
+                {/* Orqa fon ikon */}
                 <Icon
-                  className="absolute -right-6 -bottom-6 w-40 h-40 text-[#2563eb]/10 group-hover:text-[#2563eb]/20 group-hover:scale-110 transition-all duration-500"
+                  className="absolute -right-3 -bottom-3 w-24 h-24 text-[#2563eb]/8 group-hover:text-[#2563eb]/15 group-hover:scale-110 transition-all duration-500"
                   strokeWidth={1}
                   aria-hidden
                 />
-                {/* Oldinda kichik accent ikon */}
-                <div className="relative w-10 h-10 rounded-xl bg-[rgba(37,99,235,0.1)] border border-[rgba(37,99,235,0.15)] flex items-center justify-center mb-4">
+                {/* Chap taraf: ikon */}
+                <div className="relative w-11 h-11 rounded-xl bg-[rgba(37,99,235,0.1)] border border-[rgba(37,99,235,0.15)] flex items-center justify-center shrink-0">
                   <Icon className="w-5 h-5 text-[#2563eb]" strokeWidth={1.8} />
                 </div>
-                <h3 className="relative text-base md:text-lg font-bold tracking-[-0.3px] mb-2">{f.title}</h3>
-                <p className="relative text-sm text-muted-foreground leading-relaxed mb-4">{f.description}</p>
-                {/* Bullet points */}
-                <ul className="relative space-y-2 mt-auto pt-4 border-t border-border">
-                  {f.points.map((p, j) => (
-                    <li key={j} className="flex items-start gap-2 text-xs text-foreground/80">
-                      <Check className="w-3.5 h-3.5 text-[#2563eb] shrink-0 mt-0.5" strokeWidth={2.5} />
-                      <span>{p}</span>
-                    </li>
-                  ))}
-                </ul>
+                {/* O'ng taraf: kontent */}
+                <div className="relative flex-1 min-w-0">
+                  <h3 className="text-[15px] font-bold tracking-[-0.2px] mb-1">{f.title}</h3>
+                  <p className="text-[12.5px] text-muted-foreground leading-[1.5] mb-2.5">{f.description}</p>
+                  <ul className="space-y-1">
+                    {f.points.map((p, j) => (
+                      <li key={j} className="flex items-start gap-1.5 text-[11.5px] text-foreground/75">
+                        <Check className="w-3 h-3 text-[#2563eb] shrink-0 mt-0.5" strokeWidth={2.5} />
+                        <span>{p}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             )
           })}
