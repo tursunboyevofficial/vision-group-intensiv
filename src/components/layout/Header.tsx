@@ -85,8 +85,10 @@ export function Header() {
             <img
               src="/img/logo.svg"
               alt="Invision"
-              className={`transition-all duration-300 ${scrolled ? "h-6" : "h-7"} ${isLight ? "" : "dark:brightness-100"}`}
-              style={{ filter: isLight ? "brightness(0) invert(1)" : undefined }}
+              width={140}
+              height={30}
+              className={`transition-all duration-300 ${scrolled ? "h-6" : "h-7"} w-auto`}
+              style={{ filter: "brightness(0) invert(1)" }}
             />
           </a>
 

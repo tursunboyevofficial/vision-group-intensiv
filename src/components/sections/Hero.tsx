@@ -88,7 +88,7 @@ export function Hero() {
       </div>
 
       {/* ============ DESKTOP: three-column grid ============ */}
-      <div className="hidden md:grid relative z-10 h-screen grid-cols-[minmax(220px,1fr)_minmax(0,2fr)_minmax(220px,1fr)] px-10 lg:px-16 pt-24 pb-16 gap-4">
+      <div className="hidden md:grid relative z-10 h-screen grid-cols-[minmax(220px,1fr)_minmax(0,2fr)_minmax(220px,1fr)] px-10 lg:px-16 pt-32 pb-16 gap-4">
         {/* LEFT */}
         <div className="flex flex-col justify-between">
           <BlurFade delay={0.1}>
@@ -198,7 +198,7 @@ export function Hero() {
       </div>
 
       {/* ============ MOBILE: single column, stacked ============ */}
-      <div className="md:hidden relative z-10 flex flex-col min-h-screen px-5 pt-20 pb-10">
+      <div className="md:hidden relative z-10 flex flex-col min-h-screen px-5 pt-28 pb-10">
         {/* Top: brand (over image) */}
         <BlurFade delay={0.1}>
           <div className="flex items-center gap-3">

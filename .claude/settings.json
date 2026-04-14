@@ -72,7 +72,17 @@
       "Bash(sips -g pixelWidth -g pixelHeight img/final.png)",
       "Bash(sips -Z 1920 -s format jpeg -s formatOptions 85 \"../../img/final.png\" --out hero-brand.jpg)",
       "Bash(sips -Z 960 -s format jpeg -s formatOptions 80 \"../../img/final.png\" --out hero-brand-mobile.jpg)",
-      "Bash(ls -lh hero-brand*.jpg)"
+      "Bash(ls -lh hero-brand*.jpg)",
+      "Bash(du -h *)",
+      "Bash(sips -Z 1600 -s format jpeg -s formatOptions 78 format.jpg --out format-opt.jpg)",
+      "Bash(mv format-opt.jpg format.jpg)",
+      "Bash(sips -g pixelWidth -g pixelHeight format.jpg)",
+      "Bash(sips -s format jpeg -s formatOptions 62 -Z 1400 format.jpg --out format-new.jpg)",
+      "Bash(sips -s format jpeg -s formatOptions 55 -Z 1100 format.jpg --out format-v2.jpg)",
+      "Bash(mv format-v2.jpg format.jpg)",
+      "Bash(qlmanage -t -s 120 -o . logo.svg)",
+      "Bash(mv logo.svg.png logo.png)",
+      "Bash(rm logo.svg)"
     ],
     "additionalDirectories": [
       "/Users/nazir/Downloads"
