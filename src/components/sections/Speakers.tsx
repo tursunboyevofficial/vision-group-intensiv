@@ -75,9 +75,9 @@ function ReelsPlayer() {
   const select = (i: number) => { setInteracted(true); setActive(i) }
 
   return (
-    <div className="mt-10 grid md:grid-cols-[320px_1fr] gap-6 md:gap-10 items-center">
+    <div className="mt-10 grid md:grid-cols-[280px_1fr] gap-6 md:gap-8 items-center md:max-w-[720px] md:mx-auto">
       {/* Asosiy player */}
-      <div className="mx-auto w-full max-w-[320px]">
+      <div className="mx-auto w-full max-w-[320px] md:max-w-[280px]">
         <div className="relative aspect-[9/16] rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.15)] bg-black">
           <AnimatePresence mode="wait">
             <motion.iframe key={reels[active].id}
@@ -112,29 +112,37 @@ function ReelsPlayer() {
       </div>
 
       {/* Thumbnail ro'yxati */}
-      <div className="grid grid-cols-5 md:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-3">
+      <div className="grid grid-cols-5 md:flex md:flex-col md:gap-2 gap-2">
         {reels.map((r, i) => (
           <button key={r.id} onClick={() => select(i)}
-            className={`relative aspect-[9/16] rounded-xl overflow-hidden border-2 transition-all duration-300 group ${
+            className={`relative rounded-xl overflow-hidden border-2 transition-all duration-300 group aspect-[9/16] md:aspect-auto md:h-14 md:flex md:items-center md:gap-3 md:p-2 md:rounded-lg ${
               i === active
-                ? "border-[#ff7842] shadow-[0_6px_20px_rgba(255,120,66,0.25)] scale-[1.02]"
-                : "border-transparent opacity-60 hover:opacity-100"
+                ? "border-[#ff7842] md:bg-[rgba(255,120,66,0.08)] shadow-[0_6px_20px_rgba(255,120,66,0.25)] md:shadow-none scale-[1.02] md:scale-100"
+                : "border-transparent md:border-border md:bg-card opacity-60 md:opacity-100 hover:opacity-100 md:hover:border-[#ff7842]/30"
             }`}>
-            <img
-              src={`https://img.youtube.com/vi/${r.id}/hqdefault.jpg`}
-              alt={r.author}
-              loading="lazy"
-              className="absolute inset-0 w-full h-full object-cover scale-150"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-            <div className="absolute bottom-1.5 left-0 right-0 text-center">
-              <span className="text-[10px] font-bold text-white tracking-wider">0{i + 1}</span>
-            </div>
-            {i === active && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-2 h-2 rounded-full bg-[#ff7842] animate-pulse" />
+            {/* Mobile: aspect 9:16 thumbnail */}
+            <div className="md:hidden absolute inset-0">
+              <img src={`https://img.youtube.com/vi/${r.id}/hqdefault.jpg`} alt={r.author} loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover scale-150" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="absolute bottom-1.5 left-0 right-0 text-center">
+                <span className="text-[10px] font-bold text-white tracking-wider">0{i + 1}</span>
               </div>
-            )}
+              {i === active && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-2 h-2 rounded-full bg-[#ff7842] animate-pulse" />
+                </div>
+              )}
+            </div>
+            {/* Desktop: horizontal row */}
+            <div className="hidden md:block relative w-10 h-10 rounded-md overflow-hidden shrink-0 bg-black">
+              <img src={`https://img.youtube.com/vi/${r.id}/hqdefault.jpg`} alt={r.author} loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover scale-[1.4]" />
+            </div>
+            <div className="hidden md:flex flex-1 items-center justify-between min-w-0">
+              <span className="text-sm font-semibold truncate">{r.author}</span>
+              <span className={`text-[10px] font-bold tabular-nums shrink-0 ml-2 ${i === active ? "text-[#ff7842]" : "text-muted-foreground"}`}>0{i + 1}</span>
+            </div>
           </button>
         ))}
       </div>
