@@ -17,46 +17,46 @@ export function Footer() {
         {/* Kontaktlar */}
         <div className="py-12 border-b">
           <h3 className="text-2xl font-extrabold tracking-tight mb-8">
-            <span className="italic">Kontakt</span>
+            <span className="italic">{t("footer_contact")}</span>
           </h3>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="flex items-start gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+            <div className="flex items-start gap-3 min-w-0">
               <Mail className="w-4 h-4 text-[#2563eb] mt-1 shrink-0" />
-              <div>
-                <div className="text-xs text-muted-foreground mb-1">Pochta:</div>
-                <a href="mailto:invisionuz@gmail.com" className="text-sm font-medium no-underline hover:text-[#2563eb] transition-colors duration-300">invisionuz@gmail.com</a>
+              <div className="min-w-0">
+                <div className="text-xs text-muted-foreground mb-1">{t("footer_mail")}</div>
+                <a href="mailto:invisionuz@gmail.com" className="text-sm font-medium no-underline hover:text-[#2563eb] transition-colors duration-300 break-all">invisionuz@gmail.com</a>
               </div>
             </div>
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-3 min-w-0">
               <Phone className="w-4 h-4 text-[#2563eb] mt-1 shrink-0" />
-              <div>
-                <div className="text-xs text-muted-foreground mb-1">Telefon:</div>
+              <div className="min-w-0">
+                <div className="text-xs text-muted-foreground mb-1">{t("footer_phone")}</div>
                 <a href="tel:+998200032020" className="text-sm font-medium no-underline hover:text-[#2563eb] transition-colors duration-300">+998 20 003 20 20</a>
               </div>
             </div>
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-3 min-w-0">
               <MapPin className="w-4 h-4 text-[#2563eb] mt-1 shrink-0" />
-              <div>
-                <div className="text-xs text-muted-foreground mb-1">Manzil:</div>
+              <div className="min-w-0">
+                <div className="text-xs text-muted-foreground mb-1">{t("footer_addr")}</div>
                 <a href="https://yandex.ru/navi/org/57020786046" target="_blank" rel="noopener noreferrer"
                   className="text-sm font-medium no-underline hover:text-[#2563eb] transition-colors duration-300 block">
                   Invision Agency
                 </a>
-                <p className="text-xs text-muted-foreground mt-0.5 leading-snug">Toshkent, Mirobod tumani, Shahrisabz ko'chasi, 25</p>
+                <p className="text-xs text-muted-foreground mt-0.5 leading-snug">{t("footer_addr_val")}</p>
               </div>
             </div>
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-3 min-w-0">
               <Clock className="w-4 h-4 text-[#2563eb] mt-1 shrink-0" />
-              <div>
-                <div className="text-xs text-muted-foreground mb-1">Ish vaqti:</div>
-                <p className="text-sm font-medium">Dushanba–Shanba: 9:00 - 18:00</p>
+              <div className="min-w-0">
+                <div className="text-xs text-muted-foreground mb-1">{t("footer_hours")}</div>
+                <p className="text-sm font-medium">{t("footer_hours_val")}</p>
               </div>
             </div>
           </div>
 
           {/* Ijtimoiy tarmoqlar */}
-          <div className="mt-8 flex items-center gap-6">
-            <span className="text-xs text-muted-foreground">Ijtimoiy tarmoqlar:</span>
+          <div className="mt-8 flex flex-wrap items-center gap-4 sm:gap-6">
+            <span className="text-xs text-muted-foreground">{t("footer_social")}</span>
             <div className="flex gap-2">
               {socials.map((s, i) => (
                 <a key={i} href={s.href} target="_blank" rel="noopener noreferrer" title={s.label}
@@ -69,7 +69,7 @@ export function Footer() {
 
           {/* Qo'shimcha */}
           <p className="text-xs text-muted-foreground mt-6">
-            Biz bilan istagan qulay usulda bog'laning yoki ofisimizga tashrif buyuring
+            {t("footer_tagline")}
           </p>
         </div>
 
@@ -77,9 +77,9 @@ export function Footer() {
         <div className="py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-xl font-black tracking-[2px] uppercase">
             INVIS<span className="gradient-text">ION</span>
-            <span className="block text-[9px] font-medium tracking-[1.5px] text-muted-foreground -mt-0.5 lowercase">producing & marketing</span>
+            <span className="block text-[9px] font-medium tracking-[1.5px] text-muted-foreground -mt-0.5 lowercase">{t("footer_brand_sub")}</span>
           </div>
-          <p className="text-xs text-muted-foreground">{t("footer_copy")}</p>
+          <p className="text-xs text-muted-foreground text-center sm:text-right">{t("footer_copy")}</p>
         </div>
       </div>
     </footer>

@@ -10,44 +10,44 @@ export function Format() {
     {
       icon: Calendar,
       value: "2",
-      suffix: "oy",
-      label: t("fmt1_sub") || "oy davom etadi",
-      details: ["1-oy: asosiy darslar", "2-oy: amaliyot"],
+      suffix: "",
+      label: t("fmt1_sub"),
+      details: [t("fmt_card_1_d1"), t("fmt_card_1_d2")],
     },
     {
       icon: BookOpen,
       value: "10",
-      suffix: "ta",
-      label: "ta dars",
-      details: ["3 ta spiker", "5 ta mehmon spiker"],
+      suffix: "",
+      label: t("fmt_card_2_label"),
+      details: [t("fmt_card_2_d1"), t("fmt_card_2_d2")],
     },
     {
       icon: Users,
       value: "1:1",
       suffix: "",
-      label: "Shaxsiy razbor",
-      details: ["Kurator nazorati", "Savollarga javob"],
+      label: t("fmt_card_3_label"),
+      details: [t("fmt_card_3_d1"), t("fmt_card_3_d2")],
     },
     {
       icon: Sparkles,
       value: "",
       suffix: "",
-      label: "Tayyor shablonlar",
-      details: ["Ssenariylar", "Kontent bazasi"],
+      label: t("fmt_card_4_label"),
+      details: [t("fmt_card_4_d1"), t("fmt_card_4_d2")],
     },
     {
       icon: Headphones,
       value: "",
       suffix: "",
-      label: "Kurator nazorati",
-      details: ["Har kuni yordam", "Progressni kuzatish"],
+      label: t("fmt_card_5_label"),
+      details: [t("fmt_card_5_d1"), t("fmt_card_5_d2")],
     },
     {
       icon: MessageSquare,
       value: "",
       suffix: "",
-      label: "Shaxsan javob beraman",
-      details: ["1 ga 1 razbor", "Har bir ishtirokchiga"],
+      label: t("fmt_card_6_label"),
+      details: [t("fmt_card_6_d1"), t("fmt_card_6_d2")],
     },
   ]
 
@@ -103,9 +103,30 @@ export function Format() {
         </div>
 
         <BlurFade delay={0.3}>
-          <div className="mt-12 rounded-2xl overflow-hidden">
+          <div className="mt-12 relative rounded-2xl overflow-hidden group">
             <img src="/img/optimized/format.jpg"
-              alt="Format" loading="lazy" decoding="async" className="w-full h-[240px] md:h-[380px] object-cover" />
+              alt="Invision jamoasi" loading="lazy" decoding="async"
+              className="w-full h-[280px] md:h-[420px] object-cover transition-transform duration-700 group-hover:scale-105" />
+            {/* Dark gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
+            {/* Text overlay */}
+            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-8 h-px bg-gradient-to-r from-[#2563eb] to-[#fb7185]" />
+                <span className="text-[10px] md:text-[11px] font-bold tracking-[3px] uppercase text-white/70">
+                  INVISION
+                </span>
+              </div>
+              <h3 className="text-[28px] md:text-[44px] lg:text-[52px] font-display font-bold leading-[1.05] tracking-[-0.02em] text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+                <span className="italic font-serif font-normal bg-gradient-to-br from-[#2563eb] via-[#fb7185] to-[#fda4af] bg-clip-text text-transparent">
+                  Invision
+                </span>{" "}
+                jamoasi
+              </h3>
+              <p className="text-[13px] md:text-[15px] text-white/70 mt-3 max-w-[600px] leading-[1.55]">
+                Professional jamoa har bir ishtirokchiga shaxsiy yondashuv va yordam bilan xizmat qiladi
+              </p>
+            </div>
           </div>
         </BlurFade>
       </div>

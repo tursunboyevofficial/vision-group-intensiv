@@ -22,10 +22,51 @@ export function Expert() {
 
         <BlurFade delay={0.2}>
           <div className="mt-14 grid md:grid-cols-[280px_1fr] gap-8 md:gap-12 items-center max-w-[900px] mx-auto">
-            {/* Rasm */}
-            <div className="relative aspect-[3/4] max-w-[240px] mx-auto md:mx-0 rounded-2xl overflow-hidden">
-              <img src="/img/optimized/expert.jpg" alt="Jaxongir Raimjonov" loading="lazy" decoding="async" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+            {/* Rasm — premium frame with accents */}
+            <div className="relative max-w-[280px] mx-auto md:mx-0">
+              {/* Gradient backdrop glow */}
+              <div className="absolute -inset-3 rounded-[28px] bg-gradient-to-br from-[#2563eb]/25 via-[#fb7185]/20 to-[#1e3a8a]/25 blur-2xl opacity-70" />
+
+              {/* Main card */}
+              <div className="relative rounded-2xl p-1.5 bg-gradient-to-br from-white/15 via-white/5 to-white/10 shadow-[0_20px_60px_-20px_rgba(37,99,235,0.4)]">
+                <div className="relative aspect-[3/4] rounded-[14px] overflow-hidden">
+                  <img src="/img/optimized/expert.jpg" alt="Jaxongir Raimjonov" loading="lazy" decoding="async"
+                    className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  {/* Name label at bottom */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <Crown className="w-3.5 h-3.5 text-[#2563eb]" fill="currentColor" />
+                      <span className="text-[9px] font-bold uppercase tracking-[2px] text-white/80">
+                        {t("sec10_eye")}
+                      </span>
+                    </div>
+                    <div className="text-[14px] font-bold text-white tracking-[-0.2px] leading-tight">
+                      Jaxongir Raimjonov
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating badge — top-left "6 yil" */}
+              <div className="absolute -top-3 -left-3 px-3 py-2 rounded-xl bg-gradient-to-br from-[#2563eb] to-[#1e3a8a] shadow-[0_10px_24px_-8px_rgba(37,99,235,0.6)]">
+                <div className="text-[8px] font-bold uppercase tracking-[1.5px] text-white/80 leading-none">
+                  {t("exp_s1l")}
+                </div>
+                <div className="text-[14px] font-black text-white leading-tight mt-0.5">
+                  {t("exp_s1v")}
+                </div>
+              </div>
+
+              {/* Floating badge — bottom-right "100+" */}
+              <div className="absolute -bottom-3 -right-3 px-3 py-2 rounded-xl bg-white/[0.06] backdrop-blur-2xl border border-white/15 shadow-[0_10px_24px_rgba(0,0,0,0.4)]">
+                <div className="text-[8px] font-bold uppercase tracking-[1.5px] text-white/60 leading-none">
+                  Loyiha
+                </div>
+                <div className="text-[14px] font-black text-white leading-tight mt-0.5">
+                  100+
+                </div>
+              </div>
             </div>
 
             {/* Ma'lumot */}

@@ -58,12 +58,12 @@ export function RegisterForm() {
         goal: form.goal,
       })
       if (!res.ok) {
-        setSendError(res.error || "Xatolik yuz berdi")
+        setSendError(res.error || t("form_generic_err"))
         return
       }
       setSubmitted(true)
     } catch {
-      setSendError("Tarmoqda xatolik. Qayta urinib ko'ring.")
+      setSendError(t("form_net_err"))
     } finally {
       setSending(false)
     }
@@ -71,7 +71,7 @@ export function RegisterForm() {
 
   if (submitted) {
     return (
-      <div className="card-std p-10 text-center">
+      <div className="card-std p-6 sm:p-10 text-center">
         <div className="w-16 h-16 rounded-full gradient-bg flex items-center justify-center mx-auto mb-4">
           <CheckCircle2 className="w-8 h-8 text-white" />
         </div>
@@ -82,7 +82,7 @@ export function RegisterForm() {
   }
 
   return (
-    <div className="card-std p-8">
+    <div className="card-std p-5 sm:p-8">
       <h3 className="text-xl font-bold mb-1">{t("form_title")}</h3>
       <p className="text-sm text-muted-foreground mb-6">{t("form_sub")}</p>
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -115,7 +115,7 @@ export function RegisterForm() {
               className={`flex h-11 w-full rounded-xl border border-input bg-background/50 px-4 pr-10 text-sm appearance-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:border-[#2563eb]/30 shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)] hover:border-foreground/15 transition-all duration-300 ${
                 form.income ? "text-foreground" : "text-muted-foreground/60"
               }`}>
-              <option value="" disabled>Daromadni tanlang</option>
+              <option value="" disabled>{t("form_income_ph")}</option>
               {incomeOptions.map(opt => (
                 <option key={opt} value={opt}>{opt}</option>
               ))}
@@ -140,7 +140,7 @@ export function RegisterForm() {
           {sending ? (
             <span className="inline-flex items-center gap-2">
               <Loader2 className="w-4 h-4 animate-spin" />
-              Yuborilmoqda...
+              {t("form_sending")}
             </span>
           ) : (
             t("form_btn")

@@ -7,14 +7,56 @@ import { useLang } from "@/context/LangContext"
 
 const moduleIcons = [BarChart3, Compass, Video, MessageCircle, Filter, Globe]
 
-const moduleImages = [
-  "/img/modules/analiz.jpeg",
-  "/img/modules/strategiya.jpeg",
-  "/img/modules/reels.jpeg",
-  "/img/modules/stories.jpeg",
-  "/img/modules/voronka.jpeg",
-  "/img/modules/platformalar.jpeg",
+// Har bir modul uchun mavzuga mos gradient + aksent rangi
+const moduleThemes = [
+  { from: "#2563eb", to: "#60a5fa", hex: "#2563eb" },   // Analiz — cobalt
+  { from: "#0891b2", to: "#22d3ee", hex: "#0891b2" },   // Strategiya — cyan
+  { from: "#db2777", to: "#fb7185", hex: "#db2777" },   // Reels — pink (video)
+  { from: "#f59e0b", to: "#fbbf24", hex: "#f59e0b" },   // Stories — amber
+  { from: "#10b981", to: "#34d399", hex: "#10b981" },   // Voronka — emerald
+  { from: "#8b5cf6", to: "#a78bfa", hex: "#8b5cf6" },   // Platformalar — violet
 ]
+
+function IconStage({ Icon, theme, large = false }: { Icon: typeof BarChart3; theme: typeof moduleThemes[number]; large?: boolean }) {
+  return (
+    <div
+      className={`relative shrink-0 rounded-2xl overflow-hidden ${large ? "w-full aspect-[16/9]" : "w-28 h-28"}`}
+      style={{
+        background: `linear-gradient(135deg, ${theme.from} 0%, ${theme.to} 100%)`,
+      }}
+    >
+      {/* Nozik noise pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.12] pointer-events-none"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 25% 25%, rgba(255,255,255,0.6) 1px, transparent 1px), radial-gradient(circle at 75% 75%, rgba(255,255,255,0.4) 1px, transparent 1px)",
+          backgroundSize: "18px 18px, 24px 24px",
+        }}
+      />
+      {/* Glow spot */}
+      <div
+        className="absolute -top-6 -right-6 w-24 h-24 rounded-full blur-2xl opacity-50"
+        style={{ background: "rgba(255,255,255,0.4)" }}
+      />
+      {/* Yirik ikon — orqa fon sifatida */}
+      <Icon
+        className="absolute -right-4 -bottom-4 text-white/15"
+        style={{ width: large ? "180px" : "120px", height: large ? "180px" : "120px" }}
+        strokeWidth={1.2}
+        aria-hidden
+      />
+      {/* Markaziy ikon — oldingi */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <Icon
+          className="text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)]"
+          style={{ width: large ? "68px" : "48px", height: large ? "68px" : "48px" }}
+          strokeWidth={1.6}
+        />
+      </div>
+    </div>
+  )
+}
 
 export function Modules() {
   const { t } = useLang()
@@ -30,6 +72,8 @@ export function Modules() {
     { tab: t("mod_t6"), h: t("m6_h"), d: t("m6_d"), items: [t("m6_i1"), t("m6_i2"), t("m6_i3"), t("m6_i4"), t("m6_i5")] },
   ]
   const m = modules[active]
+  const activeTheme = moduleThemes[active]
+  const ActiveIcon = moduleIcons[active]
 
   return (
     <section id="modules" className="py-[100px] section-warm">
@@ -43,20 +87,29 @@ export function Modules() {
           <div className="lg:hidden mt-8 space-y-2.5">
             {modules.map((mod, i) => {
               const Icon = moduleIcons[i]
+              const theme = moduleThemes[i]
               const isOpen = mobileOpen === i
               return (
-                <div key={i} className={`card-std overflow-hidden transition-all duration-300 ${isOpen ? "border-[#2563eb]/30" : ""}`}>
+                <div key={i} className={`card-std overflow-hidden transition-all duration-300`}
+                  style={isOpen ? { borderColor: `${theme.hex}55` } : undefined}>
                   <button
                     onClick={() => setMobileOpen(isOpen ? null : i)}
                     className="w-full flex items-center gap-3 p-3.5 text-left"
                   >
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-                      isOpen ? "gradient-bg" : "bg-[rgba(37,99,235,0.1)]"
-                    }`}>
-                      <Icon className={`w-4 h-4 ${isOpen ? "text-white" : "text-[#2563eb]"}`} strokeWidth={2} />
+                    <div
+                      className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-all"
+                      style={{
+                        background: isOpen
+                          ? `linear-gradient(135deg, ${theme.from}, ${theme.to})`
+                          : `${theme.hex}1A`,
+                      }}
+                    >
+                      <Icon className={`w-4 h-4 ${isOpen ? "text-white" : ""}`}
+                        style={!isOpen ? { color: theme.hex } : undefined}
+                        strokeWidth={2} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="text-[9px] font-bold uppercase tracking-wider text-[#2563eb]">
+                      <div className="text-[9px] font-bold uppercase tracking-wider" style={{ color: theme.hex }}>
                         {mod.tab}
                       </div>
                       <div className="text-[14px] font-bold truncate">{mod.h}</div>
@@ -76,14 +129,12 @@ export function Modules() {
                         className="overflow-hidden"
                       >
                         <div className="px-3.5 pb-4">
-                          <div className="rounded-xl overflow-hidden mb-3 aspect-[16/9]">
-                            <img src={moduleImages[i]} alt={mod.h} loading="lazy" className="w-full h-full object-cover" />
-                          </div>
-                          <p className="text-[12.5px] text-muted-foreground leading-[1.5] mb-3">{mod.d}</p>
+                          <IconStage Icon={Icon} theme={theme} large />
+                          <p className="text-[12.5px] text-muted-foreground leading-[1.5] mt-3 mb-3">{mod.d}</p>
                           <ul className="space-y-1.5">
                             {mod.items.map((item, j) => (
                               <li key={j} className="flex items-start gap-2 text-[12.5px]">
-                                <CheckCircle2 className="w-3.5 h-3.5 text-[#2563eb] shrink-0 mt-0.5" />
+                                <CheckCircle2 className="w-3.5 h-3.5 shrink-0 mt-0.5" style={{ color: theme.hex }} />
                                 <span>{item}</span>
                               </li>
                             ))}
@@ -104,19 +155,28 @@ export function Modules() {
             <div className="flex flex-col gap-2">
               {modules.map((mod, i) => {
                 const Icon = moduleIcons[i]
+                const theme = moduleThemes[i]
                 const isActive = i === active
                 return (
                   <button key={i} onClick={() => setActive(i)}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-300 ease-out border ${
+                    className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-300 ease-out border`}
+                    style={
                       isActive
-                        ? "gradient-bg text-white border-transparent shadow-[0_4px_12px_rgba(37,99,235,0.25)]"
-                        : "bg-card border-border text-muted-foreground hover:text-foreground hover:border-[#2563eb]/20"
-                    }`}
+                        ? {
+                            background: `linear-gradient(135deg, ${theme.from}, ${theme.to})`,
+                            color: "white",
+                            border: "1px solid transparent",
+                            boxShadow: `0 4px 12px ${theme.hex}40`,
+                          }
+                        : undefined
+                    }
                   >
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
-                      isActive ? "bg-white/20" : "bg-[rgba(37,99,235,0.08)]"
-                    }`}>
-                      <Icon className={`w-4 h-4 ${isActive ? "text-white" : "text-[#2563eb]"}`} strokeWidth={1.8} />
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors"
+                      style={{
+                        background: isActive ? "rgba(255,255,255,0.2)" : `${theme.hex}14`,
+                      }}
+                    >
+                      <Icon className="w-4 h-4" style={{ color: isActive ? "white" : theme.hex }} strokeWidth={1.8} />
                     </div>
                     <div className="min-w-0">
                       <div className={`text-[10px] font-bold uppercase tracking-wider ${isActive ? "text-white/70" : "text-muted-foreground/70"}`}>
@@ -140,11 +200,9 @@ export function Modules() {
                   transition={{ duration: 0.4, ease: [0.39, 0.575, 0.565, 1] }}
                 >
                   <div className="flex items-start gap-4 mb-6">
-                    <div className="w-28 h-28 shrink-0 rounded-2xl overflow-hidden border border-[rgba(37,99,235,0.12)] shadow-[0_4px_16px_rgba(0,0,0,0.06)]">
-                      <img src={moduleImages[active]} alt={m.h} loading="lazy" className="w-full h-full object-cover" />
-                    </div>
+                    <IconStage Icon={ActiveIcon} theme={activeTheme} />
                     <div className="flex-1 min-w-0">
-                      <div className="text-xs font-bold uppercase tracking-[2px] text-[#2563eb] mb-1">{m.tab}</div>
+                      <div className="text-xs font-bold uppercase tracking-[2px] mb-1" style={{ color: activeTheme.hex }}>{m.tab}</div>
                       <h3 className="text-2xl font-extrabold">{m.h}</h3>
                       <p className="text-sm text-muted-foreground mt-1">{m.d}</p>
                     </div>
@@ -157,7 +215,7 @@ export function Modules() {
                         transition={{ delay: j * 0.05, duration: 0.3 }}
                         className="flex items-center gap-3 p-3 rounded-lg hover:bg-foreground/5 transition-all duration-300 ease-out"
                       >
-                        <CheckCircle2 className="w-4 h-4 text-[#2563eb] shrink-0" />
+                        <CheckCircle2 className="w-4 h-4 shrink-0" style={{ color: activeTheme.hex }} />
                         <span className="text-sm font-medium">{item}</span>
                       </motion.div>
                     ))}

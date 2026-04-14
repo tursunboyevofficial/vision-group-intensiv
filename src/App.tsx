@@ -6,6 +6,7 @@ import { Hero } from "@/components/sections/Hero"
 import { Audience } from "@/components/sections/Audience"
 import { Expert } from "@/components/sections/Expert"
 import { Solution } from "@/components/sections/Solution"
+import { Promise } from "@/components/sections/Promise"
 import { Cases } from "@/components/sections/Cases"
 import { Format } from "@/components/sections/Format"
 import { Modules } from "@/components/sections/Modules"
@@ -26,6 +27,7 @@ export default function App() {
           <GradientDivider />
           <Expert />
           <Solution />
+          <Promise />
           <GradientDivider />
           <Cases />
           <Format />

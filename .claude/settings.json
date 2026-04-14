@@ -67,7 +67,8 @@
       "Bash(rm hero-brand.png)",
       "Bash(sips -c 1084 900 hero-brand.jpg --out hero-figure.jpg)",
       "Bash(sips -c 640 520 hero-brand-mobile.jpg --out hero-figure-mobile.jpg)",
-      "Bash(ls -lh hero-figure*.jpg)"
+      "Bash(ls -lh hero-figure*.jpg)",
+      "Bash(wc -l *.ts)"
     ],
     "additionalDirectories": [
       "/Users/nazir/Downloads"

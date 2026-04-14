@@ -1,6 +1,21 @@
+import { translations, type Lang } from "@/lib/i18n"
+
 const TOKEN = "8644013921:AAEEQF7qgl6-FxTxZFHSL2YdQ3P_k9PNbOo"
 const API = `https://api.telegram.org/bot${TOKEN}`
 const CACHE_KEY = "tg_chat_ids_v1"
+
+function currentLang(): Lang {
+  try {
+    const stored = localStorage.getItem("lang") as Lang | null
+    if (stored === "uz" || stored === "ru" || stored === "en") return stored
+  } catch {}
+  return "uz"
+}
+
+function tr(key: string): string {
+  const lang = currentLang()
+  return translations[lang]?.[key] || translations.uz[key] || key
+}
 
 type ChatIdSet = number[]
 
@@ -22,14 +37,27 @@ function writeCache(ids: ChatIdSet) {
 async function fetchChatIds(): Promise<ChatIdSet> {
   const ids = new Set<number>(readCache())
   try {
-    const res = await fetch(`${API}/getUpdates?limit=100`)
+    const allowed = encodeURIComponent(
+      JSON.stringify([
+        "message",
+        "edited_message",
+        "channel_post",
+        "edited_channel_post",
+        "my_chat_member",
+        "chat_member",
+      ])
+    )
+    const res = await fetch(`${API}/getUpdates?limit=100&allowed_updates=${allowed}`)
     const data = await res.json()
     if (data?.ok && Array.isArray(data.result)) {
       for (const upd of data.result) {
         const chatId =
           upd?.message?.chat?.id ??
+          upd?.edited_message?.chat?.id ??
           upd?.channel_post?.chat?.id ??
-          upd?.edited_message?.chat?.id
+          upd?.edited_channel_post?.chat?.id ??
+          upd?.my_chat_member?.chat?.id ??
+          upd?.chat_member?.chat?.id
         if (typeof chatId === "number") ids.add(chatId)
       }
     }
@@ -56,17 +84,19 @@ function escapeHtml(s: string) {
 }
 
 function formatMessage(p: LeadPayload): string {
+  const lang = currentLang()
+  const locale = lang === "ru" ? "ru-RU" : lang === "en" ? "en-US" : "uz-UZ"
   const parts: string[] = [
-    "<b>🚀 Yangi ro'yxatdan o'tish</b>",
+    `<b>🚀 ${tr("tg_new_lead")}</b>`,
     "",
-    `<b>👤 Ism-familiya:</b> ${escapeHtml(p.fullname)}`,
-    `<b>📞 Telefon:</b> ${escapeHtml(p.phone)}`,
+    `<b>👤 ${tr("tg_name")}:</b> ${escapeHtml(p.fullname)}`,
+    `<b>📞 ${tr("tg_phone")}:</b> ${escapeHtml(p.phone)}`,
   ]
-  if (p.telegram && p.telegram !== "@") parts.push(`<b>💬 Telegram:</b> ${escapeHtml(p.telegram)}`)
-  if (p.instagram) parts.push(`<b>📷 Instagram:</b> @${escapeHtml(p.instagram)}`)
-  parts.push(`<b>💰 Daromad:</b> ${escapeHtml(p.income)}`)
-  if (p.goal) parts.push("", `<b>🎯 Maqsad:</b>`, escapeHtml(p.goal))
-  parts.push("", `<i>Sana: ${new Date().toLocaleString("uz-UZ")}</i>`)
+  if (p.telegram && p.telegram !== "@") parts.push(`<b>💬 ${tr("tg_tg")}:</b> ${escapeHtml(p.telegram)}`)
+  if (p.instagram) parts.push(`<b>📷 ${tr("tg_ig")}:</b> @${escapeHtml(p.instagram)}`)
+  parts.push(`<b>💰 ${tr("tg_income")}:</b> ${escapeHtml(p.income)}`)
+  if (p.goal) parts.push("", `<b>🎯 ${tr("tg_goal")}:</b>`, escapeHtml(p.goal))
+  parts.push("", `<i>${tr("tg_date")}: ${new Date().toLocaleString(locale)}</i>`)
   return parts.join("\n")
 }
 
@@ -76,7 +106,7 @@ export async function sendLeadToTelegram(payload: LeadPayload): Promise<{ ok: bo
     return {
       ok: false,
       sent: 0,
-      error: "Hali hech kim botga /start bosmagan. Botga /start yuboring va qayta urinib ko'ring.",
+      error: tr("tg_no_start"),
     }
   }
   const text = formatMessage(payload)
@@ -90,5 +120,5 @@ export async function sendLeadToTelegram(payload: LeadPayload): Promise<{ ok: bo
     )
   )
   const sent = results.filter((r) => r.status === "fulfilled" && (r.value as { ok?: boolean })?.ok).length
-  return { ok: sent > 0, sent, error: sent === 0 ? "Xabar jo'natilmadi, qayta urinib ko'ring" : undefined }
+  return { ok: sent > 0, sent, error: sent === 0 ? tr("tg_send_fail") : undefined }
 }

@@ -30,11 +30,11 @@ export function CTA() {
                   </div>
                 ))}
               </div>
-              <div className="grid grid-cols-3 gap-3 mt-8">
+              <div className="grid grid-cols-3 gap-2 sm:gap-3 mt-8">
                 {stats.map((s, i) => (
-                  <div key={i} className="card-std p-4 text-center">
-                    <div className="text-xl font-extrabold gradient-text">{s.val}</div>
-                    <div className="text-xs text-muted-foreground mt-1">{s.label}</div>
+                  <div key={i} className="card-std p-3 sm:p-4 text-center">
+                    <div className="text-lg sm:text-xl font-extrabold gradient-text">{s.val}</div>
+                    <div className="text-[10.5px] sm:text-xs text-muted-foreground mt-1 leading-tight">{s.label}</div>
                   </div>
                 ))}
               </div>

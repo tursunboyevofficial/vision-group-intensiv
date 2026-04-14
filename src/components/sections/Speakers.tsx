@@ -5,22 +5,22 @@ import { BlurFade } from "@/components/magicui/blur-fade"
 import { SectionHeader } from "@/components/shared/SectionHeader"
 import { useLang } from "@/context/LangContext"
 
-type Speaker = { img?: string; name: string; topic: string; hidden?: boolean }
+type Speaker = { img?: string; name: string; topicKey: string; nameKey?: string; hidden?: boolean }
 
 const speakers: Speaker[] = [
-  { img: "/img/optimized/speaker2.jpg", name: "Umidjon Raximboyev", topic: "Telegram Ads orqali Million $ lik lead jalb qilish" },
-  { img: "/img/optimized/speaker1.jpg", name: "Maris Istamov", topic: "Shaxsiy brend orqali Million $ Voronka qurish" },
-  { img: "/img/optimized/speaker3.jpg", name: "Abdulboriy Abduqodirov", topic: "Sotuv Texnikalari" },
-  { img: "/img/optimized/speaker5.jpg", name: "Abdullokh Khikmatov", topic: "Agentlik qurish" },
-  { name: "Sirli Spiker", topic: "Zapusk bo'yicha", hidden: true },
+  { img: "/img/optimized/speaker2.jpg", name: "Umidjon Raximboyev", topicKey: "spk_topic_1" },
+  { img: "/img/optimized/speaker1.jpg", name: "Maris Istamov", topicKey: "spk_topic_2" },
+  { img: "/img/optimized/speaker3.jpg", name: "Abdulboriy Abduqodirov", topicKey: "spk_topic_3" },
+  { img: "/img/optimized/speaker5.jpg", name: "Abdullokh Khikmatov", topicKey: "spk_topic_4" },
+  { name: "", nameKey: "spk_name_hidden", topicKey: "spk_topic_5", hidden: true },
 ]
 
 const reels = [
-  { id: "a1un10bwYnU", author: "Mijoz 1" },
-  { id: "OorUQTtH-VU", author: "Mijoz 2" },
-  { id: "szfHU8VJMHs", author: "Mijoz 3" },
-  { id: "DiG8g40Dh0o", author: "Mijoz 4" },
-  { id: "ZE0S4OMGeJY", author: "Mijoz 5" },
+  { id: "a1un10bwYnU", authorKey: "reels_author_1" },
+  { id: "OorUQTtH-VU", authorKey: "reels_author_2" },
+  { id: "szfHU8VJMHs", authorKey: "reels_author_3" },
+  { id: "DiG8g40Dh0o", authorKey: "reels_author_4" },
+  { id: "ZE0S4OMGeJY", authorKey: "reels_author_5" },
 ]
 
 export function Speakers() {
@@ -31,28 +31,40 @@ export function Speakers() {
       <section className="py-[100px]">
         <div className="max-w-[1180px] mx-auto px-7">
           <BlurFade>
-            <SectionHeader eyebrow="Spikerlar" title="Kursda kimlar o'qitadi?" accent="kimlar o'qitadi?" />
+            <SectionHeader eyebrow={t("spk_section_eyebrow")} title={t("spk_section_title")} accent={t("spk_section_accent")} />
           </BlurFade>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-5 mt-12">
-            {speakers.map((s, i) => (
-              <BlurFade key={i} delay={0.08 * i}>
+            {speakers.map((s, i) => {
+              const isLast = i === speakers.length - 1
+              // Last speaker (sirli): full-width banner on mobile, normal card on md+
+              const wrapperClass = isLast ? "col-span-2 md:col-span-1" : ""
+              const cardAspect = isLast ? "aspect-[16/9] md:aspect-[3/4]" : "aspect-[3/4]"
+              return (
+              <BlurFade key={i} delay={0.08 * i} className={wrapperClass}>
                 <div className="group relative">
-                  <div className="relative aspect-[3/4] rounded-2xl overflow-hidden border border-border dark:border-white/10 bg-card shadow-[0_6px_24px_rgba(0,0,0,0.08)] dark:shadow-[0_6px_24px_rgba(0,0,0,0.4)] transition-all duration-500 group-hover:shadow-[0_10px_36px_rgba(37,99,235,0.2)] group-hover:-translate-y-1">
+                  <div className={`relative ${cardAspect} rounded-2xl overflow-hidden border border-border dark:border-white/10 bg-card shadow-[0_6px_24px_rgba(0,0,0,0.08)] dark:shadow-[0_6px_24px_rgba(0,0,0,0.4)] transition-all duration-500 group-hover:shadow-[0_10px_36px_rgba(37,99,235,0.2)] group-hover:-translate-y-1`}>
                     {/* Gradient border glow (hover) */}
                     <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-br from-[#2563eb] via-[#fb7185] to-[#1e3a8a] opacity-0 group-hover:opacity-40 blur-md transition-opacity duration-500 -z-10" />
 
                     {s.hidden ? (
-                      /* Sirli spiker — blur + soro belgisi */
-                      <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#1e293b] via-[#0f172a] to-[#1e3a8a] dark:from-[#0f172a] dark:to-[#1e1b4b]">
-                        <div className="absolute inset-0 opacity-30" style={{
-                          backgroundImage: "radial-gradient(circle at 30% 20%, rgba(37,99,235,0.4), transparent 50%), radial-gradient(circle at 70% 80%, rgba(251,113,133,0.3), transparent 50%)"
+                      /* Sirli spiker — kuchli vizual aksent */
+                      <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#1e3a8a] via-[#2563eb] to-[#7c3aed]">
+                        {/* Animated radial glows */}
+                        <div className="absolute inset-0 opacity-60" style={{
+                          backgroundImage: "radial-gradient(circle at 30% 20%, rgba(251,113,133,0.5), transparent 50%), radial-gradient(circle at 70% 80%, rgba(96,165,250,0.5), transparent 50%)"
                         }} />
-                        <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center mb-3">
-                          <HelpCircle className="w-8 h-8 md:w-10 md:h-10 text-white/80" strokeWidth={1.5} />
-                        </div>
-                        <div className="relative px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15">
-                          <span className="text-[10px] font-bold tracking-[2px] uppercase text-white/80">Tez kunda</span>
+                        {/* Dot pattern */}
+                        <div className="absolute inset-0 opacity-20" style={{
+                          backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px)",
+                          backgroundSize: "12px 12px",
+                        }} />
+                        {/* Pulsating ring */}
+                        <div className="relative">
+                          <div className="absolute inset-0 w-20 h-20 md:w-24 md:h-24 rounded-full bg-white/20 animate-ping" />
+                          <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-full bg-white/15 backdrop-blur-xl border-2 border-white/40 flex items-center justify-center shadow-[0_8px_30px_rgba(0,0,0,0.4)]">
+                            <HelpCircle className="w-10 h-10 md:w-12 md:h-12 text-white" strokeWidth={1.8} />
+                          </div>
                         </div>
                       </div>
                     ) : (
@@ -67,16 +79,17 @@ export function Speakers() {
                     {/* Bottom content */}
                     <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4">
                       <div className="text-[13px] md:text-[14px] font-bold text-white tracking-[-0.2px] leading-tight">
-                        {s.name}
+                        {s.nameKey ? t(s.nameKey) : s.name}
                       </div>
                       <div className="text-[10.5px] md:text-[11px] text-white/70 mt-1 leading-[1.35] line-clamp-2">
-                        {s.topic}
+                        {t(s.topicKey)}
                       </div>
                     </div>
                   </div>
                 </div>
               </BlurFade>
-            ))}
+              )
+            })}
           </div>
 
           <p className="text-sm text-muted-foreground text-center mt-10">{t("spk_more")}</p>
@@ -89,6 +102,7 @@ export function Speakers() {
 }
 
 function ReelsSection() {
+  const { t } = useLang()
   return (
     <section
       id="reels"
@@ -133,10 +147,10 @@ function ReelsSection() {
       <div className="relative z-10 max-w-[1180px] mx-auto px-7">
         <BlurFade>
           <SectionHeader
-            eyebrow="Reels"
-            title="Haliyam bir qarorga kelmagan bo'lsangiz, mijozlarimiz fikrlari bilan tanishing"
-            accent="mijozlarimiz fikrlari"
-            description="Invision bilan shaxsiy brendini qurgan mijozlarimizdan haqiqiy natijalar va tajribalar"
+            eyebrow={t("reels_eyebrow")}
+            title={t("reels_title")}
+            accent={t("reels_accent")}
+            description={t("reels_desc")}
           />
         </BlurFade>
 
@@ -149,6 +163,7 @@ function ReelsSection() {
 }
 
 function ReelsPlayer() {
+  const { t } = useLang()
   const [active, setActive] = useState(0)
   const [interacted, setInteracted] = useState(false)
   const total = reels.length
@@ -172,7 +187,7 @@ function ReelsPlayer() {
                   exit={{ opacity: 0, scale: 0.96 }}
                   transition={{ duration: 0.4, ease: [0.39, 0.575, 0.565, 1] }}
                   src={`https://www.youtube.com/embed/${reels[active].id}?autoplay=${interacted ? 1 : 0}&rel=0&modestbranding=1`}
-                  title={reels[active].author}
+                  title={t(reels[active].authorKey)}
                   className="absolute inset-0 w-full h-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
@@ -202,13 +217,13 @@ function ReelsPlayer() {
       {/* Thumbnails — vertical cards on desktop, horizontal grid on mobile */}
       <div className="w-full">
         <div className="hidden lg:block text-[10px] font-bold tracking-[2.5px] uppercase text-white/40 mb-4">
-          Barcha videolar · 0{total}
+          {t("reels_all")} · 0{total}
         </div>
 
         {/* Mobile: vertical stacked cards */}
         <div className="lg:hidden flex flex-col gap-2.5 mt-4">
           <div className="text-[10px] font-bold tracking-[2.5px] uppercase text-white/40 mb-1 px-1">
-            Barcha videolar · 0{total}
+            {t("reels_all")} · 0{total}
           </div>
           {reels.map((r, i) => (
             <button key={r.id} onClick={() => select(i)}
@@ -219,7 +234,7 @@ function ReelsPlayer() {
               }`}>
               {/* Portrait thumbnail */}
               <div className="relative w-[52px] h-[72px] rounded-lg overflow-hidden shrink-0 bg-black">
-                <img src={`https://img.youtube.com/vi/${r.id}/hqdefault.jpg`} alt={r.author} loading="lazy"
+                <img src={`https://img.youtube.com/vi/${r.id}/hqdefault.jpg`} alt={t(r.authorKey)} loading="lazy"
                   className="absolute inset-0 w-full h-full object-cover scale-150" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                 {i === active && (
@@ -233,13 +248,13 @@ function ReelsPlayer() {
               {/* Info */}
               <div className="flex-1 min-w-0">
                 <div className={`text-[10px] font-bold tracking-[2px] uppercase mb-1 ${i === active ? "text-[#2563eb]" : "text-white/40"}`}>
-                  Reels · 0{i + 1}
+                  {t("reels_tag")} · 0{i + 1}
                 </div>
                 <div className={`text-[14px] font-bold ${i === active ? "text-white" : "text-white/80"}`}>
-                  {r.author}
+                  {t(r.authorKey)}
                 </div>
                 <div className="text-[11px] text-white/45 mt-0.5">
-                  Mijoz tajribasi
+                  {t("reels_exp_short")}
                 </div>
               </div>
               {/* Right chevron */}
@@ -261,7 +276,7 @@ function ReelsPlayer() {
               }`}>
               {/* Portrait thumbnail */}
               <div className="relative w-[58px] h-[78px] rounded-xl overflow-hidden shrink-0 bg-black">
-                <img src={`https://img.youtube.com/vi/${r.id}/hqdefault.jpg`} alt={r.author} loading="lazy"
+                <img src={`https://img.youtube.com/vi/${r.id}/hqdefault.jpg`} alt={t(r.authorKey)} loading="lazy"
                   className="absolute inset-0 w-full h-full object-cover scale-150" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                 {i === active ? (
@@ -280,13 +295,13 @@ function ReelsPlayer() {
               {/* Info */}
               <div className="flex-1 min-w-0">
                 <div className={`text-[10px] font-bold tracking-[2px] uppercase mb-1 ${i === active ? "text-[#2563eb]" : "text-white/40"}`}>
-                  Reels · 0{i + 1}
+                  {t("reels_tag")} · 0{i + 1}
                 </div>
                 <div className={`text-[15px] font-bold truncate ${i === active ? "text-white" : "text-white/80"}`}>
-                  {r.author}
+                  {t(r.authorKey)}
                 </div>
                 <div className="text-[12px] text-white/45 mt-0.5 truncate">
-                  Mijoz tajribasi va natijalari
+                  {t("reels_exp_long")}
                 </div>
               </div>
 
