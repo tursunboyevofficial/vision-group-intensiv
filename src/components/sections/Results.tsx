@@ -27,8 +27,8 @@ export function Results() {
           <SectionHeader eyebrow={t("sec9_eye")} title={t("sec9_title")} accent={t("sec9_accent")} className="[&_h2]:text-white" />
         </BlurFade>
         <BlurFade delay={0.3}>
-          <div className="mt-12 [&_.bg-secondary\\/60]:bg-white/10 [&_.text-muted-foreground]:text-white/60 [&_.bg-card]:!bg-[#1a1b20] [&_.bg-card]:!border-white/10 [&_.text-card-foreground]:text-white">
-            <MorphingCardStack cards={cards} defaultLayout="stack" />
+          <div className="mt-12 [&_.text-muted-foreground]:text-white/60 [&_.bg-card]:!bg-[#1a1b20] [&_.bg-card]:!border-white/10 [&_.text-card-foreground]:text-white max-w-[720px] mx-auto">
+            <MorphingCardStack cards={cards} defaultLayout="list" hideTabs />
           </div>
         </BlurFade>
       </div>

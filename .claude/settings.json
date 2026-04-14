@@ -68,7 +68,11 @@
       "Bash(sips -c 1084 900 hero-brand.jpg --out hero-figure.jpg)",
       "Bash(sips -c 640 520 hero-brand-mobile.jpg --out hero-figure-mobile.jpg)",
       "Bash(ls -lh hero-figure*.jpg)",
-      "Bash(wc -l *.ts)"
+      "Bash(wc -l *.ts)",
+      "Bash(sips -g pixelWidth -g pixelHeight img/final.png)",
+      "Bash(sips -Z 1920 -s format jpeg -s formatOptions 85 \"../../img/final.png\" --out hero-brand.jpg)",
+      "Bash(sips -Z 960 -s format jpeg -s formatOptions 80 \"../../img/final.png\" --out hero-brand-mobile.jpg)",
+      "Bash(ls -lh hero-brand*.jpg)"
     ],
     "additionalDirectories": [
       "/Users/nazir/Downloads"

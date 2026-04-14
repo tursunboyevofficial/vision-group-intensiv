@@ -20,6 +20,7 @@ export interface MorphingCardStackProps {
   className?: string
   defaultLayout?: LayoutMode
   onCardClick?: (card: CardData) => void
+  hideTabs?: boolean
 }
 
 const layoutIcons = { stack: Layers, grid: Grid3X3, list: LayoutList }
@@ -28,7 +29,7 @@ const SWIPE_THRESHOLD = 50
 const SINE_OUT: [number, number, number, number] = [0.39, 0.575, 0.565, 1]
 
 export function MorphingCardStack({
-  cards = [], className, defaultLayout = "stack", onCardClick,
+  cards = [], className, defaultLayout = "stack", onCardClick, hideTabs = false,
 }: MorphingCardStackProps) {
   const [layout, setLayout] = useState<LayoutMode>(defaultLayout)
   const [expandedCard, setExpandedCard] = useState<string | null>(null)
@@ -76,24 +77,26 @@ export function MorphingCardStack({
 
   return (
     <div className={cn("space-y-6", className)}>
-      <div className="flex items-center justify-center gap-1 rounded-full bg-secondary/60 backdrop-blur-sm p-1 w-fit mx-auto border">
-        {(Object.keys(layoutIcons) as LayoutMode[]).map((mode) => {
-          const Icon = layoutIcons[mode]
-          return (
-            <button key={mode} onClick={() => setLayout(mode)}
-              className={cn(
-                "rounded-full p-2 transition-all duration-300",
-                layout === mode
-                  ? "gradient-bg text-white shadow-sm"
-                  : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
-              )}
-              aria-label={`Switch to ${mode} layout`}
-            >
-              <Icon className="h-4 w-4" />
-            </button>
-          )
-        })}
-      </div>
+      {!hideTabs && (
+        <div className="flex items-center justify-center gap-1 rounded-full bg-secondary/60 backdrop-blur-sm p-1 w-fit mx-auto border">
+          {(Object.keys(layoutIcons) as LayoutMode[]).map((mode) => {
+            const Icon = layoutIcons[mode]
+            return (
+              <button key={mode} onClick={() => setLayout(mode)}
+                className={cn(
+                  "rounded-full p-2 transition-all duration-300",
+                  layout === mode
+                    ? "gradient-bg text-white shadow-sm"
+                    : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
+                )}
+                aria-label={`Switch to ${mode} layout`}
+              >
+                <Icon className="h-4 w-4" />
+              </button>
+            )
+          })}
+        </div>
+      )}
 
       <LayoutGroup>
         <motion.div layout className={cn(containerStyles[layout], "mx-auto")}>

@@ -30,13 +30,24 @@ export function CTA() {
                   </div>
                 ))}
               </div>
-              <div className="grid grid-cols-3 gap-2 sm:gap-3 mt-8">
-                {stats.map((s, i) => (
-                  <div key={i} className="card-std p-3 sm:p-4 text-center">
-                    <div className="text-lg sm:text-xl font-extrabold gradient-text">{s.val}</div>
-                    <div className="text-[10.5px] sm:text-xs text-muted-foreground mt-1 leading-tight">{s.label}</div>
-                  </div>
-                ))}
+              <div className="mt-8">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-8 h-px bg-gradient-to-r from-[#2563eb] to-[#fb7185]" />
+                  <span className="text-[11px] font-bold tracking-[2px] uppercase text-muted-foreground">
+                    {t("cta_stats_eye")}
+                  </span>
+                </div>
+                <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                  {stats.map((s, i) => (
+                    <div key={i} className="card-std p-3 sm:p-4 text-center">
+                      <div className="text-lg sm:text-xl font-extrabold gradient-text">{s.val}</div>
+                      <div className="text-[10.5px] sm:text-xs text-muted-foreground mt-1 leading-tight">{s.label}</div>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-[13px] md:text-[14px] font-medium text-foreground/80 mt-4 leading-[1.5]">
+                  {t("cta_stats_cta")}
+                </p>
               </div>
               <div className="flex items-center gap-2 mt-6">
                 <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />

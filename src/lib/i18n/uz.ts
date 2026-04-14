@@ -82,6 +82,8 @@ export const uz: Record<string, string> = {
   cta_c3: "Tayyor shablonlar va strategiya", cta_c4: "Ishlaydigan sotuv tizimi",
   cta_f1: "Shaxsiy brend loyihalari", cta_f2: "Obunachi jalb qilingan", cta_f3: "Sotuv reklamasiz",
   cta_urg: "Hozir ro'yxatdan o'tayotganlar bor",
+  cta_stats_eye: "Real tajriba raqamlarda:",
+  cta_stats_cta: "Amaliyotga asoslangan dastur uchun hoziroq ro'yxatdan o'ting",
   form_title: "Kursga qo'shilish", form_sub: "Ma'lumotlaringizni to'ldiring — biz siz bilan bog'lanamiz",
   form_btn: "Ro'yxatdan o'tish",
   f_name_ph: "Ism-familiya", f_name_err: "Ism-familiya faqat harflardan iborat bo'lishi kerak (kamida 3 ta belgi)",

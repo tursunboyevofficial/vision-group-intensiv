@@ -109,22 +109,22 @@ export function Format() {
               className="w-full h-[280px] md:h-[420px] object-cover transition-transform duration-700 group-hover:scale-105" />
             {/* Dark gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
-            {/* Text overlay */}
-            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-8 h-px bg-gradient-to-r from-[#2563eb] to-[#fb7185]" />
+            {/* Text overlay — pastroqqa tushirildi (rasmni to'smasligi uchun) */}
+            <div className="absolute bottom-0 left-0 right-0 px-5 md:px-8 pb-4 md:pb-6">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-7 h-px bg-gradient-to-r from-[#2563eb] to-[#fb7185]" />
                 <span className="text-[10px] md:text-[11px] font-bold tracking-[3px] uppercase text-white/70">
                   INVISION
                 </span>
               </div>
-              <h3 className="text-[28px] md:text-[44px] lg:text-[52px] font-display font-bold leading-[1.05] tracking-[-0.02em] text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+              <h3 className="text-[22px] md:text-[34px] lg:text-[40px] font-display font-bold leading-[1.05] tracking-[-0.02em] text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
                 <span className="italic font-serif font-normal bg-gradient-to-br from-[#2563eb] via-[#fb7185] to-[#fda4af] bg-clip-text text-transparent">
                   Invision
                 </span>{" "}
                 jamoasi
               </h3>
-              <p className="text-[13px] md:text-[15px] text-white/70 mt-3 max-w-[600px] leading-[1.55]">
-                Professional jamoa har bir ishtirokchiga shaxsiy yondashuv va yordam bilan xizmat qiladi
+              <p className="text-[12px] md:text-[14px] text-white/70 mt-2 max-w-[620px] leading-[1.5]">
+                Professional jamoa bilan real amaliyot asosida shaxsiy brendingizni qurishni boshlaysiz
               </p>
             </div>
           </div>

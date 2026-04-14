@@ -82,6 +82,8 @@ export const en: Record<string, string> = {
   cta_c3: "Ready-made templates and strategy", cta_c4: "Working sales system",
   cta_f1: "Personal brand projects", cta_f2: "Followers attracted", cta_f3: "Sales without ads",
   cta_urg: "People are registering right now",
+  cta_stats_eye: "Real experience in numbers:",
+  cta_stats_cta: "Register now for the practice-based program",
   form_title: "Join the course", form_sub: "Fill in your details — we'll contact you",
   form_btn: "Register",
   f_name_ph: "Full name", f_name_err: "Name must contain only letters (minimum 3 characters)",

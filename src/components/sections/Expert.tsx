@@ -23,7 +23,7 @@ export function Expert() {
         <BlurFade delay={0.2}>
           <div className="mt-14 grid md:grid-cols-[280px_1fr] gap-8 md:gap-12 items-center max-w-[900px] mx-auto">
             {/* Rasm — premium frame with accents */}
-            <div className="relative max-w-[280px] mx-auto md:mx-0">
+            <div className="relative w-full max-w-[420px] md:max-w-[280px] mx-auto md:mx-0">
               {/* Gradient backdrop glow */}
               <div className="absolute -inset-3 rounded-[28px] bg-gradient-to-br from-[#2563eb]/25 via-[#fb7185]/20 to-[#1e3a8a]/25 blur-2xl opacity-70" />
 
