@@ -106,7 +106,7 @@ export function Format() {
           <div className="mt-12 relative rounded-2xl overflow-hidden group">
             <img src="/img/optimized/format.jpg"
               alt="Invision jamoasi" loading="lazy" decoding="async"
-              className="w-full h-[280px] md:h-[420px] object-cover transition-transform duration-700 group-hover:scale-105" />
+              className="w-full h-[340px] md:h-[460px] object-cover transition-transform duration-700 group-hover:scale-105" />
             {/* Dark gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
             {/* Text overlay — pastroqqa tushirildi (rasmni to'smasligi uchun) */}
@@ -117,13 +117,13 @@ export function Format() {
                   INVISION
                 </span>
               </div>
-              <h3 className="text-[22px] md:text-[34px] lg:text-[40px] font-display font-bold leading-[1.05] tracking-[-0.02em] text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+              <h3 className="text-[26px] md:text-[38px] lg:text-[44px] font-display font-bold leading-[1.05] tracking-[-0.02em] text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
                 <span className="italic font-serif font-normal bg-gradient-to-br from-[#2563eb] via-[#fb7185] to-[#fda4af] bg-clip-text text-transparent">
                   Invision
                 </span>{" "}
                 jamoasi
               </h3>
-              <p className="text-[12px] md:text-[14px] text-white/70 mt-2 max-w-[620px] leading-[1.5]">
+              <p className="text-[13.5px] md:text-[15.5px] text-white/75 mt-2.5 max-w-[640px] leading-[1.5]">
                 Professional jamoa bilan real amaliyot asosida shaxsiy brendingizni qurishni boshlaysiz
               </p>
             </div>

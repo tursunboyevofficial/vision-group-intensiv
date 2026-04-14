@@ -198,16 +198,16 @@ export function Hero() {
       </div>
 
       {/* ============ MOBILE: single column, stacked ============ */}
-      <div className="md:hidden relative z-10 flex flex-col min-h-screen px-5 pt-28 pb-10">
+      <div className="md:hidden relative z-10 flex flex-col min-h-screen px-5 pt-24 pb-10">
         {/* Top: brand (over image) */}
         <BlurFade delay={0.1}>
           <div className="flex items-center gap-3">
-            <div className="w-1 h-11 bg-gradient-to-b from-[#2563eb] to-[#fb7185] rounded-full shrink-0" />
+            <div className="w-1 h-12 bg-gradient-to-b from-[#2563eb] to-[#fb7185] rounded-full shrink-0" />
             <div className="min-w-0">
-              <div className="text-[12.5px] font-bold tracking-[2.5px] uppercase text-white leading-tight">
+              <div className="text-[14px] font-bold tracking-[2.5px] uppercase text-white leading-tight">
                 Jaxongir Raimjonov
               </div>
-              <div className="text-[10.5px] text-white/60 font-medium tracking-[1.5px] uppercase mt-1 leading-tight truncate">
+              <div className="text-[11.5px] text-white/65 font-medium tracking-[1.5px] uppercase mt-1 leading-tight truncate">
                 {t("hero_speaker_role")}
               </div>
             </div>
@@ -215,15 +215,15 @@ export function Hero() {
         </BlurFade>
 
         {/* Spacer — image face visible (image ends around ~68vh) */}
-        <div className="h-[54vh] max-h-[470px]" />
+        <div className="h-[36vh] max-h-[310px]" />
 
         {/* Bottom content */}
         <div className="space-y-5 mt-auto">
           {/* Badge */}
           <BlurFade delay={0.35}>
             <div className="flex items-center gap-3">
-              <div className="w-8 h-px bg-[#2563eb]" />
-              <span className="text-[11.5px] font-bold tracking-[2.5px] uppercase text-white/80">
+              <div className="w-12 h-px bg-[#2563eb]" />
+              <span className="text-[16px] font-bold tracking-[2.5px] uppercase text-white/95">
                 {t("hero_badge")}
               </span>
             </div>
@@ -231,10 +231,10 @@ export function Hero() {
 
           {/* Headline */}
           <BlurFade delay={0.4}>
-            <h1 className="font-display font-bold text-[32px] sm:text-[38px] leading-[1.05] tracking-[-0.02em] text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.6)]">
+            <h1 className="font-display font-bold text-[48px] sm:text-[58px] leading-[1.02] tracking-[-0.03em] text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.6)]">
               {renderShortTitle()}
             </h1>
-            <p className="text-[14.5px] text-white/70 leading-[1.55] mt-3.5">
+            <p className="text-[19px] text-white/80 leading-[1.5] mt-5">
               {t("hero_short_desc")}
             </p>
           </BlurFade>
@@ -243,18 +243,18 @@ export function Hero() {
           <BlurFade delay={0.45}>
             <div className="flex items-center gap-4 pt-3 border-t border-white/10">
               <div>
-                <div className="text-[10.5px] text-white/60 uppercase tracking-[1.5px]">{t("hero_duration")}</div>
-                <div className="text-white font-bold text-[15px] mt-0.5">{t("hero_duration_val")}</div>
+                <div className="text-[11.5px] text-white/65 uppercase tracking-[1.5px]">{t("hero_duration")}</div>
+                <div className="text-white font-bold text-[17px] mt-0.5">{t("hero_duration_val")}</div>
               </div>
-              <div className="w-px h-8 bg-white/15" />
+              <div className="w-px h-9 bg-white/15" />
               <div>
-                <div className="text-[10.5px] text-white/60 uppercase tracking-[1.5px]">{t("hero_format")}</div>
-                <div className="text-white font-bold text-[15px] mt-0.5">{t("hero_format_val")}</div>
+                <div className="text-[11.5px] text-white/65 uppercase tracking-[1.5px]">{t("hero_format")}</div>
+                <div className="text-white font-bold text-[17px] mt-0.5">{t("hero_format_val")}</div>
               </div>
-              <div className="w-px h-8 bg-white/15" />
+              <div className="w-px h-9 bg-white/15" />
               <div>
-                <div className="text-[10.5px] text-white/60 uppercase tracking-[1.5px]">{t("hero_lessons")}</div>
-                <div className="text-white font-bold text-[15px] mt-0.5">{t("hero_lessons_val")}</div>
+                <div className="text-[11.5px] text-white/65 uppercase tracking-[1.5px]">{t("hero_lessons")}</div>
+                <div className="text-white font-bold text-[17px] mt-0.5">{t("hero_lessons_val")}</div>
               </div>
             </div>
           </BlurFade>
@@ -262,9 +262,9 @@ export function Hero() {
           {/* CTA */}
           <BlurFade delay={0.5}>
             <div>
-              <a href="#register" className="btn-primary gap-2.5 px-7 py-4 text-[15.5px] w-full relative overflow-hidden group">
+              <a href="#register" className="btn-primary gap-2.5 px-7 py-4 text-[17px] w-full relative overflow-hidden group">
                 {t("hero_cta")}
-                <ArrowRight className="w-[18px] h-[18px] group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-[20px] h-[20px] group-hover:translate-x-1 transition-transform" />
                 <span className="absolute inset-y-0 w-1/2 bg-gradient-to-r from-transparent via-white/25 to-transparent animate-[sweep_4s_ease-in-out_infinite]" />
               </a>
               <div className="flex items-center justify-center gap-2 mt-3">
@@ -272,7 +272,7 @@ export function Hero() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
                 </span>
-                <span className="text-[11.5px] font-bold tracking-[1.5px] uppercase text-emerald-400">
+                <span className="text-[12.5px] font-bold tracking-[1.5px] uppercase text-emerald-400">
                   {t("hero_limited")}
                 </span>
               </div>
