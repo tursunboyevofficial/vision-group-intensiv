@@ -15,7 +15,7 @@ export function Hero() {
     return (
       <>
         {title.substring(0, idx)}
-        <span className="italic font-serif font-normal bg-gradient-to-br from-[#ff7842] via-[#ff4f91] to-[#a855f7] bg-clip-text text-transparent">
+        <span className="italic font-serif font-normal bg-gradient-to-br from-[#2563eb] via-[#fb7185] to-[#fda4af] bg-clip-text text-transparent">
           {accent}
         </span>
         {title.substring(idx + accent.length)}
@@ -32,19 +32,19 @@ export function Hero() {
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           className="absolute -top-1/4 -left-1/4 w-[600px] h-[600px] rounded-full blur-[120px] opacity-40"
-          style={{ background: "radial-gradient(circle, #ff7842, transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, #2563eb, transparent 70%)" }}
           animate={{ x: [0, 80, 0], y: [0, 40, 0] }}
           transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
           className="absolute -bottom-1/4 -right-1/4 w-[700px] h-[700px] rounded-full blur-[120px] opacity-30"
-          style={{ background: "radial-gradient(circle, #a855f7, transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, #fda4af, transparent 70%)" }}
           animate={{ x: [0, -60, 0], y: [0, -50, 0] }}
           transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
           className="absolute top-1/3 left-1/3 w-[500px] h-[500px] rounded-full blur-[140px] opacity-25"
-          style={{ background: "radial-gradient(circle, #ff4f91, transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, #fb7185, transparent 70%)" }}
           animate={{ x: [0, -40, 40, 0], y: [0, 30, -20, 0] }}
           transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
         />
@@ -80,8 +80,8 @@ export function Hero() {
             <BlurFade delay={0.1}>
               <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-xl mb-8">
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff7842] opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff7842]" />
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2563eb] opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2563eb]" />
                 </span>
                 <span className="text-[11px] font-bold tracking-[2.5px] uppercase text-white/80">
                   {t("hero_badge")}
@@ -187,18 +187,18 @@ export function Hero() {
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               className="relative"
             >
-              <div className="relative w-[340px] rounded-[28px] overflow-hidden border border-white/10 bg-white/[0.03] backdrop-blur-2xl p-1.5 shadow-[0_30px_80px_-20px_rgba(255,120,66,0.3)]">
+              <div className="relative w-[340px] rounded-[28px] overflow-hidden border border-white/10 bg-white/[0.03] backdrop-blur-2xl p-1.5 shadow-[0_30px_80px_-20px_rgba(37,99,235,0.3)]">
                 <div className="aspect-[4/5] rounded-[22px] overflow-hidden relative">
                   <div
                     className="absolute inset-0 bg-cover bg-[center_20%]"
                     style={{ backgroundImage: "url('/img/optimized/hero.jpg')" }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#ff7842]/10 via-transparent to-[#a855f7]/10 mix-blend-overlay" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#2563eb]/10 via-transparent to-[#fda4af]/10 mix-blend-overlay" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">
                     <div className="flex items-center gap-2 mb-2.5">
-                      <Sparkles className="w-3.5 h-3.5 text-[#ff7842]" />
-                      <span className="text-[10px] font-bold uppercase tracking-[2px] text-[#ff7842]">
+                      <Sparkles className="w-3.5 h-3.5 text-[#2563eb]" />
+                      <span className="text-[10px] font-bold uppercase tracking-[2px] text-[#2563eb]">
                         Kurs muallifi
                       </span>
                     </div>
@@ -216,7 +216,7 @@ export function Hero() {
               <motion.div
                 animate={{ y: [0, -4, 0], rotate: [-2, 1, -2] }}
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -top-5 -left-6 px-4 py-2.5 rounded-2xl bg-gradient-to-br from-[#ff7842] to-[#e85d2a] shadow-[0_20px_40px_-12px_rgba(255,120,66,0.6)]"
+                className="absolute -top-5 -left-6 px-4 py-2.5 rounded-2xl bg-gradient-to-br from-[#2563eb] to-[#1e3a8a] shadow-[0_20px_40px_-12px_rgba(37,99,235,0.6)]"
               >
                 <div className="text-[9px] font-bold uppercase tracking-[1.5px] text-white/80">
                   Format

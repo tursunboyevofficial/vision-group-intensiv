@@ -32,7 +32,7 @@ export function Expert() {
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <h3 className="text-2xl md:text-3xl font-extrabold">Jaxongir Raimjonov</h3>
-                <Crown className="w-5 h-5 text-[#ff7842]" fill="currentColor" />
+                <Crown className="w-5 h-5 text-[#2563eb]" fill="currentColor" />
               </div>
               <p className="text-sm text-white/50 mb-8">{t("exp_role")}</p>
 
@@ -40,7 +40,7 @@ export function Expert() {
               <div className="grid grid-cols-2 gap-x-6 gap-y-5 mb-8 pb-8 border-b border-white/10">
                 {stats.map((s, i) => (
                   <div key={i} className="flex items-center gap-3">
-                    <s.icon className="w-5 h-5 text-[#ff7842] shrink-0" strokeWidth={1.8} />
+                    <s.icon className="w-5 h-5 text-[#2563eb] shrink-0" strokeWidth={1.8} />
                     <div className="min-w-0">
                       <div className="text-xl font-extrabold gradient-text leading-none">{s.val}</div>
                       <div className="text-xs text-white/50 mt-1">{s.label}</div>
@@ -53,7 +53,7 @@ export function Expert() {
               <div className="space-y-3">
                 {[t("exp_l1"), t("exp_l2"), t("exp_l3")].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
-                    <span className="text-[#ff7842] text-base shrink-0">★</span>
+                    <span className="text-[#2563eb] text-base shrink-0">★</span>
                     <span className="text-sm text-white/80 font-medium">{item}</span>
                   </div>
                 ))}

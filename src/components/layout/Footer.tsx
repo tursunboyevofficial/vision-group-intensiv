@@ -21,28 +21,28 @@ export function Footer() {
           </h3>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="flex items-start gap-3">
-              <Mail className="w-4 h-4 text-[#ff7842] mt-1 shrink-0" />
+              <Mail className="w-4 h-4 text-[#2563eb] mt-1 shrink-0" />
               <div>
                 <div className="text-xs text-muted-foreground mb-1">Pochta:</div>
-                <a href="mailto:invision@gmail.com" className="text-sm font-medium no-underline hover:text-[#ff7842] transition-colors duration-300">invision@gmail.com</a>
+                <a href="mailto:invision@gmail.com" className="text-sm font-medium no-underline hover:text-[#2563eb] transition-colors duration-300">invision@gmail.com</a>
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <Phone className="w-4 h-4 text-[#ff7842] mt-1 shrink-0" />
+              <Phone className="w-4 h-4 text-[#2563eb] mt-1 shrink-0" />
               <div>
                 <div className="text-xs text-muted-foreground mb-1">Telefon:</div>
-                <a href="tel:+998710010000" className="text-sm font-medium no-underline hover:text-[#ff7842] transition-colors duration-300">+998 71 001 00 00</a>
+                <a href="tel:+998710010000" className="text-sm font-medium no-underline hover:text-[#2563eb] transition-colors duration-300">+998 71 001 00 00</a>
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <MapPin className="w-4 h-4 text-[#ff7842] mt-1 shrink-0" />
+              <MapPin className="w-4 h-4 text-[#2563eb] mt-1 shrink-0" />
               <div>
                 <div className="text-xs text-muted-foreground mb-1">Manzil:</div>
                 <p className="text-sm font-medium">Yakkasaroy 32 a uy</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <Clock className="w-4 h-4 text-[#ff7842] mt-1 shrink-0" />
+              <Clock className="w-4 h-4 text-[#2563eb] mt-1 shrink-0" />
               <div>
                 <div className="text-xs text-muted-foreground mb-1">Ish vaqti:</div>
                 <p className="text-sm font-medium">Dushanba–Shanba: 9:00 - 18:00</p>
@@ -56,7 +56,7 @@ export function Footer() {
             <div className="flex gap-2">
               {socials.map((s, i) => (
                 <a key={i} href={s.href} target="_blank" rel="noopener noreferrer" title={s.label}
-                  className="w-8 h-8 rounded-full bg-[#ff7842] text-white flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(255,120,66,0.3)]">
+                  className="w-8 h-8 rounded-full bg-[#2563eb] text-white flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(37,99,235,0.3)]">
                   {s.icon}
                 </a>
               ))}

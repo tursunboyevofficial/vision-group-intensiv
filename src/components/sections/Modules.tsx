@@ -47,14 +47,14 @@ export function Modules() {
                   <button key={i} onClick={() => setActive(i)}
                     className={`shrink-0 lg:shrink flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-300 ease-out border ${
                       isActive
-                        ? "gradient-bg text-white border-transparent shadow-[0_4px_12px_rgba(255,120,66,0.25)]"
-                        : "bg-card border-border text-muted-foreground hover:text-foreground hover:border-[#ff7842]/20"
+                        ? "gradient-bg text-white border-transparent shadow-[0_4px_12px_rgba(37,99,235,0.25)]"
+                        : "bg-card border-border text-muted-foreground hover:text-foreground hover:border-[#2563eb]/20"
                     }`}
                   >
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
-                      isActive ? "bg-white/20" : "bg-[rgba(255,120,66,0.08)]"
+                      isActive ? "bg-white/20" : "bg-[rgba(37,99,235,0.08)]"
                     }`}>
-                      <Icon className={`w-4 h-4 ${isActive ? "text-white" : "text-[#ff7842]"}`} strokeWidth={1.8} />
+                      <Icon className={`w-4 h-4 ${isActive ? "text-white" : "text-[#2563eb]"}`} strokeWidth={1.8} />
                     </div>
                     <div className="min-w-0">
                       <div className={`text-[10px] font-bold uppercase tracking-wider ${isActive ? "text-white/70" : "text-muted-foreground/70"}`}>
@@ -80,11 +80,11 @@ export function Modules() {
                 >
                   <div className="flex items-start gap-4 mb-6">
                     {/* Modul rasmi */}
-                    <div className="w-24 h-24 md:w-28 md:h-28 shrink-0 rounded-2xl overflow-hidden border border-[rgba(255,120,66,0.12)] shadow-[0_4px_16px_rgba(0,0,0,0.06)]">
+                    <div className="w-24 h-24 md:w-28 md:h-28 shrink-0 rounded-2xl overflow-hidden border border-[rgba(37,99,235,0.12)] shadow-[0_4px_16px_rgba(0,0,0,0.06)]">
                       <img src={moduleImages[active]} alt={m.h} loading="lazy" className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="text-xs font-bold uppercase tracking-[2px] text-[#ff7842] mb-1">{m.tab}</div>
+                      <div className="text-xs font-bold uppercase tracking-[2px] text-[#2563eb] mb-1">{m.tab}</div>
                       <h3 className="text-2xl font-extrabold">{m.h}</h3>
                       <p className="text-sm text-muted-foreground mt-1">{m.d}</p>
                     </div>
@@ -97,7 +97,7 @@ export function Modules() {
                         transition={{ delay: j * 0.05, duration: 0.3 }}
                         className="flex items-center gap-3 p-3 rounded-lg hover:bg-foreground/5 transition-all duration-300 ease-out"
                       >
-                        <CheckCircle2 className="w-4 h-4 text-[#ff7842] shrink-0" />
+                        <CheckCircle2 className="w-4 h-4 text-[#2563eb] shrink-0" />
                         <span className="text-sm font-medium">{item}</span>
                       </motion.div>
                     ))}

@@ -37,8 +37,8 @@ export function Speakers() {
               <BlurFade key={i} delay={0.1 * i}>
                 <div className="flex flex-col items-center text-center group">
                   <div className="relative">
-                    <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-[#ff7842] via-[#e85d2a] to-[#ff9a6c] opacity-0 group-hover:opacity-100 blur-sm transition-opacity duration-500" />
-                    <div className="relative aspect-square w-full max-w-[160px] rounded-full overflow-hidden border-2 border-white dark:border-white/10 shadow-[0_8px_28px_rgba(0,0,0,0.12)] group-hover:shadow-[0_12px_36px_rgba(255,120,66,0.25)] transition-all duration-500">
+                    <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-[#2563eb] via-[#1e3a8a] to-[#60a5fa] opacity-0 group-hover:opacity-100 blur-sm transition-opacity duration-500" />
+                    <div className="relative aspect-square w-full max-w-[160px] rounded-full overflow-hidden border-2 border-white dark:border-white/10 shadow-[0_8px_28px_rgba(0,0,0,0.12)] group-hover:shadow-[0_12px_36px_rgba(37,99,235,0.25)] transition-all duration-500">
                       <img src={s.img} alt={s.name} loading="lazy"
                         className="w-full h-full object-cover scale-150 transition-transform duration-500 group-hover:scale-[1.6] object-[center_41.2%]" />
                     </div>
@@ -71,19 +71,19 @@ function ReelsSection() {
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           className="absolute top-0 -left-1/4 w-[500px] h-[500px] rounded-full blur-[120px] opacity-30"
-          style={{ background: "radial-gradient(circle, #ff7842, transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, #2563eb, transparent 70%)" }}
           animate={{ x: [0, 60, 0], y: [0, 30, 0] }}
           transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
           className="absolute bottom-0 -right-1/4 w-[600px] h-[600px] rounded-full blur-[120px] opacity-25"
-          style={{ background: "radial-gradient(circle, #a855f7, transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, #fda4af, transparent 70%)" }}
           animate={{ x: [0, -50, 0], y: [0, -40, 0] }}
           transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] rounded-full blur-[140px] opacity-20"
-          style={{ background: "radial-gradient(circle, #ff4f91, transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, #fb7185, transparent 70%)" }}
           animate={{ scale: [1, 1.15, 1] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         />
@@ -135,9 +135,9 @@ function ReelsPlayer() {
       {/* Main player */}
       <div className="mx-auto w-full max-w-[340px] lg:mx-0">
         <div className="relative group">
-          <div className="absolute -inset-[2px] rounded-[26px] bg-gradient-to-br from-[#ff7842] via-[#ff4f91] to-[#a855f7] opacity-40 blur-md group-hover:opacity-60 transition-opacity duration-500" />
+          <div className="absolute -inset-[2px] rounded-[26px] bg-gradient-to-br from-[#2563eb] via-[#fb7185] to-[#fda4af] opacity-40 blur-md group-hover:opacity-60 transition-opacity duration-500" />
           <div className="relative rounded-[24px] p-[1.5px] bg-gradient-to-br from-white/20 via-white/5 to-white/10">
-            <div className="relative aspect-[9/16] rounded-[22px] overflow-hidden bg-black shadow-[0_30px_80px_-20px_rgba(255,120,66,0.4)]">
+            <div className="relative aspect-[9/16] rounded-[22px] overflow-hidden bg-black shadow-[0_30px_80px_-20px_rgba(37,99,235,0.4)]">
               <AnimatePresence mode="wait">
                 <motion.iframe key={reels[active].id}
                   initial={{ opacity: 0, scale: 0.96 }}
@@ -184,7 +184,7 @@ function ReelsPlayer() {
             <button key={r.id} onClick={() => select(i)}
               className={`relative rounded-xl overflow-hidden transition-all duration-300 aspect-[9/16] ${
                 i === active
-                  ? "ring-2 ring-[#ff7842] shadow-[0_8px_28px_rgba(255,120,66,0.3)] scale-[1.03]"
+                  ? "ring-2 ring-[#2563eb] shadow-[0_8px_28px_rgba(37,99,235,0.3)] scale-[1.03]"
                   : "ring-1 ring-white/10 opacity-60 hover:opacity-100"
               }`}>
               <img src={`https://img.youtube.com/vi/${r.id}/hqdefault.jpg`} alt={r.author} loading="lazy"
@@ -195,7 +195,7 @@ function ReelsPlayer() {
               </div>
               {i === active && (
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-7 h-7 rounded-full bg-[#ff7842]/90 backdrop-blur-sm flex items-center justify-center">
+                  <div className="w-7 h-7 rounded-full bg-[#2563eb]/90 backdrop-blur-sm flex items-center justify-center">
                     <Play className="w-3 h-3 fill-white text-white ml-0.5" />
                   </div>
                 </div>
@@ -210,7 +210,7 @@ function ReelsPlayer() {
             <button key={r.id} onClick={() => select(i)}
               className={`relative flex items-center gap-4 p-3 rounded-2xl transition-all duration-300 text-left group ${
                 i === active
-                  ? "bg-gradient-to-r from-[#ff7842]/12 via-[#ff4f91]/8 to-transparent border border-[#ff7842]/30 shadow-[0_6px_24px_-8px_rgba(255,120,66,0.35)]"
+                  ? "bg-gradient-to-r from-[#2563eb]/12 via-[#fb7185]/8 to-transparent border border-[#2563eb]/30 shadow-[0_6px_24px_-8px_rgba(37,99,235,0.35)]"
                   : "bg-white/[0.025] border border-white/[0.06] hover:bg-white/[0.05] hover:border-white/15"
               }`}>
               {/* Portrait thumbnail */}
@@ -220,7 +220,7 @@ function ReelsPlayer() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                 {i === active ? (
                   <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                    <div className="w-7 h-7 rounded-full bg-[#ff7842] flex items-center justify-center shadow-lg">
+                    <div className="w-7 h-7 rounded-full bg-[#2563eb] flex items-center justify-center shadow-lg">
                       <Play className="w-3 h-3 fill-white text-white ml-0.5" />
                     </div>
                   </div>
@@ -233,7 +233,7 @@ function ReelsPlayer() {
 
               {/* Info */}
               <div className="flex-1 min-w-0">
-                <div className={`text-[10px] font-bold tracking-[2px] uppercase mb-1 ${i === active ? "text-[#ff7842]" : "text-white/40"}`}>
+                <div className={`text-[10px] font-bold tracking-[2px] uppercase mb-1 ${i === active ? "text-[#2563eb]" : "text-white/40"}`}>
                   Reels · 0{i + 1}
                 </div>
                 <div className={`text-[15px] font-bold truncate ${i === active ? "text-white" : "text-white/80"}`}>
@@ -246,8 +246,8 @@ function ReelsPlayer() {
 
               {/* Right indicator */}
               <div className={`shrink-0 transition-all duration-300 ${i === active ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${i === active ? "bg-[#ff7842]/15" : "bg-white/5"}`}>
-                  <ChevronRight className={`w-3.5 h-3.5 ${i === active ? "text-[#ff7842]" : "text-white/60"}`} />
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${i === active ? "bg-[#2563eb]/15" : "bg-white/5"}`}>
+                  <ChevronRight className={`w-3.5 h-3.5 ${i === active ? "text-[#2563eb]" : "text-white/60"}`} />
                 </div>
               </div>
             </button>

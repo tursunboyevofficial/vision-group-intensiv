@@ -146,7 +146,7 @@ function LangDropdown({ lang, onSelect }: { lang: Lang; onSelect: (l: Lang) => v
       {(Object.keys(langNames) as Lang[]).map(l => (
         <button key={l} onClick={() => onSelect(l)}
           className={`block w-full text-left px-4 py-2.5 text-[13px] font-semibold transition-all duration-300 hover:bg-foreground/5 ${
-            l === lang ? "text-[#ff7842]" : "text-muted-foreground hover:text-foreground"
+            l === lang ? "text-[#2563eb]" : "text-muted-foreground hover:text-foreground"
           }`}
         >{langNames[l]}</button>
       ))}

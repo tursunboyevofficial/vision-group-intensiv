@@ -26,13 +26,13 @@ export function Audience() {
               <div key={i} className="card-std relative overflow-hidden p-6 flex flex-col group">
                 {/* Katta orqa fon ikon */}
                 <Icon
-                  className="absolute -right-6 -bottom-6 w-40 h-40 text-[#ff7842]/10 group-hover:text-[#ff7842]/20 group-hover:scale-110 transition-all duration-500"
+                  className="absolute -right-6 -bottom-6 w-40 h-40 text-[#2563eb]/10 group-hover:text-[#2563eb]/20 group-hover:scale-110 transition-all duration-500"
                   strokeWidth={1}
                   aria-hidden
                 />
                 {/* Oldinda kichik accent ikon */}
-                <div className="relative w-10 h-10 rounded-xl bg-[rgba(255,120,66,0.1)] border border-[rgba(255,120,66,0.15)] flex items-center justify-center mb-4">
-                  <Icon className="w-5 h-5 text-[#ff7842]" strokeWidth={1.8} />
+                <div className="relative w-10 h-10 rounded-xl bg-[rgba(37,99,235,0.1)] border border-[rgba(37,99,235,0.15)] flex items-center justify-center mb-4">
+                  <Icon className="w-5 h-5 text-[#2563eb]" strokeWidth={1.8} />
                 </div>
                 <h3 className="relative text-base md:text-lg font-bold tracking-[-0.3px] mb-2">{f.title}</h3>
                 <p className="relative text-sm text-muted-foreground leading-relaxed mb-4">{f.description}</p>
@@ -40,7 +40,7 @@ export function Audience() {
                 <ul className="relative space-y-2 mt-auto pt-4 border-t border-border">
                   {f.points.map((p, j) => (
                     <li key={j} className="flex items-start gap-2 text-xs text-foreground/80">
-                      <Check className="w-3.5 h-3.5 text-[#ff7842] shrink-0 mt-0.5" strokeWidth={2.5} />
+                      <Check className="w-3.5 h-3.5 text-[#2563eb] shrink-0 mt-0.5" strokeWidth={2.5} />
                       <span>{p}</span>
                     </li>
                   ))}

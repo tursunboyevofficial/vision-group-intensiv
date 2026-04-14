@@ -33,7 +33,7 @@ export function SectionHeader({ eyebrow, title, accent, description, className =
 
   return (
     <div className={className}>
-      <div className="inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[3px] text-[#ff7842] mb-5">
+      <div className="inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[3px] text-[#2563eb] mb-5">
         <span className="w-6 h-[1.5px] gradient-bg block" />
         {eyebrow}
       </div>

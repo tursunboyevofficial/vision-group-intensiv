@@ -38,12 +38,12 @@ export function BentoGrid({ items, className }: BentoGridProps) {
             "absolute inset-0 transition-opacity duration-300",
             item.hasPersistentHover ? "opacity-100" : "opacity-0 group-hover:opacity-100"
           )}>
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,120,66,0.04)_1px,transparent_1px)] dark:bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[length:4px_4px]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(37,99,235,0.04)_1px,transparent_1px)] dark:bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[length:4px_4px]" />
           </div>
 
           <div className="relative flex flex-col space-y-3">
             <div className="flex items-center justify-between">
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[rgba(255,120,66,0.08)] border border-[rgba(255,120,66,0.1)] transition-all duration-300">
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[rgba(37,99,235,0.08)] border border-[rgba(37,99,235,0.1)] transition-all duration-300">
                 {item.icon}
               </div>
               {item.status && (
@@ -74,7 +74,7 @@ export function BentoGrid({ items, className }: BentoGridProps) {
                   ))}
                 </div>
                 {item.cta && (
-                  <span className="text-xs text-[#ff7842] opacity-0 group-hover:opacity-100 transition-opacity font-medium shrink-0 ml-2">
+                  <span className="text-xs text-[#2563eb] opacity-0 group-hover:opacity-100 transition-opacity font-medium shrink-0 ml-2">
                     {item.cta}
                   </span>
                 )}

@@ -122,12 +122,12 @@ export function MorphingCardStack({
                   }}
                   className={cn(
                     "cursor-pointer rounded-2xl border bg-card p-5 transition-colors duration-300",
-                    "hover:border-[#ff7842]/30",
+                    "hover:border-[#2563eb]/30",
                     layout === "stack" && "absolute w-64 h-56 sm:w-72 sm:h-60",
                     layout === "stack" && isTopCard && "cursor-grab active:cursor-grabbing",
                     layout === "grid" && "w-full min-h-[180px] flex flex-col",
                     layout === "list" && "w-full",
-                    isExpanded && "ring-2 ring-[#ff7842]/40"
+                    isExpanded && "ring-2 ring-[#2563eb]/40"
                   )}
                   style={{ backgroundColor: card.color || undefined }}
                 >
@@ -136,7 +136,7 @@ export function MorphingCardStack({
                     layout === "grid" ? "flex-col items-start" : "items-start"
                   )}>
                     {card.icon && (
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[rgba(255,120,66,0.08)] border border-[rgba(255,120,66,0.1)] text-[#ff7842]">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[rgba(37,99,235,0.08)] border border-[rgba(37,99,235,0.1)] text-[#2563eb]">
                         {card.icon}
                       </div>
                     )}

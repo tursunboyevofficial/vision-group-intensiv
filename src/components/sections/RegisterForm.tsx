@@ -89,7 +89,7 @@ export function RegisterForm() {
             {incomeOptions.map(opt => (
               <button key={opt} type="button" onClick={() => setForm({ ...form, income: opt })}
                 className={`px-3 py-2.5 rounded-xl border text-sm font-medium transition-all duration-300 ease-out ${
-                  form.income === opt ? "gradient-bg text-white border-transparent shadow-[0_4px_12px_rgba(255,120,66,0.2)]" : "bg-card hover:bg-muted hover:border-foreground/10"
+                  form.income === opt ? "gradient-bg text-white border-transparent shadow-[0_4px_12px_rgba(37,99,235,0.2)]" : "bg-card hover:bg-muted hover:border-foreground/10"
                 }`}>{opt}</button>
             ))}
           </div>
@@ -97,7 +97,7 @@ export function RegisterForm() {
         <Field label={t("f_goal_lbl")} error={errors.goal}>
           <textarea placeholder={t("f_goal_ph")} value={form.goal} maxLength={500}
             onChange={e => setForm({ ...form, goal: e.target.value })}
-            className="flex min-h-[80px] w-full rounded-xl border border-input bg-background/50 px-4 py-3 text-sm placeholder:text-muted-foreground/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:border-[#ff7842]/30 shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)] hover:border-foreground/15 transition-all duration-300" />
+            className="flex min-h-[80px] w-full rounded-xl border border-input bg-background/50 px-4 py-3 text-sm placeholder:text-muted-foreground/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:border-[#2563eb]/30 shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)] hover:border-foreground/15 transition-all duration-300" />
         </Field>
         <button type="submit"
           className="btn-primary w-full py-3.5 rounded-xl text-base relative overflow-hidden">
