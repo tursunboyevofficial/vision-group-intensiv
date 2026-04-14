@@ -8,22 +8,22 @@
     --orange-dark: #e85d2a;
     --orange-light: #ff9a6c;
 
-    --background: 0 0% 100%;
+    --background: 36 25% 98%;
     --foreground: 240 10% 8%;
-    --card: 0 0% 100%;
+    --card: 36 20% 99%;
     --card-foreground: 240 10% 8%;
     --primary: 18 100% 63%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 5% 96%;
+    --secondary: 36 15% 95%;
     --secondary-foreground: 240 10% 8%;
-    --muted: 240 5% 96%;
-    --muted-foreground: 230 5% 45%;
-    --accent: 240 5% 96%;
+    --muted: 36 10% 94%;
+    --muted-foreground: 230 5% 42%;
+    --accent: 36 15% 95%;
     --accent-foreground: 240 10% 8%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 0% / 0.06;
-    --input: 214 32% 91%;
+    --border: 36 10% 90%;
+    --input: 36 15% 92%;
     --ring: 18 100% 63%;
     --radius: 0.75rem;
   }
@@ -51,9 +51,26 @@
 
 @layer base {
   * { @apply border-border; }
-  body { @apply bg-background text-foreground font-sans antialiased; letter-spacing: -0.2px; }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    letter-spacing: -0.2px;
+  }
   html { scroll-behavior: smooth; }
 }
+
+/* Noise grain texture */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px;
+}
+.dark body::before { opacity: 0.03; }
 
 /* Gradient utilities */
 .gradient-text {
@@ -64,32 +81,93 @@
 }
 .gradient-bg { background: linear-gradient(135deg, #ff7842 0%, #e85d2a 100%); }
 
-/* Standard card */
+/* ==========================================
+   GRADIENT BORDER CARD (variant 2)
+   ========================================== */
 .card-std {
-  @apply bg-card border rounded-2xl transition-all duration-300 ease-out;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  @apply rounded-2xl transition-all duration-300 ease-out relative;
+  background: hsl(var(--card) / 0.7);
+  backdrop-filter: blur(8px) saturate(140%);
+  border: 1px solid hsl(var(--border));
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.03),
+    0 4px 12px rgba(0,0,0,0.02),
+    inset 0 1px 0 rgba(255,255,255,0.5);
+}
+.dark .card-std {
+  background: hsl(var(--card) / 0.5);
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.2),
+    0 4px 12px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.03);
+}
+.card-std::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255,120,66,0) 0%, rgba(255,120,66,0) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: background 0.4s ease;
+}
+.card-std:hover::before {
+  background: linear-gradient(135deg, rgba(255,120,66,0.5), rgba(232,93,42,0.3), rgba(255,154,108,0.2));
 }
 .card-std:hover {
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  @apply -translate-y-0.5 border-[rgba(255,120,66,0.15)];
+  @apply -translate-y-0.5;
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.04),
+    0 8px 24px rgba(0,0,0,0.06),
+    inset 0 1px 0 rgba(255,255,255,0.5);
 }
 
-/* Standard primary button */
+/* ==========================================
+   GLOW BUTTON (variant 3)
+   ========================================== */
 .btn-primary {
+  @apply text-white font-bold rounded-full no-underline transition-all duration-300 ease-out inline-flex items-center justify-center relative;
   background: linear-gradient(135deg, #ff7842 0%, #e85d2a 100%);
-  @apply text-white font-bold rounded-full no-underline transition-all duration-300 ease-out inline-flex items-center justify-center;
+  box-shadow: 0 2px 8px rgba(255,120,66,0.2);
+}
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  box-shadow: 0 0 20px 6px rgba(255,120,66,0.3), 0 0 40px 12px rgba(255,120,66,0.1);
+  pointer-events: none;
 }
 .btn-primary:hover {
   @apply -translate-y-0.5;
-  box-shadow: 0 8px 24px rgba(255,120,66,0.3);
+  box-shadow: 0 4px 16px rgba(255,120,66,0.35);
+}
+.btn-primary:hover::after {
+  opacity: 1;
 }
 
-/* Standard ghost/secondary button */
+/* Ghost button */
 .btn-ghost {
   @apply bg-transparent border rounded-full font-medium transition-all duration-300 ease-out inline-flex items-center justify-center text-muted-foreground;
 }
-.btn-ghost:hover {
-  @apply bg-foreground/5 text-foreground;
+.btn-ghost:hover { @apply bg-foreground/5 text-foreground; }
+
+/* ==========================================
+   GRADIENT DIVIDER (variant 5)
+   ========================================== */
+.gradient-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,120,66,0.3) 30%, rgba(255,120,66,0.4) 50%, rgba(255,120,66,0.3) 70%, transparent 100%);
+  margin: 0 auto;
+  max-width: 600px;
+}
+.dark .gradient-divider {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,120,66,0.2) 30%, rgba(255,120,66,0.3) 50%, rgba(255,120,66,0.2) 70%, transparent 100%);
 }
 
 /* Sweep animation */
@@ -99,28 +177,42 @@
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Icon box standard */
+/* Icon box */
 .icon-box-std {
   @apply w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300;
-  background: rgba(255,120,66,0.08);
-  border: 1px solid rgba(255,120,66,0.1);
+  background: rgba(255,120,66,0.06);
+  border: 1px solid rgba(255,120,66,0.08);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
 }
+.dark .icon-box-std { box-shadow: inset 0 1px 0 rgba(255,255,255,0.03); }
 .icon-box-std svg {
   @apply w-[22px] h-[22px] fill-none;
   stroke: #ff7842;
   stroke-width: 1.8;
 }
 
-/* Check icon standard */
+/* Check icon */
 .check-std {
   @apply w-[26px] h-[26px] rounded-lg flex items-center justify-center shrink-0;
   background: linear-gradient(135deg, #ff7842 0%, #e85d2a 100%);
+  box-shadow: 0 2px 8px rgba(255,120,66,0.25);
 }
 
-/* Standard transition for all interactive elements */
-.std-hover {
-  @apply transition-all duration-300 ease-out;
+/* Section warm bg */
+.section-warm {
+  background: linear-gradient(180deg,
+    hsl(var(--background)) 0%,
+    hsl(36 30% 96%) 50%,
+    hsl(var(--background)) 100%
+  );
 }
-.std-hover:hover {
-  @apply -translate-y-0.5;
+.dark .section-warm { background: hsl(var(--secondary)); }
+
+/* Cases section — dark modeda SVG rangi bilan silliq o'tish */
+.dark .cases-dark-gradient {
+  background: linear-gradient(180deg,
+    hsl(240 10% 40%) 0%,
+    hsl(240 15% 20%) 50%,
+    hsl(var(--background)) 100%
+  ) !important;
 }

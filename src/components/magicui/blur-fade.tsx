@@ -50,7 +50,7 @@ export function BlurFade({
         animate={isInView ? "visible" : "hidden"}
         exit="hidden"
         variants={combinedVariants}
-        transition={{ delay: 0.04 + delay, duration, ease: "easeOut" }}
+        transition={{ delay: 0.04 + delay, duration, ease: [0.61, 1, 0.88, 1] }}
         className={className}
       >
         {children}

@@ -1,3 +1,5 @@
+import { Fragment } from "react"
+
 interface SectionHeaderProps {
   eyebrow: string
   title: string
@@ -7,15 +9,24 @@ interface SectionHeaderProps {
 }
 
 export function SectionHeader({ eyebrow, title, accent, description, className = "" }: SectionHeaderProps) {
+  const renderWithLineBreaks = (text: string) => {
+    return text.split("\n").map((line, i, arr) => (
+      <Fragment key={i}>
+        {line}
+        {i < arr.length - 1 && <br />}
+      </Fragment>
+    ))
+  }
+
   const renderTitle = () => {
-    if (!accent) return title
+    if (!accent) return renderWithLineBreaks(title)
     const idx = title.indexOf(accent)
-    if (idx === -1) return title
+    if (idx === -1) return renderWithLineBreaks(title)
     return (
       <>
-        {title.substring(0, idx)}
+        {renderWithLineBreaks(title.substring(0, idx))}
         <span className="gradient-text">{accent}</span>
-        {title.substring(idx + accent.length)}
+        {renderWithLineBreaks(title.substring(idx + accent.length))}
       </>
     )
   }

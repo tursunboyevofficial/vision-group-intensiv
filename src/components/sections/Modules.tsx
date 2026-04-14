@@ -1,8 +1,20 @@
-import { CheckCircle2 } from "lucide-react"
 import { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { CheckCircle2, BarChart3, Compass, Video, MessageCircle, Filter, Globe } from "lucide-react"
 import { BlurFade } from "@/components/magicui/blur-fade"
 import { SectionHeader } from "@/components/shared/SectionHeader"
 import { useLang } from "@/context/LangContext"
+
+const moduleIcons = [BarChart3, Compass, Video, MessageCircle, Filter, Globe]
+
+const moduleImages = [
+  "/img/modules/analiz.jpeg",
+  "/img/modules/strategiya.jpeg",
+  "/img/modules/reels.jpeg",
+  "/img/modules/stories.jpeg",
+  "/img/modules/voronka.jpeg",
+  "/img/modules/platformalar.jpeg",
+]
 
 export function Modules() {
   const { t } = useLang()
@@ -18,33 +30,80 @@ export function Modules() {
   const m = modules[active]
 
   return (
-    <section id="modules" className="py-[100px] bg-secondary">
+    <section id="modules" className="py-[100px] section-warm">
       <div className="max-w-[1180px] mx-auto px-7">
         <BlurFade>
           <SectionHeader eyebrow={t("sec8_eye")} title={t("sec8_title")} accent={t("sec8_accent")} />
         </BlurFade>
         <BlurFade delay={0.2}>
-          <div className="flex flex-wrap gap-2 mt-12 p-1.5 bg-card border rounded-xl">
-            {modules.map((mod, i) => (
-              <button key={i} onClick={() => setActive(i)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-out ${
-                  i === active
-                    ? "gradient-bg text-white shadow-sm"
-                    : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
-                }`}
-              >{mod.tab}</button>
-            ))}
-          </div>
-          <div className="card-std p-6 md:p-8 mt-4">
-            <h3 className="text-xl font-bold mb-2">{m.h}</h3>
-            <p className="text-sm text-muted-foreground mb-6">{m.d}</p>
-            <div className="grid sm:grid-cols-2 gap-3">
-              {m.items.map((item, j) => (
-                <div key={j} className="flex items-center gap-3 p-3 rounded-lg hover:bg-foreground/5 transition-all duration-300 ease-out">
-                  <CheckCircle2 className="w-4 h-4 text-[#ff7842] shrink-0" />
-                  <span className="text-sm">{item}</span>
-                </div>
-              ))}
+          {/* Vertical layout — tabs chap, content o'ng */}
+          <div className="mt-12 grid lg:grid-cols-[280px_1fr] gap-4">
+            {/* Tabs — desktopda chap sidebar, mobileda horizontal scroll */}
+            <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 scrollbar-hide">
+              {modules.map((mod, i) => {
+                const Icon = moduleIcons[i]
+                const isActive = i === active
+                return (
+                  <button key={i} onClick={() => setActive(i)}
+                    className={`shrink-0 lg:shrink flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-300 ease-out border ${
+                      isActive
+                        ? "gradient-bg text-white border-transparent shadow-[0_4px_12px_rgba(255,120,66,0.25)]"
+                        : "bg-card border-border text-muted-foreground hover:text-foreground hover:border-[#ff7842]/20"
+                    }`}
+                  >
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
+                      isActive ? "bg-white/20" : "bg-[rgba(255,120,66,0.08)]"
+                    }`}>
+                      <Icon className={`w-4 h-4 ${isActive ? "text-white" : "text-[#ff7842]"}`} strokeWidth={1.8} />
+                    </div>
+                    <div className="min-w-0">
+                      <div className={`text-[10px] font-bold uppercase tracking-wider ${isActive ? "text-white/70" : "text-muted-foreground/70"}`}>
+                        {mod.tab}
+                      </div>
+                      <div className={`text-sm font-bold truncate ${isActive ? "text-white" : ""}`}>
+                        {mod.h}
+                      </div>
+                    </div>
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* Content */}
+            <div className="card-std p-6 md:p-8 min-h-[340px]">
+              <AnimatePresence mode="wait">
+                <motion.div key={active}
+                  initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, y: -8, filter: "blur(4px)" }}
+                  transition={{ duration: 0.4, ease: [0.39, 0.575, 0.565, 1] }}
+                >
+                  <div className="flex items-start gap-4 mb-6">
+                    {/* Modul rasmi */}
+                    <div className="w-24 h-24 md:w-28 md:h-28 shrink-0 rounded-2xl overflow-hidden border border-[rgba(255,120,66,0.12)] shadow-[0_4px_16px_rgba(0,0,0,0.06)]">
+                      <img src={moduleImages[active]} alt={m.h} loading="lazy" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs font-bold uppercase tracking-[2px] text-[#ff7842] mb-1">{m.tab}</div>
+                      <h3 className="text-2xl font-extrabold">{m.h}</h3>
+                      <p className="text-sm text-muted-foreground mt-1">{m.d}</p>
+                    </div>
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-2">
+                    {m.items.map((item, j) => (
+                      <motion.div key={j}
+                        initial={{ opacity: 0, x: -8 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: j * 0.05, duration: 0.3 }}
+                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-foreground/5 transition-all duration-300 ease-out"
+                      >
+                        <CheckCircle2 className="w-4 h-4 text-[#ff7842] shrink-0" />
+                        <span className="text-sm font-medium">{item}</span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
             </div>
           </div>
         </BlurFade>

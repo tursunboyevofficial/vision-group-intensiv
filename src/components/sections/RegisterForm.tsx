@@ -47,7 +47,7 @@ export function RegisterForm() {
 
   if (submitted) {
     return (
-      <div className="bg-card border rounded-2xl p-10 text-center shadow-lg">
+      <div className="card-std p-10 text-center">
         <div className="w-16 h-16 rounded-full gradient-bg flex items-center justify-center mx-auto mb-4">
           <CheckCircle2 className="w-8 h-8 text-white" />
         </div>
@@ -58,7 +58,7 @@ export function RegisterForm() {
   }
 
   return (
-    <div className="bg-card border rounded-2xl p-8 shadow-lg">
+    <div className="card-std p-8">
       <h3 className="text-xl font-bold mb-1">{t("form_title")}</h3>
       <p className="text-sm text-muted-foreground mb-6">{t("form_sub")}</p>
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -97,7 +97,7 @@ export function RegisterForm() {
         <Field label={t("f_goal_lbl")} error={errors.goal}>
           <textarea placeholder={t("f_goal_ph")} value={form.goal} maxLength={500}
             onChange={e => setForm({ ...form, goal: e.target.value })}
-            className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
+            className="flex min-h-[80px] w-full rounded-xl border border-input bg-background/50 px-4 py-3 text-sm placeholder:text-muted-foreground/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:border-[#ff7842]/30 shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)] hover:border-foreground/15 transition-all duration-300" />
         </Field>
         <button type="submit"
           className="btn-primary w-full py-3.5 rounded-xl text-base relative overflow-hidden">

@@ -49,28 +49,28 @@ export function Hero() {
         </div>
       </BlurFade>
 
-      <div className="relative z-20 max-w-[1180px] w-full mx-auto px-7 pb-14 mt-auto grid grid-cols-1 md:grid-cols-2 items-end gap-8">
-        <BlurFade delay={0.4}>
-          <a href="#register" className="btn-primary gap-2.5 px-10 py-4 text-base mb-5 relative overflow-hidden">
-            {t("hero_cta")} <ArrowRight className="w-[18px] h-[18px]" />
+      <div className="relative z-20 max-w-[1180px] w-full mx-auto px-7 pb-8 md:pb-14 mt-auto grid grid-cols-1 md:grid-cols-2 items-end gap-5 md:gap-8">
+        <BlurFade delay={0.5} className="md:justify-self-end md:text-right max-w-[440px] order-1 md:order-2">
+          <div className="text-[10px] md:text-[11px] font-bold tracking-[2px] md:tracking-[2.5px] uppercase text-white/45 mb-2 md:mb-3.5">{t("hero_badge")}</div>
+          <div className="text-[20px] md:text-[clamp(22px,3vw,34px)] font-light leading-[1.2] md:leading-[1.25] tracking-[-0.5px] text-white/85">{t("hero_title")}</div>
+          <p className="text-[13px] md:text-[15px] text-white/45 leading-[1.55] md:leading-[1.65] mt-2 md:mt-3.5 max-w-[400px] md:ml-auto">{t("hero_sub")}</p>
+        </BlurFade>
+        <BlurFade delay={0.4} className="order-2 md:order-1">
+          <a href="#register" className="btn-primary gap-2 md:gap-2.5 px-7 md:px-10 py-3 md:py-4 text-sm md:text-base mb-4 md:mb-5 relative overflow-hidden">
+            {t("hero_cta")} <ArrowRight className="w-4 h-4 md:w-[18px] md:h-[18px]" />
             <span className="absolute top-0 left-[-100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/20 to-transparent animate-[sweep_4s_ease-in-out_infinite]" />
           </a>
-          <div className="flex gap-7">
+          <div className="flex gap-5 md:gap-7">
             {[{ val: 10, suf: "+", lbl: "darslar" }, { val: 3, suf: "", lbl: "spikerlar" }, { val: 100, suf: "+", lbl: "loyihalar" }].map((m, i) => (
               <div key={i}>
-                <div className="text-2xl font-extrabold tracking-[-0.5px] leading-none">
+                <div className="text-lg md:text-2xl font-extrabold tracking-[-0.5px] leading-none">
                   <NumberTicker value={m.val} delay={0.6 + i * 0.2} className="text-white" />
                   <span className="text-[#ff7842]">{m.suf}</span>
                 </div>
-                <div className="text-[10px] text-white/30 mt-1 font-medium tracking-[0.5px] uppercase">{m.lbl}</div>
+                <div className="text-[9px] md:text-[10px] text-white/30 mt-1 font-medium tracking-[0.5px] uppercase">{m.lbl}</div>
               </div>
             ))}
           </div>
-        </BlurFade>
-        <BlurFade delay={0.5} className="md:justify-self-end md:text-right max-w-[440px]">
-          <div className="text-[11px] font-bold tracking-[2.5px] uppercase text-white/45 mb-3.5">{t("hero_badge")}</div>
-          <div className="text-[clamp(22px,3vw,34px)] font-light leading-[1.25] tracking-[-0.5px] text-white/85">{t("hero_title")}</div>
-          <p className="text-[15px] text-white/45 leading-[1.65] mt-3.5 max-w-[400px] md:ml-auto">{t("hero_sub")}</p>
         </BlurFade>
       </div>
     </section>
