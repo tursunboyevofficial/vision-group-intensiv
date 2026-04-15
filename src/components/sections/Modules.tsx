@@ -5,15 +5,14 @@ import { BlurFade } from "@/components/magicui/blur-fade"
 import { SectionHeader } from "@/components/shared/SectionHeader"
 import { useLang } from "@/context/LangContext"
 
-const moduleIcons = [BarChart3, Compass, Video, MessageCircle, Filter, Globe]
+// Tartib: Reels → Voronka → Strategiya → Platformalar
+const moduleIcons = [Video, Filter, Compass, Globe]
 
 // Har bir modul uchun mavzuga mos gradient + aksent rangi
 const moduleThemes = [
-  { from: "#2563eb", to: "#60a5fa", hex: "#2563eb" },   // Analiz — cobalt
-  { from: "#0891b2", to: "#22d3ee", hex: "#0891b2" },   // Strategiya — cyan
-  { from: "#db2777", to: "#fb7185", hex: "#db2777" },   // Reels — pink (video)
-  { from: "#f59e0b", to: "#fbbf24", hex: "#f59e0b" },   // Stories — amber
+  { from: "#db2777", to: "#fb7185", hex: "#db2777" },   // Reels — pink
   { from: "#10b981", to: "#34d399", hex: "#10b981" },   // Voronka — emerald
+  { from: "#0891b2", to: "#22d3ee", hex: "#0891b2" },   // Strategiya — cyan
   { from: "#8b5cf6", to: "#a78bfa", hex: "#8b5cf6" },   // Platformalar — violet
 ]
 
@@ -64,12 +63,10 @@ export function Modules() {
   const [mobileOpen, setMobileOpen] = useState<number | null>(0)
 
   const modules = [
-    { tab: t("mod_t1"), h: t("m1_h"), d: t("m1_d"), items: [t("m1_i1"), t("m1_i2"), t("m1_i3"), t("m1_i4"), t("m1_i5")] },
-    { tab: t("mod_t2"), h: t("m2_h"), d: t("m2_d"), items: [t("m2_i1"), t("m2_i2"), t("m2_i3"), t("m2_i4")] },
-    { tab: t("mod_t3"), h: t("m3_h"), d: t("m3_d"), items: [t("m3_i1"), t("m3_i2"), t("m3_i3"), t("m3_i4"), t("m3_i5")] },
-    { tab: t("mod_t4"), h: t("m4_h"), d: t("m4_d"), items: [t("m4_i1"), t("m4_i2"), t("m4_i3"), t("m4_i4"), t("m4_i5")] },
-    { tab: t("mod_t5"), h: t("m5_h"), d: t("m5_d"), items: [t("m5_i1"), t("m5_i2"), t("m5_i3"), t("m5_i4")] },
-    { tab: t("mod_t6"), h: t("m6_h"), d: t("m6_d"), items: [t("m6_i1"), t("m6_i2"), t("m6_i3"), t("m6_i4"), t("m6_i5")] },
+    { tab: t("mod_t1"), h: t("m3_h"), d: t("m3_d"), items: [t("m3_i1"), t("m3_i2"), t("m3_i3"), t("m3_i4"), t("m3_i5")] }, // Kontent — Reels
+    { tab: t("mod_t2"), h: t("m5_h"), d: t("m5_d"), items: [t("m5_i1"), t("m5_i2"), t("m5_i3"), t("m5_i4")] },             // Voronka va trafik
+    { tab: t("mod_t3"), h: t("m2_h"), d: t("m2_d"), items: [t("m2_i1"), t("m2_i2"), t("m2_i3"), t("m2_i4")] },             // Strategiya
+    { tab: t("mod_t4"), h: t("m6_h"), d: t("m6_d"), items: [t("m6_i1"), t("m6_i2"), t("m6_i3"), t("m6_i4"), t("m6_i5")] }, // Platformalar
   ]
   const m = modules[active]
   const activeTheme = moduleThemes[active]
@@ -199,7 +196,14 @@ export function Modules() {
                   transition={{ duration: 0.4, ease: [0.39, 0.575, 0.565, 1] }}
                 >
                   <div className="flex items-start gap-4 mb-6">
-                    <IconStage Icon={ActiveIcon} theme={activeTheme} />
+                    <div
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
+                      style={{
+                        background: `linear-gradient(135deg, ${activeTheme.from}, ${activeTheme.to})`,
+                      }}
+                    >
+                      <ActiveIcon className="w-6 h-6 text-white" strokeWidth={1.8} />
+                    </div>
                     <div className="flex-1 min-w-0">
                       <div className="text-xs font-bold uppercase tracking-[2px] mb-1" style={{ color: activeTheme.hex }}>{m.tab}</div>
                       <h3 className="text-2xl font-extrabold">{m.h}</h3>
