@@ -19,8 +19,9 @@
     <meta name="twitter:image" content="https://invision-intensiv.vercel.app/img/hero-brand.webp" />
     <link rel="icon" type="image/svg+xml" href="/img/logo.svg" />
 
-    <!-- Preload critical resources -->
-    <link rel="preload" as="image" href="/img/hero-brand.webp" fetchpriority="high" />
+    <!-- Preload critical resources — faqat mos qurilma uchun -->
+    <link rel="preload" as="image" href="/img/hero-brand.webp" fetchpriority="high" media="(min-width: 768px)" />
+    <link rel="preload" as="image" href="/img/hero-brand-mobile.webp" fetchpriority="high" media="(max-width: 767px)" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Instrument+Serif:ital@0;1&family=Bricolage+Grotesque:wght@600;700;800&display=swap" rel="stylesheet" />
