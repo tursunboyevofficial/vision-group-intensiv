@@ -11,23 +11,26 @@ export function SplashScreen() {
       done = true
       setTimeout(() => setShow(false), delay)
     }
-    // 1) Sahifa to'liq yuklanganda — minimum 600ms ko'rsatish uchun delay
-    const onLoaded = () => hide(600)
+    const onLoaded = () => hide(500)
     if (document.readyState === "complete") {
-      hide(400)
+      hide(300)
     } else {
       window.addEventListener("load", onLoaded, { once: true })
     }
-    // 2) Maximum 2 sekundan ko'p turib qolmasin (xavfsizlik)
-    const safetyTimer = setTimeout(() => hide(0), 2000)
+    const safetyTimer = setTimeout(() => hide(0), 1800)
     return () => {
       window.removeEventListener("load", onLoaded)
       clearTimeout(safetyTimer)
     }
   }, [])
 
+  // When splash finishes (fully unmounted), notify the rest of the app
+  const handleExitComplete = () => {
+    window.dispatchEvent(new CustomEvent("splash:done"))
+  }
+
   return (
-    <AnimatePresence>
+    <AnimatePresence onExitComplete={handleExitComplete}>
       {show && (
         <motion.div
           key="splash"
