@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react"
+import { lazy, Suspense, useEffect } from "react"
 import { ThemeProvider } from "@/context/ThemeContext"
 import { LangProvider } from "@/context/LangContext"
 import { Header } from "@/components/layout/Header"
@@ -9,20 +9,45 @@ import { GradientDivider } from "@/components/shared/GradientDivider"
 import { SplashScreen } from "@/components/shared/SplashScreen"
 
 // Lazy-load below-the-fold sections — yengilroq dastlabki yuklash
-const Expert = lazy(() => import("@/components/sections/Expert").then(m => ({ default: m.Expert })))
-const Solution = lazy(() => import("@/components/sections/Solution").then(m => ({ default: m.Solution })))
-const Promise = lazy(() => import("@/components/sections/Promise").then(m => ({ default: m.Promise })))
-const Cases = lazy(() => import("@/components/sections/Cases").then(m => ({ default: m.Cases })))
-const Format = lazy(() => import("@/components/sections/Format").then(m => ({ default: m.Format })))
-const Modules = lazy(() => import("@/components/sections/Modules").then(m => ({ default: m.Modules })))
-const Results = lazy(() => import("@/components/sections/Results").then(m => ({ default: m.Results })))
-const Speakers = lazy(() => import("@/components/sections/Speakers").then(m => ({ default: m.Speakers })))
-const CTA = lazy(() => import("@/components/sections/CTA").then(m => ({ default: m.CTA })))
-const FAQ = lazy(() => import("@/components/sections/FAQ").then(m => ({ default: m.FAQ })))
+const loadExpert = () => import("@/components/sections/Expert")
+const loadSolution = () => import("@/components/sections/Solution")
+const loadPromise = () => import("@/components/sections/Promise")
+const loadCases = () => import("@/components/sections/Cases")
+const loadFormat = () => import("@/components/sections/Format")
+const loadModules = () => import("@/components/sections/Modules")
+const loadResults = () => import("@/components/sections/Results")
+const loadSpeakers = () => import("@/components/sections/Speakers")
+const loadCTA = () => import("@/components/sections/CTA")
+const loadFAQ = () => import("@/components/sections/FAQ")
+
+const Expert = lazy(() => loadExpert().then(m => ({ default: m.Expert })))
+const Solution = lazy(() => loadSolution().then(m => ({ default: m.Solution })))
+const Promise = lazy(() => loadPromise().then(m => ({ default: m.Promise })))
+const Cases = lazy(() => loadCases().then(m => ({ default: m.Cases })))
+const Format = lazy(() => loadFormat().then(m => ({ default: m.Format })))
+const Modules = lazy(() => loadModules().then(m => ({ default: m.Modules })))
+const Results = lazy(() => loadResults().then(m => ({ default: m.Results })))
+const Speakers = lazy(() => loadSpeakers().then(m => ({ default: m.Speakers })))
+const CTA = lazy(() => loadCTA().then(m => ({ default: m.CTA })))
+const FAQ = lazy(() => loadFAQ().then(m => ({ default: m.FAQ })))
 
 const SectionFallback = () => <div className="min-h-[200px]" />
 
 export default function App() {
+  useEffect(() => {
+    const preload = () => {
+      loadExpert(); loadSolution(); loadPromise(); loadCases(); loadFormat()
+      loadModules(); loadResults(); loadSpeakers(); loadCTA(); loadFAQ()
+    }
+    const ric = (window as unknown as { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number }).requestIdleCallback
+    if (ric) {
+      const id = ric(preload, { timeout: 2500 })
+      return () => (window as unknown as { cancelIdleCallback?: (id: number) => void }).cancelIdleCallback?.(id)
+    }
+    const t = setTimeout(preload, 1500)
+    return () => clearTimeout(t)
+  }, [])
+
   return (
     <ThemeProvider>
       <LangProvider>

@@ -11,10 +11,27 @@ export function Header() {
   const { lang, setLang, t } = useLang()
 
   useEffect(() => {
+    let ticking = false
     const onScroll = () => {
-      setScrolled(window.scrollY > 60)
-      if (mobileOpen) setMobileOpen(false)
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        const y = window.scrollY
+        setScrolled(prev => {
+          if (!prev && y > 80) return true
+          if (prev && y < 30) return false
+          return prev
+        })
+        ticking = false
+      })
     }
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
+  useEffect(() => {
+    if (!mobileOpen) return
+    const onScroll = () => setMobileOpen(false)
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
   }, [mobileOpen])
@@ -65,29 +82,37 @@ export function Header() {
     setMobileOpen(false)
   }
 
-  const clickLink = () => setMobileOpen(false)
+  const clickLink = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const href = e.currentTarget.getAttribute("href") || ""
+    if (!href.startsWith("#")) return
+    e.preventDefault()
+    setMobileOpen(false)
+    const id = href.slice(1)
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const el = document.getElementById(id)
+        if (!el) return
+        const top = el.getBoundingClientRect().top + window.scrollY - 72
+        window.scrollTo({ top, behavior: "smooth" })
+      })
+    })
+  }
 
   return (
-    <header data-header className={`fixed z-[1000] transition-all duration-500 ease-out ${
-      scrolled
-        ? "top-3 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:max-w-[1100px] md:w-[calc(100%-32px)]"
-        : "top-4 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:max-w-[1180px] md:w-[calc(100%-32px)]"
-    }`}>
-      <div className={`rounded-2xl border transition-all duration-500 backdrop-blur-[12px] backdrop-saturate-[200%] ${
+    <header data-header className="fixed z-[1000] top-4 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:max-w-[1140px] md:w-[calc(100%-32px)]">
+      <div className={`rounded-2xl border transition-[background-color,border-color,box-shadow] duration-300 backdrop-blur-md ${
         scrolled
-          ? "bg-white/80 dark:bg-[rgba(10,10,15,0.6)] border-white/40 dark:border-white/10 shadow-[0_1px_12px_rgba(0,0,0,0.04)]"
+          ? "bg-white/80 dark:bg-[rgba(10,10,15,0.7)] border-white/40 dark:border-white/10 shadow-[0_1px_12px_rgba(0,0,0,0.04)]"
           : "bg-white/15 border-white/25 shadow-[0_1px_12px_rgba(0,0,0,0.06)]"
       }`}>
-        <div className={`mx-auto px-5 flex items-center justify-between gap-3 transition-all duration-500 ${
-          scrolled ? "h-12" : "h-14"
-        }`}>
+        <div className="mx-auto px-5 flex items-center justify-between gap-3 h-14">
           <a href="#" className="no-underline shrink-0 flex items-center">
             <img
               src="/img/logo.svg"
               alt="Invision"
               width={140}
               height={30}
-              className={`transition-all duration-300 ${scrolled ? "h-6" : "h-7"} w-auto`}
+              className="h-7 w-auto"
               style={{ filter: "brightness(0) invert(1)" }}
             />
           </a>
@@ -142,12 +167,11 @@ export function Header() {
         {mobileOpen && (
           <motion.div
             key="mobile-menu"
-            initial={{ opacity: 0, y: -12, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -12, scale: 0.96 }}
-            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            style={{ originY: 0 }}
-            className="md:hidden mt-2 rounded-2xl border backdrop-blur-[12px] backdrop-saturate-[200%] bg-white/85 dark:bg-[rgba(10,10,15,0.85)] border-white/30 dark:border-white/10 shadow-xl p-4 flex flex-col gap-1 overflow-hidden"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+            className="md:hidden mt-2 rounded-2xl border bg-white/95 dark:bg-[rgba(10,10,15,0.95)] border-white/30 dark:border-white/10 shadow-xl p-4 flex flex-col gap-1 overflow-hidden"
           >
             {navLinks.map((link, i) => (
               <motion.a
@@ -191,7 +215,7 @@ export function Header() {
 
 function LangDropdown({ lang, onSelect }: { lang: Lang; onSelect: (l: Lang) => void }) {
   return (
-    <div className="absolute left-0 bottom-full mb-2 md:left-auto md:right-0 md:bottom-auto md:mb-0 md:top-10 bg-white/90 dark:bg-[rgba(15,15,20,0.95)] backdrop-blur-[12px] backdrop-saturate-[180%] border border-white/20 dark:border-white/10 rounded-xl shadow-xl overflow-hidden min-w-[110px] z-50">
+    <div className="absolute left-0 bottom-full mb-2 md:left-auto md:right-0 md:bottom-auto md:mb-0 md:top-10 bg-white/95 dark:bg-[rgba(15,15,20,0.98)] backdrop-blur-md border border-white/20 dark:border-white/10 rounded-xl shadow-xl overflow-hidden min-w-[110px] z-50">
       {(Object.keys(langNames) as Lang[]).map(l => (
         <button key={l} onClick={() => onSelect(l)}
           className={`block w-full text-left px-4 py-2.5 text-[13px] font-semibold transition-all duration-300 hover:bg-foreground/5 ${

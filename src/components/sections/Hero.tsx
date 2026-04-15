@@ -52,9 +52,9 @@ export function Hero() {
           fetchPriority="high"
           decoding="async"
           className="w-full h-full object-cover object-[center_22%]"
-          initial={{ scale: 1.18 }}
-          animate={splashDone ? { scale: 1.12 } : { scale: 1.18 }}
-          transition={{ duration: 3.5, ease: [0.25, 0.8, 0.25, 1] }}
+          initial={{ scale: 1.14 }}
+          animate={splashDone ? { scale: 1.1 } : { scale: 1.14 }}
+          transition={{ duration: 1.6, ease: [0.25, 0.8, 0.25, 1] }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/10 to-black" />
         <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/65 to-transparent" />
@@ -71,9 +71,9 @@ export function Hero() {
           fetchPriority="high"
           decoding="async"
           className="w-full h-full object-cover object-[center_bottom]"
-          initial={{ scale: 1.08 }}
-          animate={splashDone ? { scale: 1 } : { scale: 1.08 }}
-          transition={{ duration: 3.5, ease: [0.25, 0.8, 0.25, 1] }}
+          initial={{ scale: 1.06 }}
+          animate={splashDone ? { scale: 1 } : { scale: 1.06 }}
+          transition={{ duration: 1.6, ease: [0.25, 0.8, 0.25, 1] }}
         />
         {/* Yuqori nozik fade — navbar ostida matn o'qilishi uchun */}
         <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/55 via-black/20 to-transparent" />
@@ -147,19 +147,15 @@ export function Hero() {
       </div>
       )}
 
-      {/* Ambient orbs */}
+      {/* Ambient orbs — static (no infinite motion for Safari performance) */}
       <div className="absolute inset-0 pointer-events-none z-[1] overflow-hidden">
-        <motion.div
+        <div
           className="absolute -top-1/4 -left-1/4 w-[500px] h-[500px] rounded-full blur-[120px] opacity-20 mix-blend-overlay"
           style={{ background: "radial-gradient(circle, #2563eb, transparent 70%)" }}
-          animate={{ x: [0, 60, 0], y: [0, 40, 0] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
         />
-        <motion.div
+        <div
           className="absolute -bottom-1/4 -right-1/4 w-[600px] h-[600px] rounded-full blur-[120px] opacity-20 mix-blend-overlay"
           style={{ background: "radial-gradient(circle, #fb7185, transparent 70%)" }}
-          animate={{ x: [0, -50, 0], y: [0, -40, 0] }}
-          transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
 
