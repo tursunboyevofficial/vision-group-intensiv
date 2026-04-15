@@ -1,60 +1,66 @@
 "use client"
 
-import { useRef } from "react"
-import {
-  AnimatePresence,
-  motion,
-  useInView,
-  type UseInViewOptions,
-  type Variants,
-} from "framer-motion"
-
-type MarginType = UseInViewOptions["margin"]
+import { useEffect, useRef, useState } from "react"
 
 interface BlurFadeProps {
   children: React.ReactNode
   className?: string
-  variant?: { hidden: { y: number }; visible: { y: number } }
   duration?: number
   delay?: number
   yOffset?: number
   inView?: boolean
-  inViewMargin?: MarginType
+  inViewMargin?: string
   blur?: string
+  variant?: { hidden: { y: number }; visible: { y: number } }
 }
 
+/**
+ * CSS-based BlurFade — Safari'da qotish bo'lmasligi uchun.
+ * Framer Motion o'rniga native IntersectionObserver + CSS transition ishlatiladi.
+ * Natijada animatsiya GPU'da ishlaydi, main thread bo'shaydi.
+ */
 export function BlurFade({
   children,
   className,
-  variant,
   duration = 0.4,
   delay = 0,
   yOffset = 6,
   inView = true,
   inViewMargin = "-50px",
-  blur = "6px",
 }: BlurFadeProps) {
-  const ref = useRef(null)
-  const inViewResult = useInView(ref, { once: true, margin: inViewMargin })
-  const isInView = !inView || inViewResult
-  const defaultVariants: Variants = {
-    hidden: { y: yOffset, opacity: 0, filter: `blur(${blur})` },
-    visible: { y: -yOffset, opacity: 1, filter: `blur(0px)` },
-  }
-  const combinedVariants = variant || defaultVariants
+  const ref = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(!inView)
+
+  useEffect(() => {
+    if (!inView) return
+    const el = ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setVisible(true)
+          obs.disconnect()
+        }
+      },
+      { rootMargin: inViewMargin }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [inView, inViewMargin])
+
+  const totalDelay = 0.04 + delay
+
   return (
-    <AnimatePresence>
-      <motion.div
-        ref={ref}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-        exit="hidden"
-        variants={combinedVariants}
-        transition={{ delay: 0.04 + delay, duration, ease: [0.61, 1, 0.88, 1] }}
-        className={className}
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : `translateY(${yOffset}px)`,
+        transition: `opacity ${duration}s cubic-bezier(0.61,1,0.88,1) ${totalDelay}s, transform ${duration}s cubic-bezier(0.61,1,0.88,1) ${totalDelay}s`,
+      }}
+    >
+      {children}
+    </div>
   )
 }

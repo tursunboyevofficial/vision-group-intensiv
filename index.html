@@ -26,8 +26,35 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Instrument+Serif:ital@0;1&family=Bricolage+Grotesque:wght@600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      /* Inline splash — darhol ko'rsatiladi, React mount bo'lguncha qotish his qilinmaydi */
+      html, body { background: #0a0a0f; margin: 0; }
+      #initial-splash {
+        position: fixed; inset: 0; z-index: 9999;
+        background: #0a0a0f;
+        display: flex; align-items: center; justify-content: center;
+        flex-direction: column;
+      }
+      #initial-splash img { height: 36px; width: auto; filter: brightness(0) invert(1); }
+      #initial-splash .bar {
+        margin-top: 24px; width: 128px; height: 2px;
+        background: rgba(255,255,255,0.1); border-radius: 9999px; overflow: hidden;
+      }
+      #initial-splash .bar::after {
+        content: ''; display: block; height: 100%; width: 0;
+        background: linear-gradient(to right, #2563eb, #fb7185);
+        animation: splashBar 1.2s linear forwards;
+      }
+      @keyframes splashBar { to { width: 100%; } }
+      /* React mount bo'lgandan keyin HTML splash fade bo'ladi */
+      #initial-splash.hide { opacity: 0; transition: opacity 0.25s linear; pointer-events: none; }
+    </style>
   </head>
   <body>
+    <div id="initial-splash">
+      <img src="/img/logo.svg" alt="Invision" />
+      <div class="bar"></div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

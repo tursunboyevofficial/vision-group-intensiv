@@ -86,16 +86,12 @@ export function Header() {
     const href = e.currentTarget.getAttribute("href") || ""
     if (!href.startsWith("#")) return
     e.preventDefault()
-    setMobileOpen(false)
     const id = href.slice(1)
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const el = document.getElementById(id)
-        if (!el) return
-        const top = el.getBoundingClientRect().top + window.scrollY - 72
-        window.scrollTo({ top, behavior: "smooth" })
-      })
-    })
+    const el = document.getElementById(id)
+    if (!el) return
+    const top = el.getBoundingClientRect().top + window.scrollY - 72
+    window.scrollTo({ top, behavior: "smooth" })
+    setMobileOpen(false)
   }
 
   return (
