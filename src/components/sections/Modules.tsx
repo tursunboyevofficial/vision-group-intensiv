@@ -129,8 +129,7 @@ export function Modules() {
                         className="overflow-hidden"
                       >
                         <div className="px-3.5 pb-4">
-                          <IconStage Icon={Icon} theme={theme} large />
-                          <p className="text-[12.5px] text-muted-foreground leading-[1.5] mt-3 mb-3">{mod.d}</p>
+                          <p className="text-[12.5px] text-muted-foreground leading-[1.5] mb-3">{mod.d}</p>
                           <ul className="space-y-1.5">
                             {mod.items.map((item, j) => (
                               <li key={j} className="flex items-start gap-2 text-[12.5px]">
