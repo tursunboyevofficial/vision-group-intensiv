@@ -14,8 +14,8 @@ export function Hero() {
   useEffect(() => {
     const handler = () => setSplashDone(true)
     window.addEventListener("splash:done", handler)
-    // Fallback — agar splash hech bo'lmasa (turli reason), 2s dan keyin ishga tushadi
-    const fallback = setTimeout(() => setSplashDone(true), 2200)
+    // Fallback — agar splash event kelmasa, 1.5s dan keyin ishga tushadi
+    const fallback = setTimeout(() => setSplashDone(true), 1500)
     return () => {
       window.removeEventListener("splash:done", handler)
       clearTimeout(fallback)

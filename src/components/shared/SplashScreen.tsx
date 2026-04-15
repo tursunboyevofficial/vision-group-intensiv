@@ -9,34 +9,34 @@ export function SplashScreen() {
     const hide = (delay = 0) => {
       if (done) return
       done = true
-      setTimeout(() => setShow(false), delay)
+      setTimeout(() => {
+        // FIRE EVENT IMMEDIATELY — so Hero text animations start RIGHT AS
+        // splash begins fading out (parallel, no dead time)
+        window.dispatchEvent(new CustomEvent("splash:done"))
+        setShow(false)
+      }, delay)
     }
-    const onLoaded = () => hide(500)
+    const onLoaded = () => hide(250)
     if (document.readyState === "complete") {
-      hide(300)
+      hide(150)
     } else {
       window.addEventListener("load", onLoaded, { once: true })
     }
-    const safetyTimer = setTimeout(() => hide(0), 1800)
+    const safetyTimer = setTimeout(() => hide(0), 1500)
     return () => {
       window.removeEventListener("load", onLoaded)
       clearTimeout(safetyTimer)
     }
   }, [])
 
-  // When splash finishes (fully unmounted), notify the rest of the app
-  const handleExitComplete = () => {
-    window.dispatchEvent(new CustomEvent("splash:done"))
-  }
-
   return (
-    <AnimatePresence onExitComplete={handleExitComplete}>
+    <AnimatePresence>
       {show && (
         <motion.div
           key="splash"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+          transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
           className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#0a0a0f] pointer-events-none"
         >
           <motion.div
