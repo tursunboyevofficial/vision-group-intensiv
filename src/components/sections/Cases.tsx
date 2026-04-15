@@ -17,7 +17,7 @@ export function Cases() {
             <div className="relative w-full max-w-[920px] rounded-3xl bg-white p-2 sm:p-3 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.4)] dark:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)]">
               {/* Gradient glow halo */}
               <div className="absolute -inset-2 rounded-3xl bg-gradient-to-br from-[#2563eb]/20 via-[#fb7185]/15 to-[#2563eb]/20 blur-2xl opacity-50 -z-10" />
-              <img src="/img/cases.jpg" alt="Keyslar — natijalarimiz" loading="lazy"
+              <img src="/img/cases.webp" alt="Keyslar — natijalarimiz" loading="lazy"
                 className="w-full h-auto rounded-2xl block" />
             </div>
           </div>

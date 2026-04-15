@@ -30,7 +30,7 @@ export function Expert() {
               {/* Main card */}
               <div className="relative rounded-2xl p-1.5 bg-gradient-to-br from-white/15 via-white/5 to-white/10 shadow-[0_20px_60px_-20px_rgba(37,99,235,0.4)]">
                 <div className="relative aspect-[3/4] rounded-[14px] overflow-hidden">
-                  <img src="/img/optimized/expert.jpg" alt="Jaxongir Raimjonov" loading="lazy" decoding="async"
+                  <img src="/img/optimized/expert.webp" alt="Jaxongir Raimjonov" loading="lazy" decoding="async"
                     className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
                   {/* Name label at bottom */}

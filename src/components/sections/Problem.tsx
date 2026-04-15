@@ -9,7 +9,7 @@ export function Problem() {
   return (
     <section className="py-[100px] relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
-        <img src="/img/problem-banner.png" alt="" className="w-full h-full object-cover opacity-[0.06] dark:opacity-[0.03]" />
+        <img src="/img/problem-banner.webp" alt="" className="w-full h-full object-cover opacity-[0.06] dark:opacity-[0.03]" />
       </div>
       <div className="max-w-[1180px] mx-auto px-7 relative">
         <BlurFade>

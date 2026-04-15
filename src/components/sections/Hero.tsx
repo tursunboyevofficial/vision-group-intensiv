@@ -4,9 +4,11 @@ import { motion } from "framer-motion"
 import { BlurFade } from "@/components/magicui/blur-fade"
 import { NumberTicker } from "@/components/magicui/number-ticker"
 import { useLang } from "@/context/LangContext"
+import { useIsDesktop } from "@/hooks/useMediaQuery"
 
 export function Hero() {
   const { t } = useLang()
+  const isDesktop = useIsDesktop()
   // Splash screen tugaganda, Hero animatsiyasini boshlash uchun flag
   const [splashDone, setSplashDone] = useState(false)
   useEffect(() => {
@@ -41,10 +43,11 @@ export function Hero() {
       id="home"
       className="relative overflow-hidden md:min-h-screen bg-[#0a0a0f] text-white"
     >
-      {/* BACKGROUND IMAGE — desktop: full cover | mobile: top portion only */}
-      <div className="absolute inset-0 z-0 hidden md:block">
+      {/* BACKGROUND IMAGE — desktop: full cover (loaded ONLY on desktop) */}
+      {isDesktop && (
+      <div className="absolute inset-0 z-0">
         <motion.img
-          src="/img/hero-brand.jpg"
+          src="/img/hero-brand.webp"
           alt="Jaxongir Raimjonov"
           fetchPriority="high"
           decoding="async"
@@ -57,11 +60,13 @@ export function Hero() {
         <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/65 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0a0a0f] via-black/40 to-transparent" />
       </div>
+      )}
 
-      {/* MOBILE IMAGE — portrait version */}
-      <div className="md:hidden absolute inset-x-0 -top-12 h-[62vh] max-h-[520px] z-[1] overflow-hidden">
+      {/* MOBILE IMAGE — portrait version (loaded ONLY on mobile) */}
+      {!isDesktop && (
+      <div className="absolute inset-x-0 -top-12 h-[62vh] max-h-[520px] z-[1] overflow-hidden">
         <motion.img
-          src="/img/hero-brand-mobile.jpg"
+          src="/img/hero-brand-mobile.webp"
           alt="Jaxongir Raimjonov"
           fetchPriority="high"
           decoding="async"
@@ -140,6 +145,7 @@ export function Hero() {
           </motion.div>
         </motion.div>
       </div>
+      )}
 
       {/* Ambient orbs */}
       <div className="absolute inset-0 pointer-events-none z-[1] overflow-hidden">

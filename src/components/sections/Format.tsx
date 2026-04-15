@@ -104,7 +104,7 @@ export function Format() {
 
         <BlurFade delay={0.3}>
           <div className="mt-12 relative rounded-2xl overflow-hidden group">
-            <img src="/img/optimized/format.jpg"
+            <img src="/img/optimized/format.webp"
               alt="Invision jamoasi" loading="lazy" decoding="async"
               className="w-full h-[340px] md:h-[460px] object-cover transition-transform duration-700 group-hover:scale-105" />
             {/* Dark gradient overlay */}

@@ -35,9 +35,9 @@ export function FAQ() {
             <Accordion type="single" collapsible defaultValue="faq-0" className="space-y-2">
               {faqs.map((faq, i) => (
                 <AccordionItem key={i} value={`faq-${i}`} className="border-white/10 px-1">
-                  <AccordionTrigger className="text-white/90 text-left hover:no-underline hover:text-white text-sm font-semibold py-5 [&>svg]:text-white/40">
-                    <span className="text-white/30 font-bold mr-4 text-xs tabular-nums">0{i + 1}</span>
-                    {faq.q}
+                  <AccordionTrigger className="!justify-start gap-3 text-white/90 text-left hover:no-underline hover:text-white text-sm font-semibold py-5 [&>svg]:text-white/40 [&>svg]:ml-2">
+                    <span className="text-white/30 font-bold text-xs tabular-nums shrink-0">0{i + 1}</span>
+                    <span className="flex-1">{faq.q}</span>
                   </AccordionTrigger>
                   <AccordionContent className="text-white/50 text-sm leading-relaxed">{faq.a}</AccordionContent>
                 </AccordionItem>

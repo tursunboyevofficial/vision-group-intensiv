@@ -8,10 +8,10 @@ import { useLang } from "@/context/LangContext"
 type Speaker = { img?: string; name: string; topicKey: string; nameKey?: string; hidden?: boolean }
 
 const speakers: Speaker[] = [
-  { img: "/img/optimized/speaker2.jpg", name: "Umidjon Raximboyev", topicKey: "spk_topic_1" },
-  { img: "/img/optimized/speaker1.jpg", name: "Maris Istamov", topicKey: "spk_topic_2" },
-  { img: "/img/optimized/speaker3.jpg", name: "Abdulboriy Abduqodirov", topicKey: "spk_topic_3" },
-  { img: "/img/optimized/speaker5.jpg", name: "Abdullokh Khikmatov", topicKey: "spk_topic_4" },
+  { img: "/img/optimized/speaker2.webp", name: "Umidjon Raximboyev", topicKey: "spk_topic_1" },
+  { img: "/img/optimized/speaker1.webp", name: "Maris Istamov", topicKey: "spk_topic_2" },
+  { img: "/img/optimized/speaker3.webp", name: "Abdulboriy Abduqodirov", topicKey: "spk_topic_3" },
+  { img: "/img/optimized/speaker5.webp", name: "Abdullokh Khikmatov", topicKey: "spk_topic_4" },
   { name: "", nameKey: "spk_name_hidden", topicKey: "spk_topic_5", hidden: true },
 ]
 
@@ -180,19 +180,41 @@ function ReelsPlayer() {
           <div className="absolute -inset-[2px] rounded-[26px] bg-gradient-to-br from-[#2563eb] via-[#fb7185] to-[#fda4af] opacity-40 blur-md group-hover:opacity-60 transition-opacity duration-500" />
           <div className="relative rounded-[24px] p-[1.5px] bg-gradient-to-br from-white/20 via-white/5 to-white/10">
             <div className="relative aspect-[9/16] rounded-[22px] overflow-hidden bg-black shadow-[0_30px_80px_-20px_rgba(37,99,235,0.4)]">
-              <AnimatePresence mode="wait">
-                <motion.iframe key={reels[active].id}
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.96 }}
-                  transition={{ duration: 0.4, ease: [0.39, 0.575, 0.565, 1] }}
-                  src={`https://www.youtube.com/embed/${reels[active].id}?autoplay=${interacted ? 1 : 0}&rel=0&modestbranding=1`}
-                  title={t(reels[active].authorKey)}
-                  className="absolute inset-0 w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </AnimatePresence>
+              {interacted ? (
+                <AnimatePresence mode="wait">
+                  <motion.iframe key={reels[active].id}
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.4, ease: [0.39, 0.575, 0.565, 1] }}
+                    src={`https://www.youtube.com/embed/${reels[active].id}?autoplay=1&rel=0&modestbranding=1`}
+                    title={t(reels[active].authorKey)}
+                    className="absolute inset-0 w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </AnimatePresence>
+              ) : (
+                /* Lite YouTube — iframe yuklanmaydi, faqat thumbnail + Play tugma */
+                <button
+                  onClick={() => setInteracted(true)}
+                  className="group/lite absolute inset-0 w-full h-full cursor-pointer"
+                  aria-label={`Play ${t(reels[active].authorKey)}`}
+                >
+                  <img
+                    src={`https://img.youtube.com/vi/${reels[active].id}/hqdefault.jpg`}
+                    alt={t(reels[active].authorKey)}
+                    loading="lazy"
+                    className="absolute inset-0 w-full h-full object-cover scale-[1.4]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-full bg-white/95 flex items-center justify-center shadow-[0_10px_30px_rgba(0,0,0,0.5)] group-hover/lite:scale-110 transition-transform">
+                      <Play className="w-6 h-6 fill-[#ff0000] text-[#ff0000] ml-1" />
+                    </div>
+                  </div>
+                </button>
+              )}
             </div>
           </div>
         </div>
