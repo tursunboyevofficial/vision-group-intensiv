@@ -10,6 +10,7 @@ const CACHE_KEY = "tg_chat_ids_v1"
 // JSON'da "chat":{"id":123456789} raqamini shu yerga qo'shing.
 const HARDCODED_CHAT_IDS: number[] = [
   5291425408,
+  6773460992,
 ]
 
 function currentLang(): Lang {
