@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react"
 import { Menu, X } from "lucide-react"
-import { AnimatePresence, motion } from "framer-motion"
 import { useLang } from "@/context/LangContext"
 import { langNames, type Lang } from "@/lib/i18n"
 
@@ -59,7 +58,7 @@ export function Header() {
   ]
 
   const isLight = !scrolled && !mobileOpen
-  const ctrlCls = "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold cursor-pointer transition-all duration-300"
+  const ctrlCls = "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold cursor-pointer transition-colors duration-200"
   const ctrlStyle = isLight
     ? "bg-white/15 text-white/80 hover:bg-white/25 hover:text-white"
     : "bg-foreground/5 text-muted-foreground hover:bg-foreground/10 hover:text-foreground"
@@ -82,16 +81,9 @@ export function Header() {
     setMobileOpen(false)
   }
 
-  const clickLink = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const href = e.currentTarget.getAttribute("href") || ""
-    if (!href.startsWith("#")) return
-    e.preventDefault()
-    const id = href.slice(1)
-    const el = document.getElementById(id)
-    if (!el) return
-    const top = el.getBoundingClientRect().top + window.scrollY - 72
-    window.scrollTo({ top, behavior: "smooth" })
-    setMobileOpen(false)
+  // Native anchor scroll ishga tushsin, menyu yopilishi keyingi task'da
+  const clickLink = () => {
+    setTimeout(() => setMobileOpen(false), 0)
   }
 
   return (
@@ -116,7 +108,7 @@ export function Header() {
           <div className="hidden md:flex md:items-center md:gap-6">
             {navLinks.map(link => (
               <a key={link.href} href={link.href}
-                className={`text-[13px] font-medium no-underline transition-all duration-300 ${
+                className={`text-[13px] font-medium no-underline transition-colors duration-200 ${
                   isLight ? "text-white/60 hover:text-white" : "text-muted-foreground hover:text-foreground"
                 }`}
               >{link.label}</a>
@@ -133,78 +125,43 @@ export function Header() {
           <button className={`md:hidden relative ${ctrlCls} ${isLight ? "bg-white/15 hover:bg-white/25" : "bg-foreground/5 hover:bg-foreground/10"}`}
             onClick={toggleMenu}
             aria-label="Menu">
-            <AnimatePresence mode="wait" initial={false}>
-              {mobileOpen ? (
-                <motion.span key="x"
-                  initial={{ rotate: -90, opacity: 0, scale: 0.6 }}
-                  animate={{ rotate: 0, opacity: 1, scale: 1 }}
-                  exit={{ rotate: 90, opacity: 0, scale: 0.6 }}
-                  transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-                  className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <X className={`w-4 h-4 ${isLight ? "text-white" : "text-foreground"}`} />
-                </motion.span>
-              ) : (
-                <motion.span key="menu"
-                  initial={{ rotate: 90, opacity: 0, scale: 0.6 }}
-                  animate={{ rotate: 0, opacity: 1, scale: 1 }}
-                  exit={{ rotate: -90, opacity: 0, scale: 0.6 }}
-                  transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-                  className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <Menu className={`w-4 h-4 ${isLight ? "text-white" : "text-foreground"}`} />
-                </motion.span>
-              )}
-            </AnimatePresence>
+            {mobileOpen
+              ? <X className={`w-4 h-4 ${isLight ? "text-white" : "text-foreground"}`} />
+              : <Menu className={`w-4 h-4 ${isLight ? "text-white" : "text-foreground"}`} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile menu — animatsiya bilan */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            key="mobile-menu"
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-            className="md:hidden mt-2 rounded-2xl border bg-white/95 dark:bg-[rgba(10,10,15,0.95)] border-white/30 dark:border-white/10 shadow-xl p-4 flex flex-col gap-1 overflow-hidden"
+      {/* Mobile menu — pure CSS (no Framer Motion) */}
+      <div
+        className={`md:hidden mt-2 rounded-2xl border bg-white/95 dark:bg-[rgba(10,10,15,0.95)] border-white/30 dark:border-white/10 shadow-xl p-4 flex flex-col gap-1 origin-top transition-[opacity,transform] duration-200 ease-out ${
+          mobileOpen
+            ? "opacity-100 translate-y-0 pointer-events-auto"
+            : "opacity-0 -translate-y-2 pointer-events-none"
+        }`}
+        aria-hidden={!mobileOpen}
+      >
+        {navLinks.map(link => (
+          <a
+            key={link.href}
+            href={link.href}
+            onClick={clickLink}
+            className="text-sm font-medium text-foreground/70 hover:text-foreground no-underline py-2.5 px-3 rounded-xl hover:bg-foreground/5 transition-colors duration-200"
           >
-            {navLinks.map((link, i) => (
-              <motion.a
-                key={link.href}
-                href={link.href}
-                onClick={clickLink}
-                initial={{ opacity: 0, x: -12 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.08 + i * 0.05, duration: 0.3 }}
-                className="text-sm font-medium text-foreground/70 hover:text-foreground no-underline py-2.5 px-3 rounded-xl hover:bg-foreground/5 transition-colors duration-200"
-              >
-                {link.label}
-              </motion.a>
-            ))}
-            <motion.div
-              initial={{ opacity: 0, x: -12 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.08 + navLinks.length * 0.05, duration: 0.3 }}
-              className="flex items-center gap-2 px-3 py-2 mt-1 border-t"
-            >
-              <div className="relative">
-                <button className={`${ctrlCls} ${ctrlMobile} font-sans`} onClick={toggleLang}>{lang.toUpperCase()}</button>
-                {langOpen && <LangDropdown lang={lang} onSelect={selectLang} />}
-              </div>
-              <span className="text-xs text-muted-foreground ml-1">{langNames[lang]}</span>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.08 + (navLinks.length + 1) * 0.05, duration: 0.3 }}
-              className="pt-2"
-            >
-              <a href="#register" onClick={clickLink} className="btn-primary w-full py-2.5 text-sm">{t("nav_start")}</a>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            {link.label}
+          </a>
+        ))}
+        <div className="flex items-center gap-2 px-3 py-2 mt-1 border-t">
+          <div className="relative">
+            <button className={`${ctrlCls} ${ctrlMobile} font-sans`} onClick={toggleLang}>{lang.toUpperCase()}</button>
+            {langOpen && <LangDropdown lang={lang} onSelect={selectLang} />}
+          </div>
+          <span className="text-xs text-muted-foreground ml-1">{langNames[lang]}</span>
+        </div>
+        <div className="pt-2">
+          <a href="#register" onClick={clickLink} className="btn-primary w-full py-2.5 text-sm">{t("nav_start")}</a>
+        </div>
+      </div>
     </header>
   )
 }

@@ -9,7 +9,7 @@ type Speaker = { img?: string; name: string; topicKey: string; nameKey?: string;
 
 const speakers: Speaker[] = [
   { img: "/img/optimized/speaker2.webp", name: "Umidjon Raximboyev", topicKey: "spk_topic_1" },
-  { img: "/img/optimized/speaker1.webp", name: "Maris Istamov", topicKey: "spk_topic_2" },
+  { img: "/img/optimized/speaker-sadriddin.webp", name: "Sadriddin Abdurahimov — Marketolog", topicKey: "spk_topic_2" },
   { img: "/img/optimized/speaker3.webp", name: "Abdulboriy Abduqodirov", topicKey: "spk_topic_3" },
   { img: "/img/optimized/speaker5.webp", name: "Abdullokh Khikmatov", topicKey: "spk_topic_4" },
   { name: "", nameKey: "spk_name_hidden", topicKey: "spk_topic_5", hidden: true },

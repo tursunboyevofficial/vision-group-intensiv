@@ -117,7 +117,7 @@ export const en: Record<string, string> = {
   spk_label: "Speaker",
   spk_name_hidden: "Secret Speaker", spk_soon: "Coming soon",
   spk_topic_1: "Attracting million-dollar leads through Telegram Ads",
-  spk_topic_2: "Building a million-dollar funnel through personal brand",
+  spk_topic_2: "Secrets of effective marketing ads and networking",
   spk_topic_3: "Sales techniques",
   spk_topic_4: "Building an agency",
   spk_topic_5: "On launches",

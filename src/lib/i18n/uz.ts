@@ -117,7 +117,7 @@ export const uz: Record<string, string> = {
   spk_label: "Spiker",
   spk_name_hidden: "Sirli Spiker", spk_soon: "Tez kunda",
   spk_topic_1: "Telegram Ads orqali Million $ lik lead jalb qilish",
-  spk_topic_2: "Shaxsiy brend orqali Million $ Voronka qurish",
+  spk_topic_2: "Marketingda samarali reklama va networking sirlari",
   spk_topic_3: "Sotuv Texnikalari",
   spk_topic_4: "Agentlik qurish",
   spk_topic_5: "Zapusk bo'yicha",
