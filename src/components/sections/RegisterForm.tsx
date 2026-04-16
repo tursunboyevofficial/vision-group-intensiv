@@ -1,8 +1,15 @@
 import { useState } from "react"
-import { CheckCircle2, Loader2 } from "lucide-react"
+import { Loader2 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { useLang } from "@/context/LangContext"
 import { sendLeadToTelegram } from "@/lib/telegram"
+import { ThankYouModal } from "@/components/shared/ThankYouModal"
+
+declare global {
+  interface Window {
+    fbq?: (...args: unknown[]) => void
+  }
+}
 
 const incomeOptions = ["$200–500", "$600–1000", "$1000–2000", "$2000–5000", "$5000+"]
 
@@ -61,6 +68,10 @@ export function RegisterForm() {
         setSendError(res.error || t("form_generic_err"))
         return
       }
+      // Meta Pixel conversion event
+      if (typeof window !== "undefined" && window.fbq) {
+        window.fbq("track", "Lead")
+      }
       setSubmitted(true)
     } catch {
       setSendError(t("form_net_err"))
@@ -69,19 +80,15 @@ export function RegisterForm() {
     }
   }
 
-  if (submitted) {
-    return (
-      <div className="card-std p-6 sm:p-10 text-center">
-        <div className="w-16 h-16 rounded-full gradient-bg flex items-center justify-center mx-auto mb-4">
-          <CheckCircle2 className="w-8 h-8 text-white" />
-        </div>
-        <h3 className="text-2xl font-bold mb-2">{t("f_ok_t")}</h3>
-        <p className="text-muted-foreground">{t("f_ok_d")}</p>
-      </div>
-    )
+  const resetForm = () => {
+    setSubmitted(false)
+    setForm({ fullname: "", phone: "", telegram: "", instagram: "", income: "", goal: "" })
+    setErrors({})
   }
 
   return (
+    <>
+    <ThankYouModal open={submitted} onClose={resetForm} duration={3000} />
     <div className="card-std p-5 sm:p-8">
       <h3 className="text-xl font-bold mb-1">{t("form_title")}</h3>
       <p className="text-sm text-muted-foreground mb-6">{t("form_sub")}</p>
@@ -149,6 +156,7 @@ export function RegisterForm() {
         </button>
       </form>
     </div>
+    </>
   )
 }
 

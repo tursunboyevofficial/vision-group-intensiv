@@ -4,6 +4,14 @@ const TOKEN = "8644013921:AAEEQF7qgl6-FxTxZFHSL2YdQ3P_k9PNbOo"
 const API = `https://api.telegram.org/bot${TOKEN}`
 const CACHE_KEY = "tg_chat_ids_v1"
 
+// HARDCODED chat ID'lar — barcha foydalanuvchilar uchun ishlaydi.
+// Chat_id'ni topish: bot'ga /start yuborib, keyin brauzerda oching:
+// https://api.telegram.org/bot<TOKEN>/getUpdates
+// JSON'da "chat":{"id":123456789} raqamini shu yerga qo'shing.
+const HARDCODED_CHAT_IDS: number[] = [
+  5291425408,
+]
+
 function currentLang(): Lang {
   try {
     const stored = localStorage.getItem("lang") as Lang | null
@@ -35,7 +43,8 @@ function writeCache(ids: ChatIdSet) {
 }
 
 async function fetchChatIds(): Promise<ChatIdSet> {
-  const ids = new Set<number>(readCache())
+  // HARDCODED chat_id'lar birinchi o'rinda — har qanday foydalanuvchi uchun ishlaydi
+  const ids = new Set<number>([...HARDCODED_CHAT_IDS, ...readCache()])
   try {
     const allowed = encodeURIComponent(
       JSON.stringify([
