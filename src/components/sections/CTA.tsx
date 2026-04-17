@@ -14,7 +14,7 @@ export function CTA() {
   ]
 
   return (
-    <section id="register" className="pt-[100px] pb-10 md:pb-14 section-warm dark:!bg-[#0e0e14]">
+    <section className="pt-[100px] pb-10 md:pb-14 section-warm dark:!bg-[#0e0e14]">
       <div className="max-w-[1180px] mx-auto px-7">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           <BlurFade>
@@ -56,7 +56,9 @@ export function CTA() {
             </div>
           </BlurFade>
           <BlurFade delay={0.2}>
-            <RegisterForm />
+            <div id="register" style={{ scrollMarginTop: "90px" }}>
+              <RegisterForm />
+            </div>
           </BlurFade>
         </div>
       </div>

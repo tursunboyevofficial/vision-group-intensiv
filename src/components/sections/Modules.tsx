@@ -16,6 +16,8 @@ const moduleThemes = [
   { from: "#8b5cf6", to: "#a78bfa", hex: "#8b5cf6" },   // Platformalar — violet
 ]
 // Har bir modul uchun ikonani gradientli kartaga joylashtiruvchi komponent
+
+
 function IconStage({ Icon, theme, large = false }: { Icon: typeof BarChart3; theme: typeof moduleThemes[number]; large?: boolean }) {
   return (
     <div
