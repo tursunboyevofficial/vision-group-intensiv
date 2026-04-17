@@ -23,7 +23,8 @@ export function RegisterForm() {
 
   const validate = () => {
     const errs: Record<string, string> = {}
-    if (!/^[A-Za-zА-Яа-яЁёЎўҚқҒғҲҳ\s'''-]{3,60}$/.test(form.fullname.trim())) errs.fullname = t("f_name_err")
+    const name = form.fullname.trim()
+    if (name.length < 3 || name.length > 60) errs.fullname = t("f_name_err")
     const digits = form.phone.replace(/\D/g, "").substring(3)
     if (digits.length !== 9) errs.phone = t("f_phone_err")
     if (form.telegram && form.telegram !== "@") {
@@ -94,8 +95,14 @@ export function RegisterForm() {
       <p className="text-sm text-muted-foreground mb-6">{t("form_sub")}</p>
       <form onSubmit={handleSubmit} className="space-y-4">
         <Field label={t("f_name_ph")} error={errors.fullname}>
-          <Input placeholder={t("f_name_ph")} value={form.fullname}
-            onChange={e => setForm({ ...form, fullname: e.target.value.replace(/[^A-Za-zА-Яа-яЁёЎўҚқҒғҲҳ\s'''-]/g, "") })} />
+          <Input
+            placeholder={t("f_name_ph")}
+            value={form.fullname}
+            autoComplete="name"
+            autoCapitalize="words"
+            inputMode="text"
+            onChange={e => setForm({ ...form, fullname: e.target.value })}
+          />
         </Field>
         <Field label="+998" error={errors.phone}>
           <Input type="tel" placeholder="+998 XX XXX XX XX" value={form.phone}
