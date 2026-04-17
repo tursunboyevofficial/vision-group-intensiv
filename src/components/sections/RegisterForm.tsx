@@ -8,8 +8,11 @@ import { ThankYouModal } from "@/components/shared/ThankYouModal"
 declare global {
   interface Window {
     fbq?: (...args: unknown[]) => void
+    ym?: (id: number, action: string, goal?: string, params?: Record<string, unknown>) => void
   }
 }
+
+const YM_COUNTER_ID = 108597757
 
 const incomeOptions = ["$200–500", "$600–1000", "$1000–2000", "$2000–5000", "$5000+"]
 
@@ -72,6 +75,10 @@ export function RegisterForm() {
       // Meta Pixel conversion event
       if (typeof window !== "undefined" && window.fbq) {
         window.fbq("track", "Lead")
+      }
+      // Yandex Metrika goal
+      if (typeof window !== "undefined" && window.ym) {
+        window.ym(YM_COUNTER_ID, "reachGoal", "REGISTRATION")
       }
       setSubmitted(true)
     } catch {
