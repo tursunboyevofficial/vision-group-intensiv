@@ -101,8 +101,11 @@ export function RegisterForm() {
       <h3 className="text-xl font-bold mb-1">{t("form_title")}</h3>
       <p className="text-sm text-muted-foreground mb-6">{t("form_sub")}</p>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <Field label={t("f_name_ph")} error={errors.fullname}>
+        <Field id="fullname" label={t("f_name_ph")} error={errors.fullname}>
           <Input
+            id="fullname"
+            name="fullname"
+            type="text"
             placeholder={t("f_name_ph")}
             value={form.fullname}
             autoComplete="name"
@@ -111,13 +114,13 @@ export function RegisterForm() {
             onChange={e => setForm({ ...form, fullname: e.target.value })}
           />
         </Field>
-        <Field label="+998" error={errors.phone}>
-          <Input type="tel" placeholder="+998 XX XXX XX XX" value={form.phone}
+        <Field id="phone" label="+998" error={errors.phone}>
+          <Input id="phone" name="phone" type="tel" autoComplete="tel" placeholder="+998 XX XXX XX XX" value={form.phone}
             onFocus={() => { if (!form.phone) setForm({ ...form, phone: "+998 " }) }}
             onChange={e => setForm({ ...form, phone: formatPhone(e.target.value) })} />
         </Field>
-        <Field label="Telegram" error={errors.telegram}>
-          <Input placeholder="@username" value={form.telegram}
+        <Field id="telegram" label="Telegram" error={errors.telegram}>
+          <Input id="telegram" name="telegram" type="text" autoCapitalize="none" autoCorrect="off" placeholder="@username" value={form.telegram}
             onFocus={() => { if (!form.telegram) setForm({ ...form, telegram: "@" }) }}
             onChange={e => {
               let v = e.target.value.replace(/[^A-Za-z0-9_@]/g, "")
@@ -125,8 +128,8 @@ export function RegisterForm() {
               setForm({ ...form, telegram: v })
             }} />
         </Field>
-        <Field label="Instagram" error={errors.instagram}>
-          <Input placeholder="username" value={form.instagram}
+        <Field id="instagram" label="Instagram" error={errors.instagram}>
+          <Input id="instagram" name="instagram" type="text" autoCapitalize="none" autoCorrect="off" placeholder="username" value={form.instagram}
             onChange={e => setForm({ ...form, instagram: e.target.value.replace(/[^A-Za-z0-9._]/g, "") })} />
         </Field>
         <Field label={t("f_income_lbl")} error={errors.income}>
@@ -174,10 +177,10 @@ export function RegisterForm() {
   )
 }
 
-function Field({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) {
+function Field({ id, label, error, children }: { id?: string; label: string; error?: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="text-sm font-semibold mb-1.5 block">{label}</label>
+      <label htmlFor={id} className="text-sm font-semibold mb-1.5 block cursor-pointer">{label}</label>
       {children}
       {error && <p className="text-xs text-destructive mt-1">{error}</p>}
     </div>
