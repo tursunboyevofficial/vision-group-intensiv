@@ -87,8 +87,8 @@ export function Header() {
   }
 
   return (
-    <header data-header className="fixed z-[1000] top-4 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:max-w-[1140px] md:w-[calc(100%-32px)]">
-      <div className={`rounded-2xl border transition-[background-color,border-color,box-shadow] duration-300 backdrop-blur-md ${
+    <header data-header className="fixed z-[1000] top-4 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:max-w-[1140px] md:w-[calc(100%-32px)] pointer-events-none">
+      <div className={`pointer-events-auto rounded-2xl border transition-[background-color,border-color,box-shadow] duration-300 backdrop-blur-md ${
         scrolled
           ? "bg-white/80 dark:bg-[rgba(10,10,15,0.7)] border-white/40 dark:border-white/10 shadow-[0_1px_12px_rgba(0,0,0,0.04)]"
           : "bg-white/15 border-white/25 shadow-[0_1px_12px_rgba(0,0,0,0.06)]"
@@ -132,14 +132,10 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile menu — pure CSS (no Framer Motion) */}
+      {/* Mobile menu — pure CSS (no Framer Motion). Rendered only when open to free the area underneath. */}
+      {mobileOpen && (
       <div
-        className={`md:hidden mt-2 rounded-2xl border bg-white/95 dark:bg-[rgba(10,10,15,0.95)] border-white/30 dark:border-white/10 shadow-xl p-4 flex flex-col gap-1 origin-top transition-[opacity,transform] duration-200 ease-out ${
-          mobileOpen
-            ? "opacity-100 translate-y-0 pointer-events-auto"
-            : "opacity-0 -translate-y-2 pointer-events-none"
-        }`}
-        aria-hidden={!mobileOpen}
+        className="md:hidden mt-2 rounded-2xl border bg-white/95 dark:bg-[rgba(10,10,15,0.95)] border-white/30 dark:border-white/10 shadow-xl p-4 flex flex-col gap-1 origin-top pointer-events-auto animate-[menuIn_200ms_ease-out]"
       >
         {navLinks.map(link => (
           <a
@@ -162,6 +158,7 @@ export function Header() {
           <a href="#register" onClick={clickLink} className="btn-primary w-full py-2.5 text-sm">{t("nav_start")}</a>
         </div>
       </div>
+      )}
     </header>
   )
 }
