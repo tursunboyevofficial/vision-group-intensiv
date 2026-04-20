@@ -17,7 +17,7 @@ const moduleThemes = [
 ]
 // Har bir modul uchun ikonani gradientli kartaga joylashtiruvchi komponent
 
-
+// 
 function IconStage({ Icon, theme, large = false }: { Icon: typeof BarChart3; theme: typeof moduleThemes[number]; large?: boolean }) {
   return (
     <div
