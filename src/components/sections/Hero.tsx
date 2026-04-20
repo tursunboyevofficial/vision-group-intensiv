@@ -45,7 +45,7 @@ export function Hero() {
     >
       {/* BACKGROUND IMAGE — desktop: full cover (loaded ONLY on desktop) */}
       {isDesktop && (
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 pointer-events-none">
         <motion.img
           src="/img/hero-brand.webp"
           alt="Jaxongir Raimjonov"
@@ -64,7 +64,7 @@ export function Hero() {
 
       {/* MOBILE IMAGE — portrait version (loaded ONLY on mobile) */}
       {!isDesktop && (
-      <div className="absolute inset-x-0 -top-12 h-[62vh] max-h-[520px] z-[1] overflow-hidden">
+      <div className="absolute inset-x-0 -top-12 h-[62vh] max-h-[520px] z-[1] overflow-hidden pointer-events-none">
         <motion.img
           src="/img/hero-brand-mobile.webp"
           alt="Jaxongir Raimjonov"
