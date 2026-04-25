@@ -9,6 +9,7 @@ const CACHE_KEY = "tg_chat_ids_v1"
 // https://api.telegram.org/bot<TOKEN>/getUpdates
 // JSON'da "chat":{"id":123456789} raqamini shu yerga qo'shing.
 const HARDCODED_CHAT_IDS: number[] = [
+  -1003713829465, // Leads | Kurs (supergroup)
   -5101126964, // Vision | Call Leads (group)
   5291425408,
   6773460992,
